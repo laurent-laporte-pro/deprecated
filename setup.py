@@ -51,11 +51,12 @@ And run it:
 Links
 `````
 
+* `Python package index (PyPi) <https://pypi.python.org/pypi/deprecated>`_
 * `GitHub website <https://github.com/tantale/deprecated>`_
 * `Read The Docs <https://readthedocs.org/projects/deprecated>`_
 * `EBook on Lulu.com <http://www.lulu.com/commerce/index.php?fBuyContent=21305117>`_
 * `StackOverFlow Q&A <https://stackoverflow.com/a/40301488/1513933>`_
-* `development version
+* `Development version
   <https://github.com/tantale/deprecated/zipball/master#egg=Deprecated-dev>`_
 
 """

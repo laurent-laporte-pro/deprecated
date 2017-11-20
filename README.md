@@ -8,7 +8,7 @@ Python ``@deprecated`` decorator to deprecate old python classes, functions or m
 [![GitHub version](https://badge.fury.io/gh/tantale%2Fdeprecated.svg)](https://badge.fury.io/gh/tantale%2Fdeprecated)
 [![Code Health](https://landscape.io/github/tantale/deprecated/master/landscape.svg?style=flat)](https://landscape.io/github/tantale/deprecated/master)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/tantale/deprecated/master/LICENSE)
-[![Documentation Status](https://readthedocs.org/projects/deprecated/badge/?version=latest)](http://deprecated.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](http://readthedocs.org/projects/deprecated/badge/?version=latest)](http://deprecated.readthedocs.io/en/latest/?badge=latest)
 
 ## Installation
 

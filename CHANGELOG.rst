@@ -23,6 +23,12 @@ v1.1.1 (unreleased)
 
 Bug fix release
 
+Fix
+---
+
+- Minor correction in ``CONTRIBUTING.rst`` for Sphinx builds: add the ``-d`` option to put apart the ``doctrees``
+  from the generated documentation and avoid warnings with epub generator.
+
 Other
 -----
 

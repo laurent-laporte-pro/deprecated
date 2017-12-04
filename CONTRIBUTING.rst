@@ -142,9 +142,9 @@ You can also generate it manually using Sphinx.
 
 To generate the HTML documentation, run::
 
-    sphinx-build -b html docs/source/ dist/docs/html/
+    sphinx-build -b html -d dist/docs/doctrees docs/source/ dist/docs/html/
 
 
 To generate the epub v2 documentation, run::
 
-    sphinx-build -b epub2 docs/source/ dist/docs/epub/
+    sphinx-build -b epub2 -d dist/docs/doctrees docs/source/ dist/docs/epub/

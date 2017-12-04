@@ -33,6 +33,7 @@ Other
 -----
 
 - Change in documentation: improve sentence phrasing in the Tutorial.
+- Restore the epub title to "Python Deprecated Library v1.1 Documentation" (required for Lulu.com).
 
 
 v1.1.0 (2017-11-06)

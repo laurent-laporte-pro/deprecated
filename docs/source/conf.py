@@ -181,7 +181,7 @@ epub_theme_options = {
     # footer: If this is true, the footer block is inserted in the epub output, otherwise it is omitted.
     'footer': False
 }
-epub_title = "Deprecated Library v1.1 Documentation"
+epub_title = "Python Deprecated Library v1.1 Documentation"
 epub_description = "Python @deprecated decorator to deprecate old python classes, functions or methods."
 epub_author = author
 epub_contributor = "Original idea from Leandro REGUEIRO, Patrizio BERTONI, Eric WIESER"

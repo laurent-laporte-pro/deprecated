@@ -18,6 +18,17 @@ and this project adheres to `Semantic Versioning <http://semver.org/spec/v2.0.0.
       (only in comment or documentation).
 
 
+v1.1.1 (unreleased)
+===================
+
+Bug fix release
+
+Other
+-----
+
+- Change in documentation: improve sentence phrasing in the Tutorial.
+
+
 v1.1.0 (2017-11-06)
 ===================
 

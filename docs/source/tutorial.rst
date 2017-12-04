@@ -38,7 +38,7 @@ If the user tries to use the deprecated functions, he will have a warning for ea
    'Hi Tom!'
 
 As you can see, the deprecation warning is displayed like a stack trace.
-You have the source code path and line number and the called function.
+You have the source code path, the line number and the called function.
 This is very useful for debugging.
 But, this doesn't help the developer to choose a alternative: which function could he use instead?
 

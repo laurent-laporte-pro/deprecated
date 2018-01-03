@@ -10,13 +10,43 @@ import functools
 import inspect
 import warnings
 
+import wrapt
+
 #: Module Version Number, see `PEP 396 <https://www.python.org/dev/peps/pep-0396/>`_.
 __version__ = "1.2.0"
 
 string_types = (type(b''), type(u''))
 
 
-def deprecated(reason):
+class Deprecate(object):
+    def __init__(self, reason=None):
+        self.reason = reason
+
+    def get_msg_fmt(self, wrapped, instance):
+        if instance is None:
+            if inspect.isclass(wrapped):
+                fmt = "Call to deprecated class {{name}}{reason}."
+            else:
+                fmt = "Call to deprecated function (or staticmethod) {{name}}{reason}."
+        else:
+            if inspect.isclass(instance):
+                fmt = "Call to deprecated class method {{name}}{reason}."
+            else:
+                fmt = "Call to deprecated method {{name}}{reason}."
+        reason = " ({0})".format(self.reason) if self.reason else ""
+        return fmt.format(reason=reason)
+
+    @wrapt.decorator
+    def __call__(self, wrapped, instance, args, kwargs):
+        msg_fmt = self.get_msg_fmt(wrapped, instance)
+        msg = msg_fmt.format(name=wrapped.__name__)
+        warnings.simplefilter('always', DeprecationWarning)
+        warnings.warn(msg, category=DeprecationWarning, stacklevel=2)
+        warnings.simplefilter('default', DeprecationWarning)
+        return wrapped(*args, **kwargs)
+
+
+def deprecated(*args, **kwargs):
     """
     This is a decorator which can be used to mark functions
     as deprecated. It will result in a warning being emitted
@@ -63,71 +93,15 @@ def deprecated(reason):
        def some_old_function(x, y):
            return x + y
 
-    :type  reason: str or callable or type
-    :param reason: Reason message (or function/class/method to decorate).
     """
+    if args and isinstance(args[0], string_types):
+        kwargs['reason'] = args[0]
+        args = args[1:]
 
-    if isinstance(reason, string_types):
+    if args and not inspect.isfunction(args[0]) and not inspect.isclass(args[0]):
+        raise TypeError(repr(type(args[0])))
 
-        # The @deprecated is used with a 'reason'.
-        #
-        # .. code-block:: python
-        #
-        #    @deprecated("please, use another function")
-        #    def old_function(x, y):
-        #      pass
+    if args:
+        return Deprecate(**kwargs)(args[0])
 
-        def decorator(func1):
-
-            if inspect.isclass(func1):
-                fmt1 = "Call to deprecated class {name} ({reason})."
-            else:
-                fmt1 = "Call to deprecated function {name} ({reason})."
-
-            @functools.wraps(func1)
-            def new_func1(*args, **kwargs):
-                warnings.simplefilter('always', DeprecationWarning)
-                warnings.warn(
-                    fmt1.format(name=func1.__name__, reason=reason),
-                    category=DeprecationWarning,
-                    stacklevel=2
-                )
-                warnings.simplefilter('default', DeprecationWarning)
-                return func1(*args, **kwargs)
-
-            return new_func1
-
-        return decorator
-
-    elif inspect.isclass(reason) or inspect.isfunction(reason):
-
-        # The @deprecated is used without any 'reason'.
-        #
-        # .. code-block:: python
-        #
-        #    @deprecated
-        #    def old_function(x, y):
-        #      pass
-
-        func2 = reason
-
-        if inspect.isclass(func2):
-            fmt2 = "Call to deprecated class {name}."
-        else:
-            fmt2 = "Call to deprecated function {name}."
-
-        @functools.wraps(func2)
-        def new_func2(*args, **kwargs):
-            warnings.simplefilter('always', DeprecationWarning)
-            warnings.warn(
-                fmt2.format(name=func2.__name__),
-                category=DeprecationWarning,
-                stacklevel=2
-            )
-            warnings.simplefilter('default', DeprecationWarning)
-            return func2(*args, **kwargs)
-
-        return new_func2
-
-    else:
-        raise TypeError(repr(type(reason)))
+    return functools.partial(deprecated, **kwargs)

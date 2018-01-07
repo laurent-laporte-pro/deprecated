@@ -1,7 +1,7 @@
 # coding: utf-8
-from deprecated.history import deprecated
-from deprecated.history import versionadded
-from deprecated.history import versionchanged
+from deprecated.sphinx import deprecated
+from deprecated.sphinx import versionadded
+from deprecated.sphinx import versionchanged
 
 
 @deprecated(

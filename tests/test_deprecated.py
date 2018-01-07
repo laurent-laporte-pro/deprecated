@@ -25,6 +25,16 @@ def some_old_function3(x, y):
     return x + y
 
 
+@deprecated.deprecated(version="1.2.3")
+def some_old_function4(x, y):
+    return x + y
+
+
+@deprecated.deprecated(reason="use another function", version="1.2.3")
+def some_old_function5(x, y):
+    return x + y
+
+
 class SomeClass(object):
     @deprecated.deprecated
     def some_old_method1(self, x, y):
@@ -36,6 +46,14 @@ class SomeClass(object):
 
     @deprecated.deprecated(reason="use another method")
     def some_old_method3(self, x, y):
+        return x + y
+
+    @deprecated.deprecated(version="1.2.3")
+    def some_old_method4(self, x, y):
+        return x + y
+
+    @deprecated.deprecated(reason="use another method", version="1.2.3")
+    def some_old_method5(self, x, y):
         return x + y
 
 
@@ -51,6 +69,16 @@ class SomeOldClass2(object):
 
 @deprecated.deprecated(reason="use another class")
 class SomeOldClass3(object):
+    pass
+
+
+@deprecated.deprecated(version="1.2.3")
+class SomeOldClass4(object):
+    pass
+
+
+@deprecated.deprecated(reason="use another class", version="1.2.3")
+class SomeOldClass5(object):
     pass
 
 
@@ -70,7 +98,9 @@ class DeprecatedTest(unittest.TestCase):
     def test_should_warn_deprecated_function(self):
         for old_function in [some_old_function1,
                              some_old_function2,
-                             some_old_function3]:
+                             some_old_function3,
+                             some_old_function4,
+                             some_old_function5]:
             with warnings.catch_warnings(record=True) as warns:
                 warnings.simplefilter("always")
                 old_function(4, 5)
@@ -83,7 +113,9 @@ class DeprecatedTest(unittest.TestCase):
         obj = SomeClass()
         for old_method in [obj.some_old_method1,
                            obj.some_old_method2,
-                           obj.some_old_method3]:
+                           obj.some_old_method3,
+                           obj.some_old_method4,
+                           obj.some_old_method5]:
             with warnings.catch_warnings(record=True) as warns:
                 warnings.simplefilter("always")
                 old_method(4, 5)
@@ -95,7 +127,9 @@ class DeprecatedTest(unittest.TestCase):
     def test_should_warn_deprecated_class(self):
         for old_cls in [SomeOldClass1,
                         SomeOldClass2,
-                        SomeOldClass3]:
+                        SomeOldClass3,
+                        SomeOldClass4,
+                        SomeOldClass5]:
             with warnings.catch_warnings(record=True) as warns:
                 warnings.simplefilter("always")
                 old_cls()

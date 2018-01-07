@@ -1,9 +1,13 @@
 # coding: utf-8
 from __future__ import print_function
 
+import warnings
+
 import pytest
 
-from deprecated.history import versionadded, versionchanged, deprecated
+from deprecated.sphinx import deprecated
+from deprecated.sphinx import versionadded
+from deprecated.sphinx import versionchanged
 
 
 @pytest.fixture(scope="module",
@@ -53,4 +57,10 @@ def test_deprecated(a_function):
     f = deprecated(reason=reason, version=version)(a_function)
     assert ".. deprecated:: {0}".format(version) in f.__doc__
     assert reason in f.__doc__
-    assert f(3, 4) == 7
+    with warnings.catch_warnings(record=True) as warns:
+        warnings.simplefilter("always")
+        assert f(3, 4) == 7
+        assert len(warns) == 1
+        warn = warns[0]
+        assert issubclass(warn.category, DeprecationWarning)
+        assert "deprecated" in str(warn.message)

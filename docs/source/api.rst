@@ -12,7 +12,7 @@ Deprecated decorator
 .. automodule:: deprecated
    :members:
 
-.. automodule:: deprecated.basic
+.. automodule:: deprecated.classic
    :members:
 
 .. automodule:: deprecated.sphinx

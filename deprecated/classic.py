@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Basic deprecation warning
-=========================
+Classic deprecation warning
+===========================
 
-Basic ``@deprecated`` decorator to deprecate old python classes, functions or methods.
+Classic ``@deprecated`` decorator to deprecate old python classes, functions or methods.
 
 """
 import functools

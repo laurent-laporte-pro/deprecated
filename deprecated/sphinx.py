@@ -24,7 +24,7 @@ import warnings
 
 import wrapt
 
-from deprecated.basic import Annotation
+from deprecated.classic import Annotation
 
 
 class SphinxAdapter(Annotation, wrapt.AdapterFactory):

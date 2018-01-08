@@ -11,3 +11,9 @@ Deprecated decorator
 
 .. automodule:: deprecated
    :members:
+
+.. automodule:: deprecated.basic
+   :members:
+
+.. automodule:: deprecated.sphinx
+   :members:

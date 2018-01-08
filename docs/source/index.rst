@@ -21,6 +21,7 @@ instructions for using Deprecated.
    :maxdepth: 2
 
    installation
+   introduction
    tutorial
 
 

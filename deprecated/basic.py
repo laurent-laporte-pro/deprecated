@@ -15,32 +15,35 @@ import wrapt
 string_types = (type(b''), type(u''))
 
 
-class Deprecate(object):
+class Annotation(object):
     def __init__(self, reason=None, version=None):
         self.reason = reason
         self.version = version
 
-    def get_msg_fmt(self, wrapped, instance):
+    def get_deprecated_msg(self, wrapped, instance):
         if instance is None:
             if inspect.isclass(wrapped):
-                fmt = "Call to deprecated class {{name}}."
+                fmt = "Call to deprecated class {name}."
             else:
-                fmt = "Call to deprecated function (or staticmethod) {{name}}."
+                fmt = "Call to deprecated function (or staticmethod) {name}."
         else:
             if inspect.isclass(instance):
-                fmt = "Call to deprecated class method {{name}}."
+                fmt = "Call to deprecated class method {name}."
             else:
-                fmt = "Call to deprecated method {{name}}."
+                fmt = "Call to deprecated method {name}."
         if self.reason:
-            fmt += " ({0})".format(self.reason)
+            fmt += " ({reason})"
         if self.version:
-            fmt += " (deprecated since version {0})".format(self.version)
-        return fmt
+            fmt += " -- Deprecated since version {version}."
+        return fmt.format(name=wrapped.__name__,
+                          reason=self.reason or "",
+                          version=self.version or "")
 
+
+class Deprecate(Annotation):
     @wrapt.decorator
     def __call__(self, wrapped, instance, args, kwargs):
-        msg_fmt = self.get_msg_fmt(wrapped, instance)
-        msg = msg_fmt.format(name=wrapped.__name__)
+        msg = self.get_deprecated_msg(wrapped, instance)
         warnings.simplefilter('always', DeprecationWarning)
         warnings.warn(msg, category=DeprecationWarning, stacklevel=2)
         warnings.simplefilter('default', DeprecationWarning)

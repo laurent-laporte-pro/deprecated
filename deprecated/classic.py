@@ -86,14 +86,15 @@ def deprecated(*args, **kwargs):
        class SomeOldClass(object):
            pass
 
-    You can give a "reason" message to help the developer to choose another function/class:
+    You can give a "reason" message to help the developer to choose another function/class,
+    and a "version" number to specify the starting version number of the deprecation.
 
     .. code-block:: python
 
        from deprecated import deprecated
 
 
-       @deprecated(reason="use another function")
+       @deprecated(reason="use another function", version='1.2.0')
        def some_old_function(x, y):
            return x + y
 

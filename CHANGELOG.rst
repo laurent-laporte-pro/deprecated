@@ -18,6 +18,30 @@ and this project adheres to `Semantic Versioning <http://semver.org/spec/v2.0.0.
       (only in comment or documentation).
 
 
+v1.2.0 (unreleased)
+===================
+
+Minor release
+
+Added
+-----
+
+- Add decorators for Sphinx directive integration: ``versionadded``, ``versionchanged``, ``deprecated``.
+  That way, the developer can document the changes.
+
+Changed
+-------
+
+- Add the ``version`` parameter to the ``@deprecated`` decorator:
+  used to specify the starting version number of the deprecation.
+- Add a way to choose a ``DeprecationWarning`` sub class
+
+Removed
+-------
+
+- Drop support for Python 2.6, because setuptools has dot it since the `version 37.0.0 <https://github.com/pypa/setuptools/blob/master/CHANGES.rst#v3700>`_ released on 2017-11-02.
+
+
 v1.1.1 (unreleased)
 ===================
 

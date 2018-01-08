@@ -17,8 +17,8 @@ string_types = (type(b''), type(u''))
 
 class Annotation(object):
     def __init__(self, reason=None, version=None):
-        self.reason = reason
-        self.version = version
+        self.reason = reason or ""
+        self.version = version or ""
 
     def get_deprecated_msg(self, wrapped, instance):
         if instance is None:

@@ -1,167 +1,194 @@
 # -*- coding: utf-8 -*-
-
-import unittest
 import warnings
 
-import deprecated
+import pytest
+
+from deprecated import classic
 
 
-def some_function():
+class MyDeprecationWarning(DeprecationWarning):
     pass
 
 
-@deprecated.deprecated
-def some_old_function1(x, y):
-    return x + y
+_PARAMS = [None,
+           ((), {}),
+           (('Good reason',), {}),
+           ((), {'reason': 'Good reason'}),
+           ((), {'version': '1.2.3'}),
+           ((), {'action': 'once'}),
+           ((), {'category': MyDeprecationWarning}),
+           ]
 
 
-@deprecated.deprecated("use another function")
-def some_old_function2(x, y):
-    return x + y
-
-
-@deprecated.deprecated(reason="use another function")
-def some_old_function3(x, y):
-    return x + y
-
-
-@deprecated.deprecated(version="1.2.3")
-def some_old_function4(x, y):
-    return x + y
-
-
-@deprecated.deprecated(reason="use another function", version="1.2.3")
-def some_old_function5(x, y):
-    return x + y
-
-
-class SomeClass(object):
-    @deprecated.deprecated
-    def some_old_method1(self, x, y):
-        return x + y
-
-    @deprecated.deprecated("use another method")
-    def some_old_method2(self, x, y):
-        return x + y
-
-    @deprecated.deprecated(reason="use another method")
-    def some_old_method3(self, x, y):
-        return x + y
-
-    @deprecated.deprecated(version="1.2.3")
-    def some_old_method4(self, x, y):
-        return x + y
-
-    @deprecated.deprecated(reason="use another method", version="1.2.3")
-    def some_old_method5(self, x, y):
-        return x + y
-
-
-@deprecated.deprecated
-class SomeOldClass1(object):
-    pass
-
-
-@deprecated.deprecated("use another class")
-class SomeOldClass2(object):
-    pass
-
-
-@deprecated.deprecated(reason="use another class")
-class SomeOldClass3(object):
-    pass
-
-
-@deprecated.deprecated(version="1.2.3")
-class SomeOldClass4(object):
-    pass
-
-
-@deprecated.deprecated(reason="use another class", version="1.2.3")
-class SomeOldClass5(object):
-    pass
-
-
-@deprecated.deprecated(reason="Use something else!")
-def old_function_with_docstring(x, y):
-    """
-    This is an old function.
-
-    :param x: a number
-    :param y: a number
-    :return: the sum of two numbers.
-    """
-    return x + y
-
-
-class DeprecatedTest(unittest.TestCase):
-    def test_should_warn_deprecated_function(self):
-        for old_function in [some_old_function1,
-                             some_old_function2,
-                             some_old_function3,
-                             some_old_function4,
-                             some_old_function5]:
-            with warnings.catch_warnings(record=True) as warns:
-                warnings.simplefilter("always")
-                old_function(4, 5)
-                self.assertEqual(len(warns), 1)
-                warn = warns[0]
-                self.assertTrue(issubclass(warn.category, DeprecationWarning))
-                self.assertTrue("deprecated" in str(warn.message))
-
-    def test_should_warn_deprecated_method(self):
-        obj = SomeClass()
-        for old_method in [obj.some_old_method1,
-                           obj.some_old_method2,
-                           obj.some_old_method3,
-                           obj.some_old_method4,
-                           obj.some_old_method5]:
-            with warnings.catch_warnings(record=True) as warns:
-                warnings.simplefilter("always")
-                old_method(4, 5)
-                self.assertEqual(len(warns), 1)
-                warn = warns[0]
-                self.assertTrue(issubclass(warn.category, DeprecationWarning))
-                self.assertTrue("deprecated" in str(warn.message))
-
-    def test_should_warn_deprecated_class(self):
-        for old_cls in [SomeOldClass1,
-                        SomeOldClass2,
-                        SomeOldClass3,
-                        SomeOldClass4,
-                        SomeOldClass5]:
-            with warnings.catch_warnings(record=True) as warns:
-                warnings.simplefilter("always")
-                old_cls()
-                self.assertEqual(len(warns), 1)
-                warn = warns[0]
-                self.assertTrue(issubclass(warn.category, DeprecationWarning))
-                self.assertTrue("deprecated" in str(warn.message))
-
-    def test_should_not_warn_non_deprecated_function(self):
-        with warnings.catch_warnings(record=True) as warns:
-            warnings.simplefilter("always")
-            some_function()
-            self.assertEqual(len(warns), 0)
-
-    def test_should_raise_TypeError(self):
-        try:
-            deprecated.deprecated(5)
-            self.fail("TypeError not called")
-        except TypeError:
+@pytest.fixture(scope="module", params=_PARAMS)
+def classic_deprecated_function(request):
+    if request.param is None:
+        @classic.deprecated
+        def foo():
             pass
 
-    def test_should_have_a_docstring(self):
-        docstring = old_function_with_docstring.__doc__
-        self.assertTrue(docstring is not None)
-        self.assertTrue("This is an old function." in docstring)
+        return foo
+    else:
+        args, kwargs = request.param
 
-    def test_deprecated_has_docstring(self):
-        self.assertTrue(deprecated.__doc__ is not None)
+        @classic.deprecated(*args, **kwargs)
+        def foo():
+            pass
 
-    def test_deprecated_has_version(self):
-        self.assertTrue(deprecated.__version__ is not None)
+        return foo
 
 
-if __name__ == '__main__':
-    unittest.main(module='tests.test_deprecated')
+@pytest.fixture(scope="module", params=_PARAMS)
+def classic_deprecated_class(request):
+    if request.param is None:
+        @classic.deprecated
+        class Foo(object):
+            pass
+
+        return Foo
+    else:
+        args, kwargs = request.param
+
+        @classic.deprecated(*args, **kwargs)
+        class Foo(object):
+            pass
+
+        return Foo
+
+
+@pytest.fixture(scope="module", params=_PARAMS)
+def classic_deprecated_method(request):
+    if request.param is None:
+        class Foo(object):
+            @classic.deprecated
+            def foo(self):
+                pass
+
+        return Foo
+    else:
+        args, kwargs = request.param
+
+        class Foo(object):
+            @classic.deprecated(*args, **kwargs)
+            def foo(self):
+                pass
+
+        return Foo
+
+
+@pytest.fixture(scope="module", params=_PARAMS)
+def classic_deprecated_static_method(request):
+    if request.param is None:
+        class Foo(object):
+            @staticmethod
+            @classic.deprecated
+            def foo():
+                pass
+
+        return Foo.foo
+    else:
+        args, kwargs = request.param
+
+        class Foo(object):
+            @staticmethod
+            @classic.deprecated(*args, **kwargs)
+            def foo():
+                pass
+
+        return Foo.foo
+
+
+def test_classic_deprecated_function__warns(classic_deprecated_function):
+    with warnings.catch_warnings(record=True) as warns:
+        warnings.simplefilter("always")
+        classic_deprecated_function()
+        assert len(warns) == 1
+        warn = warns[0]
+        assert issubclass(warn.category, DeprecationWarning)
+        assert "deprecated function (or staticmethod)" in str(warn.message)
+
+
+def test_classic_deprecated_class__warns(classic_deprecated_class):
+    with warnings.catch_warnings(record=True) as warns:
+        warnings.simplefilter("always")
+        classic_deprecated_class()
+        assert len(warns) == 1
+        warn = warns[0]
+        assert issubclass(warn.category, DeprecationWarning)
+        assert "deprecated class" in str(warn.message)
+
+
+def test_classic_deprecated_method__warns(classic_deprecated_method):
+    with warnings.catch_warnings(record=True) as warns:
+        warnings.simplefilter("always")
+        obj = classic_deprecated_method()
+        obj.foo()
+        assert len(warns) == 1
+        warn = warns[0]
+        assert issubclass(warn.category, DeprecationWarning)
+        assert "deprecated method" in str(warn.message)
+
+
+def test_classic_deprecated_static_method__warns(classic_deprecated_static_method):
+    with warnings.catch_warnings(record=True) as warns:
+        warnings.simplefilter("always")
+        classic_deprecated_static_method()
+        assert len(warns) == 1
+        warn = warns[0]
+        assert issubclass(warn.category, DeprecationWarning)
+        assert "deprecated function (or staticmethod)" in str(warn.message)
+
+
+def test_should_raise_TypeError():
+    try:
+        classic.deprecated(5)
+        assert False, "TypeError not raised"
+    except TypeError:
+        pass
+
+
+def test_warning_msg_has_reason():
+    reason = "Good reason"
+
+    @classic.deprecated(reason=reason)
+    def foo():
+        pass
+
+    with warnings.catch_warnings(record=True) as warns:
+        foo()
+        warn = warns[0]
+        assert reason in str(warn.message)
+
+
+def test_warning_msg_has_version():
+    version = "1.2.3"
+
+    @classic.deprecated(version=version)
+    def foo():
+        pass
+
+    with warnings.catch_warnings(record=True) as warns:
+        foo()
+        warn = warns[0]
+        assert version in str(warn.message)
+
+
+def test_warning_is_ignored():
+    @classic.deprecated(action='ignore')
+    def foo():
+        pass
+
+    with warnings.catch_warnings(record=True) as warns:
+        foo()
+        assert len(warns) == 0
+
+
+def test_specific_warning_cls_is_used():
+    @classic.deprecated(category=MyDeprecationWarning)
+    def foo():
+        pass
+
+    with warnings.catch_warnings(record=True) as warns:
+        foo()
+        warn = warns[0]
+        assert issubclass(warn.category, MyDeprecationWarning)

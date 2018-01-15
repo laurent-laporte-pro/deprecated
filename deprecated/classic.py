@@ -102,14 +102,17 @@ def deprecated(*args, **kwargs):
         raise TypeError(repr(type(args[0])))
 
     if args:
-        adapter = ClassicAdapter(**kwargs)
+        action = kwargs.pop('action', 'always')
+        category = kwargs.pop('category', DeprecationWarning)
+        adapter_cls = kwargs.pop('adapter_cls', ClassicAdapter)
+        adapter = adapter_cls(**kwargs)
 
         @wrapt.decorator(adapter=adapter)
         def wrapper(wrapped_, instance_, args_, kwargs_):
             msg = adapter.get_deprecated_msg(wrapped_, instance_)
-            warnings.simplefilter('always', DeprecationWarning)
-            warnings.warn(msg, category=DeprecationWarning, stacklevel=2)
-            warnings.simplefilter('default', DeprecationWarning)
+            with warnings.catch_warnings():
+                warnings.simplefilter(action, category)
+                warnings.warn(msg, category=category, stacklevel=2)
             return wrapped_(*args_, **kwargs_)
 
         return wrapper(args[0])

@@ -32,7 +32,7 @@ def sphinx_deprecated_class(request):
     args, kwargs = request.param
 
     @sphinx.deprecated(*args, **kwargs)
-    class Foo():
+    class Foo(object):
         pass
 
     return Foo
@@ -48,7 +48,7 @@ def sphinx_deprecated_class(request):
 def sphinx_deprecated_method(request):
     args, kwargs = request.param
 
-    class Foo():
+    class Foo(object):
         @sphinx.deprecated(*args, **kwargs)
         def foo(self):
             pass
@@ -66,7 +66,7 @@ def sphinx_deprecated_method(request):
 def sphinx_deprecated_static_method(request):
     args, kwargs = request.param
 
-    class Foo():
+    class Foo(object):
         @staticmethod
         @sphinx.deprecated(*args, **kwargs)
         def foo():

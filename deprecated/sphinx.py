@@ -20,11 +20,11 @@ Of course, the ``@deprecated`` decorator will emit a deprecation warning
 when the function/method is called or the class is constructed.
 """
 import textwrap
-import warnings
 
 import wrapt
 
 from deprecated.classic import ClassicAdapter
+from deprecated.classic import deprecated as _classic_deprecated
 
 
 class SphinxAdapter(ClassicAdapter):
@@ -73,16 +73,11 @@ def versionchanged(reason="", version=""):
     return wrapper
 
 
-def deprecated(reason="", version=""):
+def deprecated(*args, **kwargs):
     # todo: add docstring with examples
-    adapter = SphinxAdapter('deprecated', reason=reason, version=version)
-
-    @wrapt.decorator(adapter=adapter)
-    def wrapper(wrapped, instance, args, kwargs):
-        msg = adapter.get_deprecated_msg(wrapped, instance)
-        warnings.simplefilter('always', DeprecationWarning)
-        warnings.warn(msg, category=DeprecationWarning, stacklevel=2)
-        warnings.simplefilter('default', DeprecationWarning)
-        return wrapped(*args, **kwargs)
-
-    return wrapper
+    directive = kwargs.pop('directive', 'deprecated')
+    adapter_cls = kwargs.pop('adapter_cls', SphinxAdapter)
+    return _classic_deprecated(*args,
+                               directive=directive,
+                               adapter_cls=adapter_cls,
+                               **kwargs)

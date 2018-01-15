@@ -24,10 +24,11 @@ import warnings
 
 import wrapt
 
-from deprecated.classic import Annotation
+from deprecated.classic import ClassicAdapter
 
 
-class SphinxAdapter(Annotation, wrapt.AdapterFactory):
+class SphinxAdapter(ClassicAdapter):
+    # todo: add docstring
     template = textwrap.dedent("""\
 
     .. {directive}:: {version}
@@ -43,6 +44,7 @@ class SphinxAdapter(Annotation, wrapt.AdapterFactory):
         reason = '\n'.join(textwrap.fill(line, width=70, initial_indent='   ', subsequent_indent='   ')
                            for line in reason.splitlines()).strip()
         attrs = {'directive': self.directive, 'version': self.version, 'reason': reason}
+        # todo: choose the template according to the current docstring, the version and the reason.
         docstring = self.template.format(**attrs)
         wrapped.__doc__ = textwrap.dedent(wrapped.__doc__ or "")
         wrapped.__doc__ += docstring
@@ -50,6 +52,7 @@ class SphinxAdapter(Annotation, wrapt.AdapterFactory):
 
 
 def versionadded(reason="", version=""):
+    # todo: add docstring with examples
     adapter = SphinxAdapter('versionadded', reason=reason, version=version)
 
     @wrapt.decorator(adapter=adapter)
@@ -60,6 +63,7 @@ def versionadded(reason="", version=""):
 
 
 def versionchanged(reason="", version=""):
+    # todo: add docstring with examples
     adapter = SphinxAdapter('versionchanged', reason=reason, version=version)
 
     @wrapt.decorator(adapter=adapter)
@@ -70,6 +74,7 @@ def versionchanged(reason="", version=""):
 
 
 def deprecated(reason="", version=""):
+    # todo: add docstring with examples
     adapter = SphinxAdapter('deprecated', reason=reason, version=version)
 
     @wrapt.decorator(adapter=adapter)

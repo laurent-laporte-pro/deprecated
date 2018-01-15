@@ -15,10 +15,12 @@ import wrapt
 string_types = (type(b''), type(u''))
 
 
-class Annotation(object):
-    def __init__(self, reason=None, version=None):
+class ClassicAdapter(wrapt.AdapterFactory):
+    # todo: add docstring
+    def __init__(self, reason="", version=""):
         self.reason = reason or ""
         self.version = version or ""
+        super(ClassicAdapter, self).__init__()
 
     def get_deprecated_msg(self, wrapped, instance):
         if instance is None:
@@ -39,15 +41,8 @@ class Annotation(object):
                           reason=self.reason or "",
                           version=self.version or "")
 
-
-class Deprecate(Annotation):
-    @wrapt.decorator
-    def __call__(self, wrapped, instance, args, kwargs):
-        msg = self.get_deprecated_msg(wrapped, instance)
-        warnings.simplefilter('always', DeprecationWarning)
-        warnings.warn(msg, category=DeprecationWarning, stacklevel=2)
-        warnings.simplefilter('default', DeprecationWarning)
-        return wrapped(*args, **kwargs)
+    def __call__(self, wrapped):
+        return wrapped
 
 
 def deprecated(*args, **kwargs):
@@ -107,6 +102,16 @@ def deprecated(*args, **kwargs):
         raise TypeError(repr(type(args[0])))
 
     if args:
-        return Deprecate(**kwargs)(args[0])
+        adapter = ClassicAdapter(**kwargs)
+
+        @wrapt.decorator(adapter=adapter)
+        def wrapper(wrapped_, instance_, args_, kwargs_):
+            msg = adapter.get_deprecated_msg(wrapped_, instance_)
+            warnings.simplefilter('always', DeprecationWarning)
+            warnings.warn(msg, category=DeprecationWarning, stacklevel=2)
+            warnings.simplefilter('default', DeprecationWarning)
+            return wrapped_(*args_, **kwargs_)
+
+        return wrapper(args[0])
 
     return functools.partial(deprecated, **kwargs)

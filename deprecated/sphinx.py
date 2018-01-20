@@ -31,9 +31,6 @@ class SphinxAdapter(ClassicAdapter):
     # todo: add docstring
     def __init__(self, directive, reason="", version=""):
         self.directive = directive
-        if not (reason or version):
-            # Avoid warning message: Error in "..." directive: 1 argument(s) required, 0 supplied.
-            raise ValueError("Either the 'reason' or the 'version' is required!")
         super(SphinxAdapter, self).__init__(reason=reason, version=version)
 
     def __call__(self, wrapped):

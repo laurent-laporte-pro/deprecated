@@ -3,7 +3,7 @@ import warnings
 
 import pytest
 
-from deprecated import classic
+import deprecated.classic
 
 
 class MyDeprecationWarning(DeprecationWarning):
@@ -23,7 +23,7 @@ _PARAMS = [None,
 @pytest.fixture(scope="module", params=_PARAMS)
 def classic_deprecated_function(request):
     if request.param is None:
-        @classic.deprecated
+        @deprecated.classic.deprecated
         def foo():
             pass
 
@@ -31,7 +31,7 @@ def classic_deprecated_function(request):
     else:
         args, kwargs = request.param
 
-        @classic.deprecated(*args, **kwargs)
+        @deprecated.classic.deprecated(*args, **kwargs)
         def foo():
             pass
 
@@ -41,7 +41,7 @@ def classic_deprecated_function(request):
 @pytest.fixture(scope="module", params=_PARAMS)
 def classic_deprecated_class(request):
     if request.param is None:
-        @classic.deprecated
+        @deprecated.classic.deprecated
         class Foo(object):
             pass
 
@@ -49,7 +49,7 @@ def classic_deprecated_class(request):
     else:
         args, kwargs = request.param
 
-        @classic.deprecated(*args, **kwargs)
+        @deprecated.classic.deprecated(*args, **kwargs)
         class Foo(object):
             pass
 
@@ -60,7 +60,7 @@ def classic_deprecated_class(request):
 def classic_deprecated_method(request):
     if request.param is None:
         class Foo(object):
-            @classic.deprecated
+            @deprecated.classic.deprecated
             def foo(self):
                 pass
 
@@ -69,7 +69,7 @@ def classic_deprecated_method(request):
         args, kwargs = request.param
 
         class Foo(object):
-            @classic.deprecated(*args, **kwargs)
+            @deprecated.classic.deprecated(*args, **kwargs)
             def foo(self):
                 pass
 
@@ -81,7 +81,7 @@ def classic_deprecated_static_method(request):
     if request.param is None:
         class Foo(object):
             @staticmethod
-            @classic.deprecated
+            @deprecated.classic.deprecated
             def foo():
                 pass
 
@@ -91,13 +91,14 @@ def classic_deprecated_static_method(request):
 
         class Foo(object):
             @staticmethod
-            @classic.deprecated(*args, **kwargs)
+            @deprecated.classic.deprecated(*args, **kwargs)
             def foo():
                 pass
 
         return Foo.foo
 
 
+# noinspection PyShadowingNames
 def test_classic_deprecated_function__warns(classic_deprecated_function):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
@@ -108,6 +109,7 @@ def test_classic_deprecated_function__warns(classic_deprecated_function):
         assert "deprecated function (or staticmethod)" in str(warn.message)
 
 
+# noinspection PyShadowingNames
 def test_classic_deprecated_class__warns(classic_deprecated_class):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
@@ -118,6 +120,7 @@ def test_classic_deprecated_class__warns(classic_deprecated_class):
         assert "deprecated class" in str(warn.message)
 
 
+# noinspection PyShadowingNames
 def test_classic_deprecated_method__warns(classic_deprecated_method):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
@@ -129,6 +132,7 @@ def test_classic_deprecated_method__warns(classic_deprecated_method):
         assert "deprecated method" in str(warn.message)
 
 
+# noinspection PyShadowingNames
 def test_classic_deprecated_static_method__warns(classic_deprecated_static_method):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
@@ -139,9 +143,9 @@ def test_classic_deprecated_static_method__warns(classic_deprecated_static_metho
         assert "deprecated function (or staticmethod)" in str(warn.message)
 
 
-def test_should_raise_TypeError():
+def test_should_raise_type_error():
     try:
-        classic.deprecated(5)
+        deprecated.classic.deprecated(5)
         assert False, "TypeError not raised"
     except TypeError:
         pass
@@ -150,7 +154,7 @@ def test_should_raise_TypeError():
 def test_warning_msg_has_reason():
     reason = "Good reason"
 
-    @classic.deprecated(reason=reason)
+    @deprecated.classic.deprecated(reason=reason)
     def foo():
         pass
 
@@ -163,7 +167,7 @@ def test_warning_msg_has_reason():
 def test_warning_msg_has_version():
     version = "1.2.3"
 
-    @classic.deprecated(version=version)
+    @deprecated.classic.deprecated(version=version)
     def foo():
         pass
 
@@ -174,7 +178,7 @@ def test_warning_msg_has_version():
 
 
 def test_warning_is_ignored():
-    @classic.deprecated(action='ignore')
+    @deprecated.classic.deprecated(action='ignore')
     def foo():
         pass
 
@@ -184,7 +188,7 @@ def test_warning_is_ignored():
 
 
 def test_specific_warning_cls_is_used():
-    @classic.deprecated(category=MyDeprecationWarning)
+    @deprecated.classic.deprecated(category=MyDeprecationWarning)
     def foo():
         pass
 

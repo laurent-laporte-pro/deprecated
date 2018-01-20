@@ -54,6 +54,7 @@ def versionadded(reason="", version=""):
     # todo: add docstring with examples
     adapter = SphinxAdapter('versionadded', reason=reason, version=version)
 
+    # noinspection PyUnusedLocal
     @wrapt.decorator(adapter=adapter)
     def wrapper(wrapped, instance, args, kwargs):
         return wrapped(*args, **kwargs)
@@ -65,6 +66,7 @@ def versionchanged(reason="", version=""):
     # todo: add docstring with examples
     adapter = SphinxAdapter('versionchanged', reason=reason, version=version)
 
+    # noinspection PyUnusedLocal
     @wrapt.decorator(adapter=adapter)
     def wrapper(wrapped, instance, args, kwargs):
         return wrapped(*args, **kwargs)

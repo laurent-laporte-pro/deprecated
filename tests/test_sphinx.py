@@ -1,37 +1,147 @@
 # coding: utf-8
 from __future__ import print_function
 
+import textwrap
 import warnings
 
-from deprecated.sphinx import deprecated
-from deprecated.sphinx import versionadded
-from deprecated.sphinx import versionchanged
+import pytest
+
+import deprecated.sphinx
 
 
-def test_versionadded_has_docstring(with_docstring):
-    reason = "This is a new feature"
-    version = "1.2.0"
-    f = versionadded(reason=reason, version=version)(with_docstring)
-    assert ".. versionadded:: {0}".format(version) in f.__doc__
-    assert reason in f.__doc__
+@pytest.fixture(scope="module",
+                params=[None,
+                        """This function adds *x* and *y*.""",
+                        """
+                        This function adds *x* and *y*.
+
+                        :param x: number *x*
+                        :param y: number *y*
+                        :return: sum = *x* + *y*
+                        """])
+def docstring(request):
+    return request.param
 
 
-def test_versionchanged_has_docstring(with_docstring):
-    reason = "The feature has changed"
-    version = "1.3.0"
-    f = versionchanged(reason=reason, version=version)(with_docstring)
-    assert ".. versionchanged:: {0}".format(version) in f.__doc__
-    assert reason in f.__doc__
+@pytest.fixture(scope="module",
+                params=['versionadded', 'versionchanged', 'deprecated'])
+def directive(request):
+    return request.param
 
 
-def test_deprecated_has_docstring(with_docstring):
-    reason = "You should not use it anymore"
-    version = "1.4.0"
-    f = deprecated(reason=reason, version=version)(with_docstring)
-    assert ".. deprecated:: {0}".format(version) in f.__doc__
-    assert reason in f.__doc__
+# noinspection PyShadowingNames
+@pytest.mark.parametrize("reason, version, expected", [
+    ('A good reason',
+     '1.2.0',
+     textwrap.dedent("""\
+                     .. {directive}:: {version}
+                        {reason}
+                     """)),
+    (None,
+     '1.2.0',
+     textwrap.dedent("""\
+                     .. {directive}:: {version}
+                     """)),
+    ('A good reason',
+     None,
+     textwrap.dedent("""\
+                 .. {directive}::
+                    {reason}
+                 """)),
+])
+def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
+    # The function:
+    def foo(x, y):
+        return x + y
+
+    # with docstring:
+    foo.__doc__ = docstring
+
+    # is decorated with:
+    decorator_factory = getattr(deprecated.sphinx, directive)
+    decorator = decorator_factory(reason=reason, version=version)
+    foo = decorator(foo)
+
+    # The function must contains this Sphinx docstring:
+    expected = expected.format(directive=directive, version=version, reason=reason)
+
+    current = textwrap.dedent(foo.__doc__)
+    assert current.endswith(expected)
 
 
+# noinspection PyShadowingNames
+def test_either_reason_or_version(directive):
+    # The function:
+    def foo(x, y):
+        return x + y
+
+    # is decorated with:
+    decorator_factory = getattr(deprecated.sphinx, directive)
+    with pytest.raises(ValueError, message="Either the 'reason' or the 'version' is required!"):
+        decorator = decorator_factory()  # versionadded and versionchanged raise
+        decorator(foo)  # deprecated raises
+
+
+class MyDeprecationWarning(DeprecationWarning):
+    pass
+
+
+_PARAMS = [(('Good reason',), {}),
+           ((), {'reason': 'Good reason'}),
+           ((), {'version': '1.2.3'}),
+           ((), {'version': '1.2.3', 'reason': 'Good reason', 'action': 'once'}),
+           ((), {'version': '1.2.3', 'reason': 'Good reason', 'category': MyDeprecationWarning}),
+           ]
+
+
+@pytest.fixture(scope="module", params=_PARAMS)
+def sphinx_deprecated_function(request):
+    args, kwargs = request.param
+
+    @deprecated.sphinx.deprecated(*args, **kwargs)
+    def foo():
+        pass
+
+    return foo
+
+
+@pytest.fixture(scope="module", params=_PARAMS)
+def sphinx_deprecated_class(request):
+    args, kwargs = request.param
+
+    @deprecated.sphinx.deprecated(*args, **kwargs)
+    class Foo(object):
+        pass
+
+    return Foo
+
+
+@pytest.fixture(scope="module", params=_PARAMS)
+def sphinx_deprecated_method(request):
+    args, kwargs = request.param
+
+    class Foo(object):
+        @deprecated.sphinx.deprecated(*args, **kwargs)
+        def foo(self):
+            pass
+
+    return Foo
+
+
+@pytest.fixture(scope="module", params=_PARAMS)
+def sphinx_deprecated_static_method(request):
+    args, kwargs = request.param
+
+    class Foo(object):
+        @staticmethod
+        @deprecated.sphinx.deprecated(*args, **kwargs)
+        def foo():
+            pass
+
+    return Foo.foo
+
+
+# noinspection PyShadowingNames
 def test_sphinx_deprecated_function__warns(sphinx_deprecated_function):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
@@ -42,6 +152,7 @@ def test_sphinx_deprecated_function__warns(sphinx_deprecated_function):
         assert "deprecated function (or staticmethod)" in str(warn.message)
 
 
+# noinspection PyShadowingNames
 def test_sphinx_deprecated_class__warns(sphinx_deprecated_class):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
@@ -52,6 +163,7 @@ def test_sphinx_deprecated_class__warns(sphinx_deprecated_class):
         assert "deprecated class" in str(warn.message)
 
 
+# noinspection PyShadowingNames
 def test_sphinx_deprecated_method__warns(sphinx_deprecated_method):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
@@ -63,6 +175,7 @@ def test_sphinx_deprecated_method__warns(sphinx_deprecated_method):
         assert "deprecated method" in str(warn.message)
 
 
+# noinspection PyShadowingNames
 def test_sphinx_deprecated_static_method__warns(sphinx_deprecated_static_method):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
@@ -71,3 +184,58 @@ def test_sphinx_deprecated_static_method__warns(sphinx_deprecated_static_method)
         warn = warns[0]
         assert issubclass(warn.category, DeprecationWarning)
         assert "deprecated function (or staticmethod)" in str(warn.message)
+
+
+def test_should_raise_type_error():
+    try:
+        deprecated.sphinx.deprecated(5)
+        assert False, "TypeError not raised"
+    except TypeError:
+        pass
+
+
+def test_warning_msg_has_reason():
+    reason = "Good reason"
+
+    @deprecated.sphinx.deprecated(reason=reason)
+    def foo():
+        pass
+
+    with warnings.catch_warnings(record=True) as warns:
+        foo()
+        warn = warns[0]
+        assert reason in str(warn.message)
+
+
+def test_warning_msg_has_version():
+    version = "1.2.3"
+
+    @deprecated.sphinx.deprecated(version=version)
+    def foo():
+        pass
+
+    with warnings.catch_warnings(record=True) as warns:
+        foo()
+        warn = warns[0]
+        assert version in str(warn.message)
+
+
+def test_warning_is_ignored():
+    @deprecated.sphinx.deprecated(version='1.2.3', reason='Good reason', action='ignore')
+    def foo():
+        pass
+
+    with warnings.catch_warnings(record=True) as warns:
+        foo()
+        assert len(warns) == 0
+
+
+def test_specific_warning_cls_is_used():
+    @deprecated.sphinx.deprecated(version='1.2.3', reason='Good reason', category=MyDeprecationWarning)
+    def foo():
+        pass
+
+    with warnings.catch_warnings(record=True) as warns:
+        foo()
+        warn = warns[0]
+        assert issubclass(warn.category, MyDeprecationWarning)

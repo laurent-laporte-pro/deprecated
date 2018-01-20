@@ -29,25 +29,27 @@ from deprecated.classic import deprecated as _classic_deprecated
 
 class SphinxAdapter(ClassicAdapter):
     # todo: add docstring
-    template = textwrap.dedent("""\
-
-    .. {directive}:: {version}
-       {reason}
-    """)
-
     def __init__(self, directive, reason="", version=""):
         self.directive = directive
+        if not (reason or version):
+            # Avoid warning message: Error in "..." directive: 1 argument(s) required, 0 supplied.
+            raise ValueError("Either the 'reason' or the 'version' is required!")
         super(SphinxAdapter, self).__init__(reason=reason, version=version)
 
     def __call__(self, wrapped):
         reason = textwrap.dedent(self.reason).strip()
         reason = '\n'.join(textwrap.fill(line, width=70, initial_indent='   ', subsequent_indent='   ')
                            for line in reason.splitlines()).strip()
-        attrs = {'directive': self.directive, 'version': self.version, 'reason': reason}
-        # todo: choose the template according to the current docstring, the version and the reason.
-        docstring = self.template.format(**attrs)
-        wrapped.__doc__ = textwrap.dedent(wrapped.__doc__ or "")
-        wrapped.__doc__ += docstring
+        docstring = textwrap.dedent(wrapped.__doc__ or "")
+        if docstring:
+            docstring += "\n"
+        if self.version:
+            docstring += ".. {directive}:: {version}\n".format(directive=self.directive, version=self.version)
+        else:
+            docstring += ".. {directive}::\n".format(directive=self.directive)
+        if reason:
+            docstring += "   {reason}\n".format(reason=reason)
+        wrapped.__doc__ = docstring
         return wrapped
 
 

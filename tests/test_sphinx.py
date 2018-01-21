@@ -1,12 +1,12 @@
 # coding: utf-8
 from __future__ import print_function
 
+import sys
 import textwrap
 import warnings
 
-import pytest
-
 import deprecated.sphinx
+import pytest
 
 
 @pytest.fixture(scope="module",
@@ -195,6 +195,8 @@ def test_sphinx_deprecated_function__warns(sphinx_deprecated_function):
 
 
 # noinspection PyShadowingNames
+@pytest.mark.skipif(sys.version_info < (3, 3),
+                    reason="Classes should have mutable docstrings -- resolved in python 3.3")
 def test_sphinx_deprecated_class__warns(sphinx_deprecated_class):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 import warnings
 
-import pytest
-
 import deprecated.classic
+import pytest
 
 
 class MyDeprecationWarning(DeprecationWarning):

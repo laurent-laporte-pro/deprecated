@@ -98,6 +98,28 @@ def classic_deprecated_static_method(request):
         return Foo.foo
 
 
+@pytest.fixture(scope="module", params=_PARAMS)
+def classic_deprecated_class_method(request):
+    if request.param is None:
+        class Foo(object):
+            @classmethod
+            @deprecated.classic.deprecated
+            def foo(cls):
+                pass
+
+        return Foo
+    else:
+        args, kwargs = request.param
+
+        class Foo(object):
+            @classmethod
+            @deprecated.classic.deprecated(*args, **kwargs)
+            def foo(cls):
+                pass
+
+        return Foo
+
+
 # noinspection PyShadowingNames
 def test_classic_deprecated_function__warns(classic_deprecated_function):
     with warnings.catch_warnings(record=True) as warns:
@@ -137,6 +159,18 @@ def test_classic_deprecated_static_method__warns(classic_deprecated_static_metho
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
         classic_deprecated_static_method()
+        assert len(warns) == 1
+        warn = warns[0]
+        assert issubclass(warn.category, DeprecationWarning)
+        assert "deprecated function (or staticmethod)" in str(warn.message)
+
+
+# noinspection PyShadowingNames
+def test_classic_deprecated_class_method__warns(classic_deprecated_class_method):
+    with warnings.catch_warnings(record=True) as warns:
+        warnings.simplefilter("always")
+        cls = classic_deprecated_class_method()
+        cls.foo()
         assert len(warns) == 1
         warn = warns[0]
         assert issubclass(warn.category, DeprecationWarning)

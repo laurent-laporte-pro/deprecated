@@ -98,7 +98,7 @@ def deprecated(*args, **kwargs):
         kwargs['reason'] = args[0]
         args = args[1:]
 
-    if args and not inspect.isfunction(args[0]) and not inspect.isclass(args[0]):
+    if args and not callable(args[0]):
         raise TypeError(repr(type(args[0])))
 
     if args:

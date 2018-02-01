@@ -188,10 +188,10 @@ def test_sphinx_deprecated_function__warns(sphinx_deprecated_function):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
         sphinx_deprecated_function()
-        assert len(warns) == 1
-        warn = warns[0]
-        assert issubclass(warn.category, DeprecationWarning)
-        assert "deprecated function (or staticmethod)" in str(warn.message)
+    assert len(warns) == 1
+    warn = warns[0]
+    assert issubclass(warn.category, DeprecationWarning)
+    assert "deprecated function (or staticmethod)" in str(warn.message)
 
 
 # noinspection PyShadowingNames
@@ -201,10 +201,10 @@ def test_sphinx_deprecated_class__warns(sphinx_deprecated_class):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
         sphinx_deprecated_class()
-        assert len(warns) == 1
-        warn = warns[0]
-        assert issubclass(warn.category, DeprecationWarning)
-        assert "deprecated class" in str(warn.message)
+    assert len(warns) == 1
+    warn = warns[0]
+    assert issubclass(warn.category, DeprecationWarning)
+    assert "deprecated class" in str(warn.message)
 
 
 # noinspection PyShadowingNames
@@ -213,10 +213,10 @@ def test_sphinx_deprecated_method__warns(sphinx_deprecated_method):
         warnings.simplefilter("always")
         obj = sphinx_deprecated_method()
         obj.foo()
-        assert len(warns) == 1
-        warn = warns[0]
-        assert issubclass(warn.category, DeprecationWarning)
-        assert "deprecated method" in str(warn.message)
+    assert len(warns) == 1
+    warn = warns[0]
+    assert issubclass(warn.category, DeprecationWarning)
+    assert "deprecated method" in str(warn.message)
 
 
 # noinspection PyShadowingNames
@@ -224,10 +224,10 @@ def test_sphinx_deprecated_static_method__warns(sphinx_deprecated_static_method)
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
         sphinx_deprecated_static_method()
-        assert len(warns) == 1
-        warn = warns[0]
-        assert issubclass(warn.category, DeprecationWarning)
-        assert "deprecated function (or staticmethod)" in str(warn.message)
+    assert len(warns) == 1
+    warn = warns[0]
+    assert issubclass(warn.category, DeprecationWarning)
+    assert "deprecated function (or staticmethod)" in str(warn.message)
 
 
 # noinspection PyShadowingNames
@@ -236,10 +236,10 @@ def test_sphinx_deprecated_class_method__warns(sphinx_deprecated_class_method):
         warnings.simplefilter("always")
         cls = sphinx_deprecated_class_method()
         cls.foo()
-        assert len(warns) == 1
-        warn = warns[0]
-        assert issubclass(warn.category, DeprecationWarning)
-        assert "deprecated function (or staticmethod)" in str(warn.message)
+    assert len(warns) == 1
+    warn = warns[0]
+    assert issubclass(warn.category, DeprecationWarning)
+    assert "deprecated function (or staticmethod)" in str(warn.message)
 
 
 def test_should_raise_type_error():
@@ -259,8 +259,8 @@ def test_warning_msg_has_reason():
 
     with warnings.catch_warnings(record=True) as warns:
         foo()
-        warn = warns[0]
-        assert reason in str(warn.message)
+    warn = warns[0]
+    assert reason in str(warn.message)
 
 
 def test_warning_msg_has_version():
@@ -272,8 +272,8 @@ def test_warning_msg_has_version():
 
     with warnings.catch_warnings(record=True) as warns:
         foo()
-        warn = warns[0]
-        assert version in str(warn.message)
+    warn = warns[0]
+    assert version in str(warn.message)
 
 
 def test_warning_is_ignored():
@@ -283,7 +283,7 @@ def test_warning_is_ignored():
 
     with warnings.catch_warnings(record=True) as warns:
         foo()
-        assert len(warns) == 0
+    assert len(warns) == 0
 
 
 def test_specific_warning_cls_is_used():
@@ -293,5 +293,5 @@ def test_specific_warning_cls_is_used():
 
     with warnings.catch_warnings(record=True) as warns:
         foo()
-        warn = warns[0]
-        assert issubclass(warn.category, MyDeprecationWarning)
+    warn = warns[0]
+    assert issubclass(warn.category, MyDeprecationWarning)

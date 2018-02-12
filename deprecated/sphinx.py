@@ -39,7 +39,7 @@ class SphinxAdapter(ClassicAdapter):
                            for line in reason.splitlines()).strip()
         docstring = textwrap.dedent(wrapped.__doc__ or "")
         if docstring:
-            docstring += "\n"
+            docstring += "\n\n"
         if self.version:
             docstring += ".. {directive}:: {version}\n".format(directive=self.directive, version=self.version)
         else:

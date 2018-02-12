@@ -1,6 +1,7 @@
 # coding: utf-8
 from __future__ import print_function
 
+import re
 import sys
 import textwrap
 import warnings
@@ -46,9 +47,9 @@ def directive(request):
     ('A good reason',
      None,
      textwrap.dedent("""\
-                 .. {directive}::
-                    {reason}
-                 """)),
+                     .. {directive}::
+                        {reason}
+                     """)),
 ])
 def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
     # The function:
@@ -68,6 +69,12 @@ def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
 
     current = textwrap.dedent(foo.__doc__)
     assert current.endswith(expected)
+
+    # An empty line must separate the original docstring and the directive.
+    current = current.replace(expected, '')
+    if current:
+        assert re.search("\n[ ]*\n$", current, flags=re.DOTALL)
+
 
 
 class MyDeprecationWarning(DeprecationWarning):

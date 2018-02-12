@@ -67,8 +67,8 @@ setup(
     version='1.1.1',
     url='https://github.com/tantale/deprecated',
     license='MIT',
-    author='Marcos Cardoso',
-    author_email='tantale@gmail.com',
+    author='Laurent LAPORTE',  # since v1.1.0
+    author_email='tantate.solutions@gmail.com',
     description='Python @deprecated decorator to deprecate old python classes, functions or methods.',
     long_description=__doc__,
     keywords='deprecate,deprecated,deprecation,warning,warn,decorator',

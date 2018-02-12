@@ -53,6 +53,7 @@ Fix
 - Minor correction in ``CONTRIBUTING.rst`` for Sphinx builds: add the ``-d`` option to put apart the ``doctrees``
   from the generated documentation and avoid warnings with epub generator.
 - Fix in documentation configuration: remove hyphens in ``epub_identifier`` (ISBN number has no hyphens).
+- Fix in Tox configuration: set the versions interval of each dependency.
 
 Other
 -----

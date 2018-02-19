@@ -3,23 +3,12 @@
 
 environment:
   matrix:
-    - PYTHON: "C:\\Python26"
-      TOX_ENV: "py26"
-
-    - PYTHON: "C:\\Python26-x64"
-      TOX_ENV: "py26"
-
+    # Python **2.6** and **3.3** are no more supported
     - PYTHON: "C:\\Python27"
       TOX_ENV: "py27"
 
     - PYTHON: "C:\\Python27-x64"
       TOX_ENV: "py27"
-
-    - PYTHON: "C:\\Python33"
-      TOX_ENV: "py33"
-
-    - PYTHON: "C:\\Python33-x64"
-      TOX_ENV: "py33"
 
     - PYTHON: "C:\\Python34"
       TOX_ENV: "py34"

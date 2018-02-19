@@ -39,7 +39,11 @@ Changed
 Removed
 -------
 
-- Drop support for Python 2.6, because setuptools has dot it since the `version 37.0.0 <https://github.com/pypa/setuptools/blob/master/CHANGES.rst#v3700>`_ released on 2017-11-02.
+- Deprecated no longer supports Python **2.6** and **3.3**. Those Python versions
+  are EOL for some time now and incur maintenance and compatibility costs on
+  the Deprecated core team, and following up with the rest of the community we
+  decided that they will no longer be supported starting on this version. Users
+  which still require those versions should pin Deprecated to ``< 1.1``.
 
 
 v1.1.1 (unreleased)

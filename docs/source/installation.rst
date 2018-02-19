@@ -12,7 +12,10 @@ and newer, Python 2.7 and newer, and PyPy.
 Dependencies
 ------------
 
-This library has no dependency (except development dependencies).
+This library uses the `Wrapt`_ library as a basis to construct
+function wrappers and decorator functions.
+
+.. _Wrapt: http://wrapt.readthedocs.io/en/latest/
 
 Development dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~

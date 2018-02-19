@@ -57,7 +57,7 @@ class ClassicAdapter(wrapt.AdapterFactory):
                                  reason=self.reason or "",
                                  version=self.version or "")
 
-    Then, you can use your :class:`MyClassicAdapter` class like this in your source code:
+    Then, you can use your ``MyClassicAdapter`` class like this in your source code:
 
     .. code-block:: python
 

@@ -46,7 +46,7 @@ Removed
   which still require those versions should pin Deprecated to ``< 1.1``.
 
 
-v1.1.1 (unreleased)
+v1.1.1 (2018-04-02)
 ===================
 
 Bug fix release

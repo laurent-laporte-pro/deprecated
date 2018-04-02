@@ -18,7 +18,7 @@ and this project adheres to `Semantic Versioning <http://semver.org/spec/v2.0.0.
       (only in comment or documentation).
 
 
-v1.2.0 (unreleased)
+v1.2.0 (2018-04-02)
 ===================
 
 Minor release
@@ -34,7 +34,7 @@ Changed
 
 - Add the ``version`` parameter to the ``@deprecated`` decorator:
   used to specify the starting version number of the deprecation.
-- Add a way to choose a ``DeprecationWarning`` sub class
+- Add a way to choose a ``DeprecationWarning`` subclass.
 
 Removed
 -------

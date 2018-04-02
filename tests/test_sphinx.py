@@ -303,3 +303,10 @@ def test_specific_warning_cls_is_used():
         foo()
     warn = warns[0]
     assert issubclass(warn.category, MyDeprecationWarning)
+
+
+def test_can_catch_warnings():
+    with warnings.catch_warnings(record=True) as warns:
+        warnings.simplefilter("always")
+        warnings.warn("A message in a bottle", category=DeprecationWarning, stacklevel=2)
+    assert len(warns) == 1

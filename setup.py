@@ -153,7 +153,7 @@ setup(
     keywords='deprecate,deprecated,deprecation,warning,warn,decorator',
     packages=['deprecated'],
     install_requires=[
-        'wrapt < 1.11, >= 1.10',
+        'wrapt < 2, >= 1',
     ],
     zip_safe=False,
     include_package_data=True,
@@ -175,11 +175,11 @@ setup(
     ],
     extras_require={
         'dev': [
-            'pytest < 3.3, >= 3.2',
-            'pytest-cov < 2.6, >= 2.5',
-            'tox < 3, >= 2.7',
-            'bumpversion < 0.6, >= 0.5',
-            'sphinx < 1.8, >= 1.7',
+            'pytest < 4',
+            'pytest-cov < 3',
+            'tox < 3',
+            'bumpversion < 1',
+            'sphinx < 2',
         ],
     },
 

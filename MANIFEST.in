@@ -1,0 +1,15 @@
+graft docs
+graft deprecated
+graft tests
+graft .github
+
+include .bumpversion.cfg
+include .coveragerc
+include .editorconfig
+
+include *.rst
+include *.yml
+include Makefile
+include tox.ini
+
+global-exclude *.py[cod] __pycache__ *.so *.dylib .DS_Store

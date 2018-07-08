@@ -18,6 +18,17 @@ and this project adheres to `Semantic Versioning <http://semver.org/spec/v2.0.0.
       (only in comment or documentation).
 
 
+v1.1.2 (unreleased)
+===================
+
+Bug fix release
+
+Fix
+---
+
+- Add a ``MANIFEST.in`` file to package additional files like "LICENSE.rst" in the source distribution.
+
+
 v1.1.1 (2018-04-02)
 ===================
 

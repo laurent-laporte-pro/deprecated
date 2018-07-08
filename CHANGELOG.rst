@@ -46,6 +46,17 @@ Removed
   which still require those versions should pin Deprecated to ``< 1.1``.
 
 
+v1.1.2 (unreleased)
+===================
+
+Bug fix release
+
+Fix
+---
+
+- Add a ``MANIFEST.in`` file to package additional files like "LICENSE.rst" in the source distribution.
+
+
 v1.1.1 (2018-04-02)
 ===================
 
@@ -74,7 +85,7 @@ Minor release
 Added
 -----
 
-- Change in :func:`deprecated.classic.deprecated` decorator: you can give a "reason" message
+- Change in :func:`deprecated.deprecated` decorator: you can give a "reason" message
   to help the developer choose another class, function or method.
 - Add support for Universal Wheel (Python versions 2.6, 2.7, 3.3, 3.4, 3.5, 3.6 and PyPy).
 - Add missing ``__doc__`` and ``__version__`` attributes to :mod:`deprecated` module.

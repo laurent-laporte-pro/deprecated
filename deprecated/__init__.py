@@ -11,7 +11,7 @@ import inspect
 import warnings
 
 #: Module Version Number, see `PEP 396 <https://www.python.org/dev/peps/pep-0396/>`_.
-__version__ = "1.1.1"
+__version__ = "1.1.2"
 
 string_types = (type(b''), type(u''))
 

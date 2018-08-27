@@ -4,8 +4,8 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
-The format is based on `Keep a Changelog <http://keepachangelog.com/en/1.0.0/>`_
-and this project adheres to `Semantic Versioning <http://semver.org/spec/v2.0.0.html>`_.
+The format is based on `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`_
+and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
 .. note::
 
@@ -16,6 +16,17 @@ and this project adheres to `Semantic Versioning <http://semver.org/spec/v2.0.0.
     - In your source code, nothing has changed, you will always use ``import deprecated``, as before.
     - I decided to keep the same version number because there is really no change in the source code
       (only in comment or documentation).
+
+
+v1.2.1 (2018-08-27)
+===================
+
+Bug fix release
+
+Fix
+---
+
+- Add a ``MANIFEST.in`` file to package additional files like "LICENSE.rst" in the source distribution.
 
 
 v1.2.0 (2018-04-02)
@@ -46,7 +57,7 @@ Removed
   which still require those versions should pin Deprecated to ``< 1.1``.
 
 
-v1.1.2 (unreleased)
+v1.1.2 (2018-08-27)
 ===================
 
 Bug fix release

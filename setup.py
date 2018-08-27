@@ -17,7 +17,7 @@ Save in a hello.py:
     from deprecated import deprecated
 
 
-    @deprecated(version='1.2.0', reason="You should use another function")
+    @deprecated(version='1.2.1', reason="You should use another function")
     def some_old_function(x, y):
         return x + y
 
@@ -143,7 +143,7 @@ from setuptools import setup
 
 setup(
     name='Deprecated',
-    version='1.2.0',
+    version='1.2.1',
     url='https://github.com/tantale/deprecated',
     license='MIT',
     author='Laurent LAPORTE',  # since v1.1.0

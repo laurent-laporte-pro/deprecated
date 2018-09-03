@@ -65,7 +65,7 @@ class ClassicAdapter(wrapt.AdapterFactory):
        def some_old_function(x, y):
            return x + y
     """
-    # todo: add docstring
+
     def __init__(self, reason="", version=""):
         self.reason = reason or ""
         self.version = version or ""
@@ -156,14 +156,33 @@ def deprecated(*args, **kwargs):
         adapter_cls = kwargs.pop('adapter_cls', ClassicAdapter)
         adapter = adapter_cls(**kwargs)
 
-        @wrapt.decorator(adapter=adapter)
-        def wrapper(wrapped_, instance_, args_, kwargs_):
-            msg = adapter.get_deprecated_msg(wrapped_, instance_)
-            with warnings.catch_warnings():
-                warnings.simplefilter(action, category)
-                warnings.warn(msg, category=category, stacklevel=2)
-            return wrapped_(*args_, **kwargs_)
+        wrapped = args[0]
+        if inspect.isclass(wrapped):
+            old_new1 = wrapped.__new__
 
-        return wrapper(args[0])
+            def wrapped_cls(unused, *args, **kwargs):
+                msg = adapter.get_deprecated_msg(wrapped, None)
+                with warnings.catch_warnings():
+                    warnings.simplefilter(action, category)
+                    warnings.warn(msg, category=category, stacklevel=2)
+                return old_new1(*args, **kwargs)
+
+            wrapped.__new__ = classmethod(wrapped_cls)
+            return wrapped
+
+        elif inspect.isfunction(wrapped):
+
+            @wrapt.decorator(adapter=adapter)
+            def wrapper_function(wrapped_, instance_, args_, kwargs_):
+                msg = adapter.get_deprecated_msg(wrapped_, instance_)
+                with warnings.catch_warnings():
+                    warnings.simplefilter(action, category)
+                    warnings.warn(msg, category=category, stacklevel=2)
+                return wrapped_(*args_, **kwargs_)
+
+            return wrapper_function(wrapped)
+
+        else:
+            raise TypeError(repr(type(wrapped)))
 
     return functools.partial(deprecated, **kwargs)

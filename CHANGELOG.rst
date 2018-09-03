@@ -57,6 +57,17 @@ Removed
   which still require those versions should pin Deprecated to ``< 1.1``.
 
 
+v1.1.3 (2018-09-03)
+===================
+
+Bug fix release
+
+Fix
+---
+
+- Fix #2: a deprecated class is a class (not a function). Any subclass of a deprecated class is also deprecated.
+
+
 v1.1.2 (2018-08-27)
 ===================
 

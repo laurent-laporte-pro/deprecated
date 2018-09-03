@@ -113,3 +113,11 @@ Once the object is initialised, no more warning are emitted.
      obj = liberty.Liberty("Salutation")
    'Salutation'
    'Salutation'
+
+If a deprecated class is used, then a warning message is emitted during class instantiation.
+In other word, deprecating a class is the same as deprecating it's ``__new__`` class method.
+
+As a reminder, the magic method ``__new__`` will be called when instance is being created.
+Using this method you can customize the instance creation.
+the :func:`~deprecated.deprecated` decorator patches the ``__new__`` method in order to
+emmit the warning message before instance creation.

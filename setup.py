@@ -64,7 +64,7 @@ from setuptools import setup
 
 setup(
     name='Deprecated',
-    version='1.1.2',
+    version='1.1.3',
     url='https://github.com/tantale/deprecated',
     license='MIT',
     author='Laurent LAPORTE',  # since v1.1.0

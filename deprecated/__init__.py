@@ -80,27 +80,66 @@ def deprecated(reason):
         def decorator(func1):
 
             if inspect.isclass(func1):
+
                 fmt1 = "Call to deprecated class {name} ({reason})."
-            else:
+                old_new1 = func1.__new__
+
+                def wrapped_new1(unused, *args, **kwargs):
+                    warnings.simplefilter('always', DeprecationWarning)
+                    warnings.warn(
+                        fmt1.format(name=func1.__name__, reason=reason),
+                        category=DeprecationWarning,
+                        stacklevel=2
+                    )
+                    warnings.simplefilter('default', DeprecationWarning)
+                    return old_new1(*args, **kwargs)
+
+                func1.__new__ = classmethod(wrapped_new1)
+                return func1
+
+            elif inspect.isfunction(func1):
+
                 fmt1 = "Call to deprecated function {name} ({reason})."
 
-            @functools.wraps(func1)
-            def new_func1(*args, **kwargs):
-                warnings.simplefilter('always', DeprecationWarning)
-                warnings.warn(
-                    fmt1.format(name=func1.__name__, reason=reason),
-                    category=DeprecationWarning,
-                    stacklevel=2
-                )
-                warnings.simplefilter('default', DeprecationWarning)
-                return func1(*args, **kwargs)
+                @functools.wraps(func1)
+                def new_func1(*args, **kwargs):
+                    warnings.simplefilter('always', DeprecationWarning)
+                    warnings.warn(
+                        fmt1.format(name=func1.__name__, reason=reason),
+                        category=DeprecationWarning,
+                        stacklevel=2
+                    )
+                    warnings.simplefilter('default', DeprecationWarning)
+                    return func1(*args, **kwargs)
 
-            return new_func1
+                return new_func1
+
+            else:
+                raise TypeError(repr(type(func1)))
 
         return decorator
 
-    elif inspect.isclass(reason) or inspect.isfunction(reason):
+    elif inspect.isclass(reason):
 
+        cls2 = reason
+        fmt2 = "Call to deprecated class {name}."
+
+        old_new2 = cls2.__new__
+
+        def wrapped_new2(unused, *args, **kwargs):
+            warnings.simplefilter('always', DeprecationWarning)
+            warnings.warn(
+                fmt2.format(name=cls2.__name__),
+                category=DeprecationWarning,
+                stacklevel=2
+            )
+            warnings.simplefilter('default', DeprecationWarning)
+            return old_new2(*args, **kwargs)
+
+        cls2.__new__ = classmethod(wrapped_new2)
+        return cls2
+
+    elif inspect.isfunction(reason):
         # The @deprecated is used without any 'reason'.
         #
         # .. code-block:: python
@@ -110,11 +149,7 @@ def deprecated(reason):
         #      pass
 
         func2 = reason
-
-        if inspect.isclass(func2):
-            fmt2 = "Call to deprecated class {name}."
-        else:
-            fmt2 = "Call to deprecated function {name}."
+        fmt2 = "Call to deprecated function {name}."
 
         @functools.wraps(func2)
         def new_func2(*args, **kwargs):

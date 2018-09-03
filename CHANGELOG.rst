@@ -18,6 +18,17 @@ and this project adheres to `Semantic Versioning <http://semver.org/spec/v2.0.0.
       (only in comment or documentation).
 
 
+v1.1.3 (2018-09-03)
+===================
+
+Bug fix release
+
+Fix
+---
+
+- Fix #2: a deprecated class is a class (not a function). Any subclass of a deprecated class is also deprecated.
+
+
 v1.1.2 (2018-08-27)
 ===================
 

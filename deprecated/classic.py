@@ -22,7 +22,7 @@ class ClassicAdapter(wrapt.AdapterFactory):
     This adapter is used to get the deprecation message according to the wrapped object type:
     class, function, standard method, static method, or class method.
 
-    This is the base class of the :class:`deprecated.sphinx.SphinxAdapter` class
+    This is the base class of the :class:`~deprecated.sphinx.SphinxAdapter` class
     which is used to update the wrapped object docstring.
 
     You can also inherit this class to change the deprecation message.

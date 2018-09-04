@@ -28,6 +28,8 @@ Fix
 
 - Fix #2: a deprecated class is a class (not a function). Any subclass of a deprecated class is also deprecated.
 
+- Minor fix: add missing documentation in :mod:`deprecated.sphinx` module.
+
 
 v1.2.1 (2018-08-27)
 ===================

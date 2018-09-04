@@ -28,7 +28,18 @@ from deprecated.classic import deprecated as _classic_deprecated
 
 
 class SphinxAdapter(ClassicAdapter):
-    # todo: add docstring
+    """
+    Sphinx adapter -- *for advanced usage only*
+
+    This adapter override the :class:`~deprecated.classic.ClassicAdapter`
+    in order to add the Sphinx directives to the end of the function/class docstring.
+    Such a directive is a `Paragraph-level markup <http://www.sphinx-doc.org/en/stable/markup/para.html>`_
+
+    - The directive can be one of "versionadded", "versionchanged" or "deprecated".
+    - The version number is added if provided.
+    - The reason message is obviously added in the directive block if not empty.
+    """
+
     def __init__(self, directive, reason="", version=""):
         self.directive = directive
         super(SphinxAdapter, self).__init__(reason=reason, version=version)
@@ -51,6 +62,22 @@ class SphinxAdapter(ClassicAdapter):
 
 
 def versionadded(reason="", version=""):
+    """
+    This decorator can be used to insert a "versionadded" directive
+    in your function/class docstring in order to documents the
+    version of the project which adds this new functionality in your library.
+
+    :param str reason:
+        Reason message which documents the addition in your library (can be omitted).
+
+    :param str version:
+        Version of your project which adds this feature.
+        If you follow the `Semantic Versioning <https://semver.org/>`_,
+        the version number has the format "MAJOR.MINOR.PATCH", and,
+        in the case of a new functionality, the "PATCH" component should be "0".
+
+    :return: the decorated function.
+    """
     # todo: add docstring with examples
     adapter = SphinxAdapter('versionadded', reason=reason, version=version)
 
@@ -63,7 +90,21 @@ def versionadded(reason="", version=""):
 
 
 def versionchanged(reason="", version=""):
-    # todo: add docstring with examples
+    """
+    This decorator can be used to insert a "versionchanged" directive
+    in your function/class docstring in order to documents the
+    version of the project which modifies this functionality in your library.
+
+    :param str reason:
+        Reason message which documents the modification in your library (can be omitted).
+
+    :param str version:
+        Version of your project which modifies this feature.
+        If you follow the `Semantic Versioning <https://semver.org/>`_,
+        the version number has the format "MAJOR.MINOR.PATCH".
+
+    :return: the decorated function.
+    """
     adapter = SphinxAdapter('versionchanged', reason=reason, version=version)
 
     # noinspection PyUnusedLocal
@@ -75,7 +116,33 @@ def versionchanged(reason="", version=""):
 
 
 def deprecated(*args, **kwargs):
-    # todo: add docstring with examples
+    """
+    This decorator can be used to insert a "deprecated" directive
+    in your function/class docstring in order to documents the
+    version of the project which deprecates this functionality in your library.
+
+    Keyword arguments can be:
+
+    -   "reason":
+        Reason message which documents the deprecation in your library (can be omitted).
+
+    -   "version":
+        Version of your project which deprecates this feature.
+        If you follow the `Semantic Versioning <https://semver.org/>`_,
+        the version number has the format "MAJOR.MINOR.PATCH".
+
+    -   "action":
+        A warning filter used to activate or not the deprecation warning.
+        Can be one of "error", "ignore", "always", "default", "module", or "once".
+        By default the deprecation warning is always emitted (the value is "always").
+
+    -   "category":
+        The warning category to use for the deprecation warning.
+        By default, the category class is :class:`~DeprecationWarning`,
+        you can inherit this class to define your own deprecation warning category.
+
+    :return: the decorated function.
+    """
     directive = kwargs.pop('directive', 'deprecated')
     adapter_cls = kwargs.pop('adapter_cls', SphinxAdapter)
     return _classic_deprecated(*args,

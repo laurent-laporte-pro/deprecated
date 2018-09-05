@@ -76,6 +76,52 @@ def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
         assert re.search("\n[ ]*\n$", current, flags=re.DOTALL)
 
 
+# noinspection PyShadowingNames
+@pytest.mark.skipif(sys.version_info < (3, 3),
+                    reason="Classes should have mutable docstrings -- resolved in python 3.3")
+@pytest.mark.parametrize("reason, version, expected", [
+    ('A good reason',
+     '1.2.0',
+     textwrap.dedent("""\
+                     .. {directive}:: {version}
+                        {reason}
+                     """)),
+    (None,
+     '1.2.0',
+     textwrap.dedent("""\
+                     .. {directive}:: {version}
+                     """)),
+    ('A good reason',
+     None,
+     textwrap.dedent("""\
+                     .. {directive}::
+                        {reason}
+                     """)),
+])
+def test_cls_has_sphinx_docstring(docstring, directive, reason, version, expected):
+    # The class:
+    class Foo(object):
+        pass
+ 
+    # with docstring:
+    Foo.__doc__ = docstring
+ 
+    # is decorated with:
+    decorator_factory = getattr(deprecated.sphinx, directive)
+    decorator = decorator_factory(reason=reason, version=version)
+    Foo = decorator(Foo)
+ 
+    # The class must contain this Sphinx docstring:
+    expected = expected.format(directive=directive, version=version, reason=reason)
+ 
+    current = textwrap.dedent(Foo.__doc__)
+    assert current.endswith(expected)
+ 
+    # An empty line must separate the original docstring and the directive.
+    current = current.replace(expected, '')
+    if current:
+        assert re.search("\n[ ]*\n$", current, flags=re.DOTALL)
+
 
 class MyDeprecationWarning(DeprecationWarning):
     pass

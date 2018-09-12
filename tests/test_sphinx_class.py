@@ -3,7 +3,10 @@ from __future__ import print_function
 
 import inspect
 import io
+import sys
 import warnings
+
+import pytest
 
 import deprecated.sphinx
 
@@ -38,6 +41,8 @@ def test_class_deprecation_using_a_simple_decorator():
     assert stream.getvalue().strip() == u"I am deprecated!"
 
 
+@pytest.mark.skipif(sys.version_info < (3, 3),
+                    reason="Classes should have mutable docstrings -- resolved in python 3.3")
 def test_class_deprecation_using_deprecated_decorator():
     @deprecated.sphinx.deprecated
     class MyBaseClass(object):
@@ -56,6 +61,8 @@ def test_class_deprecation_using_deprecated_decorator():
     assert issubclass(MySubClass, MyBaseClass)
 
 
+@pytest.mark.skipif(sys.version_info < (3, 3),
+                    reason="Classes should have mutable docstrings -- resolved in python 3.3")
 def test_subclass_deprecation_using_deprecated_decorator():
     @deprecated.sphinx.deprecated
     class MyBaseClass(object):

@@ -78,7 +78,6 @@ def versionadded(reason="", version=""):
 
     :return: the decorated function.
     """
-    # todo: add docstring with examples
     adapter = SphinxAdapter('versionadded', reason=reason, version=version)
 
     # noinspection PyUnusedLocal

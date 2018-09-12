@@ -40,9 +40,9 @@ class SphinxAdapter(ClassicAdapter):
     - The reason message is obviously added in the directive block if not empty.
     """
 
-    def __init__(self, directive, reason="", version=""):
+    def __init__(self, directive, reason="", version="", action='always', category=DeprecationWarning):
         self.directive = directive
-        super(SphinxAdapter, self).__init__(reason=reason, version=version)
+        super(SphinxAdapter, self).__init__(reason=reason, version=version, action=action, category=category)
 
     def __call__(self, wrapped):
         reason = textwrap.dedent(self.reason).strip()
@@ -58,7 +58,7 @@ class SphinxAdapter(ClassicAdapter):
         if reason:
             docstring += "   {reason}\n".format(reason=reason)
         wrapped.__doc__ = docstring
-        return wrapped
+        return super(SphinxAdapter, self).__call__(wrapped)
 
 
 def versionadded(reason="", version=""):

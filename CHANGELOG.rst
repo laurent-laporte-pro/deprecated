@@ -18,6 +18,17 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
       (only in comment or documentation).
 
 
+v1.2.3 (2018-09-12)
+===================
+
+Bug fix release
+
+Fix
+---
+
+- Fix #2: ``deprecated.sphinx`` decorators don't update the docstring.
+
+
 v1.2.2 (2018-09-04)
 ===================
 

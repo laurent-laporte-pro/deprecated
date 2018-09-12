@@ -66,9 +66,11 @@ class ClassicAdapter(wrapt.AdapterFactory):
            return x + y
     """
 
-    def __init__(self, reason="", version=""):
+    def __init__(self, reason="", version="", action='always', category=DeprecationWarning):
         self.reason = reason or ""
         self.version = version or ""
+        self.action = action
+        self.category = category
         super(ClassicAdapter, self).__init__()
 
     def get_deprecated_msg(self, wrapped, instance):
@@ -91,6 +93,18 @@ class ClassicAdapter(wrapt.AdapterFactory):
                           version=self.version or "")
 
     def __call__(self, wrapped):
+        if inspect.isclass(wrapped):
+            old_new1 = wrapped.__new__
+
+            def wrapped_cls(unused, *args, **kwargs):
+                msg = self.get_deprecated_msg(wrapped, None)
+                with warnings.catch_warnings():
+                    warnings.simplefilter(self.action, self.category)
+                    warnings.warn(msg, category=self.category, stacklevel=2)
+                return old_new1(*args, **kwargs)
+
+            wrapped.__new__ = classmethod(wrapped_cls)
+
         return wrapped
 
 
@@ -151,23 +165,14 @@ def deprecated(*args, **kwargs):
         raise TypeError(repr(type(args[0])))
 
     if args:
-        action = kwargs.pop('action', 'always')
-        category = kwargs.pop('category', DeprecationWarning)
+        action = kwargs.get('action', 'always')
+        category = kwargs.get('category', DeprecationWarning)
         adapter_cls = kwargs.pop('adapter_cls', ClassicAdapter)
         adapter = adapter_cls(**kwargs)
 
         wrapped = args[0]
         if inspect.isclass(wrapped):
-            old_new1 = wrapped.__new__
-
-            def wrapped_cls(unused, *args, **kwargs):
-                msg = adapter.get_deprecated_msg(wrapped, None)
-                with warnings.catch_warnings():
-                    warnings.simplefilter(action, category)
-                    warnings.warn(msg, category=category, stacklevel=2)
-                return old_new1(*args, **kwargs)
-
-            wrapped.__new__ = classmethod(wrapped_cls)
+            wrapped = adapter(wrapped)
             return wrapped
 
         elif inspect.isfunction(wrapped):

@@ -26,7 +26,7 @@ Bug fix release
 Fix
 ---
 
-- Fix #2: ``deprecated.sphinx`` decorators don't update the docstring.
+- Fix #3: ``deprecated.sphinx`` decorators don't update the docstring.
 
 
 v1.2.2 (2018-09-04)

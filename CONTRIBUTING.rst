@@ -148,4 +148,4 @@ To generate the HTML documentation, run::
 
 To generate the epub v2 documentation, run::
 
-    sphinx-build -b epub2 -d dist/docs/doctrees docs/source/ dist/docs/epub/
+    sphinx-build -b epub -d dist/docs/doctrees docs/source/ dist/docs/epub/

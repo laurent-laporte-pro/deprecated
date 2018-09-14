@@ -67,6 +67,31 @@ class ClassicAdapter(wrapt.AdapterFactory):
     """
 
     def __init__(self, reason="", version="", action='always', category=DeprecationWarning):
+        """
+        Construct a wrapper adapter.
+
+        :type  reason: str
+        :param reason:
+            Reason message which documents the deprecation in your library (can be omitted).
+
+        :type  version: str
+        :param version:
+            Version of your project which deprecates this feature.
+            If you follow the `Semantic Versioning <https://semver.org/>`_,
+            the version number has the format "MAJOR.MINOR.PATCH".
+
+        :type  action: str
+        :param action:
+            A warning filter used to activate or not the deprecation warning.
+            Can be one of "error", "ignore", "always", "default", "module", or "once".
+            By default the deprecation warning is always emitted (the value is "always").
+
+        :type  category: type
+        :param category:
+            The warning category to use for the deprecation warning.
+            By default, the category class is :class:`~DeprecationWarning`,
+            you can inherit this class to define your own deprecation warning category.
+        """
         self.reason = reason or ""
         self.version = version or ""
         self.action = action
@@ -74,6 +99,15 @@ class ClassicAdapter(wrapt.AdapterFactory):
         super(ClassicAdapter, self).__init__()
 
     def get_deprecated_msg(self, wrapped, instance):
+        """
+        Get the deprecation warning message for the user.
+
+        :param wrapped: Wrapped class or function.
+
+        :param instance: The object to which the wrapped function was bound when it was called.
+
+        :return: The warning message.
+        """
         if instance is None:
             if inspect.isclass(wrapped):
                 fmt = "Call to deprecated class {name}."
@@ -93,6 +127,13 @@ class ClassicAdapter(wrapt.AdapterFactory):
                           version=self.version or "")
 
     def __call__(self, wrapped):
+        """
+        Decorate your class or function.
+
+        :param wrapped: Wrapped class or function.
+
+        :return: the decorated class or function.
+        """
         if inspect.isclass(wrapped):
             old_new1 = wrapped.__new__
 

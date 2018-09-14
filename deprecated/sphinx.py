@@ -41,10 +41,46 @@ class SphinxAdapter(ClassicAdapter):
     """
 
     def __init__(self, directive, reason="", version="", action='always', category=DeprecationWarning):
+        """
+        Construct a wrapper adapter.
+
+        :type  directive: str
+        :param directive:
+            Sphinx directive: can be one of "versionadded", "versionchanged" or "deprecated".
+
+        :type  reason: str
+        :param reason:
+            Reason message which documents the deprecation in your library (can be omitted).
+
+        :type  version: str
+        :param version:
+            Version of your project which deprecates this feature.
+            If you follow the `Semantic Versioning <https://semver.org/>`_,
+            the version number has the format "MAJOR.MINOR.PATCH".
+
+        :type  action: str
+        :param action:
+            A warning filter used to activate or not the deprecation warning.
+            Can be one of "error", "ignore", "always", "default", "module", or "once".
+            By default the deprecation warning is always emitted (the value is "always").
+
+        :type  category: type
+        :param category:
+            The warning category to use for the deprecation warning.
+            By default, the category class is :class:`~DeprecationWarning`,
+            you can inherit this class to define your own deprecation warning category.
+        """
         self.directive = directive
         super(SphinxAdapter, self).__init__(reason=reason, version=version, action=action, category=category)
 
     def __call__(self, wrapped):
+        """
+        Add the Sphinx directive to your class or function.
+
+        :param wrapped: Wrapped class or function.
+
+        :return: the decorated class or function.
+        """
         reason = textwrap.dedent(self.reason).strip()
         reason = '\n'.join(textwrap.fill(line, width=70, initial_indent='   ', subsequent_indent='   ')
                            for line in reason.splitlines()).strip()

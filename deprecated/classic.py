@@ -133,15 +133,21 @@ class ClassicAdapter(wrapt.AdapterFactory):
         :param wrapped: Wrapped class or function.
 
         :return: the decorated class or function.
+
+        .. versionchanged:: 1.2.4
+           Don't pass arguments to :meth:`object.__new__` (other than *cls*).
         """
         if inspect.isclass(wrapped):
             old_new1 = wrapped.__new__
 
-            def wrapped_cls(unused, *args, **kwargs):
+            def wrapped_cls(cls, *args, **kwargs):
                 msg = self.get_deprecated_msg(wrapped, None)
                 with warnings.catch_warnings():
                     warnings.simplefilter(self.action, self.category)
                     warnings.warn(msg, category=self.category, stacklevel=2)
+                if old_new1 is object.__new__:
+                    return old_new1(cls)
+                # actually, we don't know the real signature of *old_new1*
                 return old_new1(*args, **kwargs)
 
             wrapped.__new__ = classmethod(wrapped_cls)

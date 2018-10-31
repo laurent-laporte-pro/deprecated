@@ -123,3 +123,20 @@ def test_subclass_deprecation_using_deprecated_decorator():
     assert isinstance(obj, MyBaseClass)
     assert inspect.isclass(MyBaseClass)
     assert issubclass(MySubClass, MyBaseClass)
+
+
+def test_simple_class_deprecation_with_args():
+    @deprecated.classic.deprecated('kwargs class')
+    class MyClass(object):
+        def __init__(self, arg):
+            super(MyClass, self).__init__()
+            self.args = arg
+
+    MyClass(5)
+    with warnings.catch_warnings(record=True) as warns:
+        warnings.simplefilter("always")
+        obj = MyClass(5)
+
+    assert len(warns) == 1
+    assert isinstance(obj, MyClass)
+    assert inspect.isclass(MyClass)

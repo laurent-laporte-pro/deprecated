@@ -29,6 +29,12 @@ Other
 - Add missing docstring to the classes :class:`~deprecated.classic.ClassicAdapter`
   and :class:`~deprecated.sphinx.SphinxAdapter`.
 
+Fix
+---
+
+- Fix #4: Correct the class :class:`~deprecated.classic.ClassicAdapter`:
+  Don't pass arguments to :meth:`object.__new__` (other than *cls*).
+
 
 v1.2.3 (2018-09-12)
 ===================

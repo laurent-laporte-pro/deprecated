@@ -18,6 +18,18 @@ and this project adheres to `Semantic Versioning <http://semver.org/spec/v2.0.0.
       (only in comment or documentation).
 
 
+v1.1.4 (unreleased)
+===================
+
+Bug fix release
+
+Fix
+---
+
+- Fix #4: Correct the function :funct:`~deprecated.deprecated`:
+  Don't pass arguments to :meth:`object.__new__` (other than *cls*).
+
+
 v1.1.3 (2018-09-03)
 ===================
 

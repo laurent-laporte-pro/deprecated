@@ -84,7 +84,7 @@ def deprecated(reason):
                 fmt1 = "Call to deprecated class {name} ({reason})."
                 old_new1 = func1.__new__
 
-                def wrapped_new1(unused, *args, **kwargs):
+                def wrapped_new1(cls, *args, **kwargs):
                     warnings.simplefilter('always', DeprecationWarning)
                     warnings.warn(
                         fmt1.format(name=func1.__name__, reason=reason),
@@ -92,6 +92,9 @@ def deprecated(reason):
                         stacklevel=2
                     )
                     warnings.simplefilter('default', DeprecationWarning)
+                    if old_new1 is object.__new__:
+                        return old_new1(cls)
+                    # actually, we don't know the real signature of *old_new1*
                     return old_new1(*args, **kwargs)
 
                 func1.__new__ = classmethod(wrapped_new1)
@@ -126,7 +129,7 @@ def deprecated(reason):
 
         old_new2 = cls2.__new__
 
-        def wrapped_new2(unused, *args, **kwargs):
+        def wrapped_new2(cls, *args, **kwargs):
             warnings.simplefilter('always', DeprecationWarning)
             warnings.warn(
                 fmt2.format(name=cls2.__name__),
@@ -134,6 +137,9 @@ def deprecated(reason):
                 stacklevel=2
             )
             warnings.simplefilter('default', DeprecationWarning)
+            if old_new2 is object.__new__:
+                return old_new2(cls)
+            # actually, we don't know the real signature of *old_new2*
             return old_new2(*args, **kwargs)
 
         cls2.__new__ = classmethod(wrapped_new2)

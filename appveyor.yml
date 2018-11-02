@@ -50,7 +50,7 @@ install:
   - "%PYTHON%/Scripts/pip install tox"
   - "%PYTHON%/Scripts/pip install wheel"
 
-build: false  # Not a C# project, build stuff at the test step instead.
+build: off  # Not a C# project, build stuff at the test step instead.
 
 test_script:
   - "%PYTHON%/Scripts/tox -e %TOX_ENV%"

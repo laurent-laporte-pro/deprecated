@@ -4,8 +4,8 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
-The format is based on `Keep a Changelog <http://keepachangelog.com/en/1.0.0/>`_
-and this project adheres to `Semantic Versioning <http://semver.org/spec/v2.0.0.html>`_.
+The format is based on `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`_
+and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
 .. note::
 
@@ -28,6 +28,20 @@ Fix
 
 - Fix #4: Correct the function :funct:`~deprecated.deprecated`:
   Don't pass arguments to :meth:`object.__new__` (other than *cls*).
+
+Other
+-----
+
+- Change the configuration for TravisCI and AppVeyor:
+  drop configuration for Python **2.6** and **3.3**.
+  add configuration for Python **3.7**.
+
+  .. note::
+
+     Deprecated is no more tested with Python **2.6** and **3.3**.
+     Those Python versions are EOL for some time now and incur incompatibilities
+     with Continuous Integration tools like TravisCI and AppVeyor.
+     However, this library should still work perfectly...
 
 
 v1.1.3 (2018-09-03)

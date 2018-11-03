@@ -18,7 +18,7 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
       (only in comment or documentation).
 
 
-v1.1.4 (unreleased)
+v1.1.4 (2018-11-03)
 ===================
 
 Bug fix release

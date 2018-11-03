@@ -11,6 +11,7 @@ python:
   - "nightly" # currently points to 3.7-dev
   - "pypy"
 install:
+  - if [[ $TRAVIS_PYTHON_VERSION == 3.3 ]]; then pip install virtualenv==15.2.0; fi
   - if [[ $TRAVIS_PYTHON_VERSION == 3.3 ]]; then pip install tox-travis==0.10; fi
   - if [[ $TRAVIS_PYTHON_VERSION == 3.3 ]]; then pip install coveralls==1.3.0; fi
   - pip install tox-travis

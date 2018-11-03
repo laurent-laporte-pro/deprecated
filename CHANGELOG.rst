@@ -18,16 +18,10 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
       (only in comment or documentation).
 
 
-v1.2.4 (unreleased)
+v1.2.4 (2018-11-03)
 ===================
 
 Bug fix release
-
-Other
------
-
-- Add missing docstring to the classes :class:`~deprecated.classic.ClassicAdapter`
-  and :class:`~deprecated.sphinx.SphinxAdapter`.
 
 Fix
 ---
@@ -37,6 +31,9 @@ Fix
 
 Other
 -----
+
+- Add missing docstring to the classes :class:`~deprecated.classic.ClassicAdapter`
+  and :class:`~deprecated.sphinx.SphinxAdapter`.
 
 - Change the configuration for TravisCI and AppVeyor:
   drop configuration for Python **2.6** and **3.3**.
@@ -111,6 +108,32 @@ Removed
   the Deprecated core team, and following up with the rest of the community we
   decided that they will no longer be supported starting on this version. Users
   which still require those versions should pin Deprecated to ``< 1.2``.
+
+
+v1.1.4 (2018-11-03)
+===================
+
+Bug fix release
+
+Fix
+---
+
+- Fix #4: Correct the function :funct:`~deprecated.deprecated`:
+  Don't pass arguments to :meth:`object.__new__` (other than *cls*).
+
+Other
+-----
+
+- Change the configuration for TravisCI and AppVeyor:
+  drop configuration for Python **2.6** and **3.3**.
+  add configuration for Python **3.7**.
+
+  .. note::
+
+     Deprecated is no more tested with Python **2.6** and **3.3**.
+     Those Python versions are EOL for some time now and incur incompatibilities
+     with Continuous Integration tools like TravisCI and AppVeyor.
+     However, this library should still work perfectly...
 
 
 v1.1.3 (2018-09-03)

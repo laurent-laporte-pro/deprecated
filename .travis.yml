@@ -5,6 +5,7 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
+  # - "3.7"     # Not available yet (Unable to download 3.7 archive).
   - "3.7-dev"   # 3.7 development branch
   - "nightly"   # currently points to 3.7-dev
   # - "pypy"    # some unit tests fail

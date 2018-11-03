@@ -35,6 +35,20 @@ Fix
 - Fix #4: Correct the class :class:`~deprecated.classic.ClassicAdapter`:
   Don't pass arguments to :meth:`object.__new__` (other than *cls*).
 
+Other
+-----
+
+- Change the configuration for TravisCI and AppVeyor:
+  drop configuration for Python **2.6** and **3.3**.
+  add configuration for Python **3.7** (if available).
+
+  .. note::
+
+     Deprecated is no more tested with Python **2.6** and **3.3**.
+     Those Python versions are EOL for some time now and incur incompatibilities
+     with Continuous Integration tools like TravisCI and AppVeyor.
+     However, this library should still work perfectly...
+
 
 v1.2.3 (2018-09-12)
 ===================

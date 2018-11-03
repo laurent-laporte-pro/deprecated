@@ -12,6 +12,7 @@ python:
   - "pypy"
 install:
   - pip install tox-travis
+  - if [[ $TRAVIS_PYTHON_VERSION == 3.3 ]]; then pip install coveralls==1.3.0; fi
   - pip install coveralls
 script:
   tox

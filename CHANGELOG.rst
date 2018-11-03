@@ -110,7 +110,7 @@ Removed
   are EOL for some time now and incur maintenance and compatibility costs on
   the Deprecated core team, and following up with the rest of the community we
   decided that they will no longer be supported starting on this version. Users
-  which still require those versions should pin Deprecated to ``< 1.1``.
+  which still require those versions should pin Deprecated to ``< 1.2``.
 
 
 v1.1.3 (2018-09-03)

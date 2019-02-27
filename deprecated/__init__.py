@@ -100,7 +100,7 @@ def deprecated(reason):
                 func1.__new__ = classmethod(wrapped_new1)
                 return func1
 
-            elif inspect.isfunction(func1):
+            elif inspect.isroutine(func1):
 
                 fmt1 = "Call to deprecated function {name} ({reason})."
 
@@ -145,7 +145,7 @@ def deprecated(reason):
         cls2.__new__ = classmethod(wrapped_new2)
         return cls2
 
-    elif inspect.isfunction(reason):
+    elif inspect.isroutine(reason):
         # The @deprecated is used without any 'reason'.
         #
         # .. code-block:: python

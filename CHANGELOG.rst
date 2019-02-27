@@ -28,6 +28,12 @@ Fix
 
 - Fix #6: Use :func:`inspect.isroutine` to check if the wrapped object is a user-defined or built-in function or method.
 
+Other
+-----
+
+- Upgrade Tox configuration to add support for Python 3.7.
+  Also, fix PyTest version for Python 2.7 and 3.4 (limited support).
+
 
 v1.2.4 (2018-11-03)
 ===================

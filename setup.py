@@ -68,7 +68,7 @@ setup(
     url='https://github.com/tantale/deprecated',
     license='MIT',
     author='Laurent LAPORTE',  # since v1.1.0
-    author_email='tantate.solutions@gmail.com',
+    author_email='tantale.solutions@gmail.com',
     description='Python @deprecated decorator to deprecate old python classes, functions or methods.',
     long_description=__doc__,
     keywords='deprecate,deprecated,deprecation,warning,warn,decorator',
@@ -91,15 +91,18 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
     extras_require={
         'dev': [
-            'pytest',
-            'pytest-cov',
             'tox',
-            'bumpversion',
-            'sphinx',
+            'PyTest             ; python_version >= "3.6"',
+            'PyTest < 5         ; python_version < "3"',
+            'PyTest-Cov         ; python_version >= "3.6"',
+            'PyTest-Cov < 2.6   ; python_version < "3"',
+            'bumpversion < 1',
+            'sphinx < 2',
         ],
     },
 )

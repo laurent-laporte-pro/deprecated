@@ -33,6 +33,7 @@ Other
 
 - Upgrade Tox configuration to add support for Python 3.7.
   Also, fix PyTest version for Python 2.7 and 3.4 (limited support).
+  Remove dependency 'requests[security]': useless to build documentation.
 
 - Upgrade project configuration (``setup.py``) to add support for Python 3.7.
 

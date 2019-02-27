@@ -222,7 +222,7 @@ def deprecated(*args, **kwargs):
             wrapped = adapter(wrapped)
             return wrapped
 
-        elif inspect.isfunction(wrapped):
+        elif inspect.isroutine(wrapped):
 
             @wrapt.decorator(adapter=adapter)
             def wrapper_function(wrapped_, instance_, args_, kwargs_):

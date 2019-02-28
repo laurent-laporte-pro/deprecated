@@ -18,7 +18,7 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
       (only in comment or documentation).
 
 
-v1.2.5 (unreleased)
+v1.2.5 (2019-02-28)
 ===================
 
 Bug fix release
@@ -128,6 +128,26 @@ Removed
   the Deprecated core team, and following up with the rest of the community we
   decided that they will no longer be supported starting on this version. Users
   which still require those versions should pin Deprecated to ``< 1.2``.
+
+
+v1.1.5 (2019-02-28)
+===================
+
+Bug fix release
+
+Fix
+---
+
+- Fix #6: Use :func:`inspect.isroutine` to check if the wrapped object is a user-defined or built-in function or method.
+
+Other
+-----
+
+- Upgrade Tox configuration to add support for Python 3.7.
+  Also, fix PyTest version for Python 2.7 and 3.4 (limited support).
+  Remove dependency 'requests[security]': useless to build documentation.
+
+- Upgrade project configuration (``setup.py``) to add support for Python 3.7.
 
 
 v1.1.4 (2018-11-03)

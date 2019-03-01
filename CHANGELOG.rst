@@ -18,6 +18,18 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
       (only in comment or documentation).
 
 
+v1.2.6 (unreleased)
+===================
+
+Bug fix release
+
+Other
+-----
+
+- Upgrade project configuration (``setup.py``) to add the *project_urls* property:
+  Documentation, Source and Bug Tracker URLs.
+
+
 v1.2.5 (2019-02-28)
 ===================
 

@@ -145,6 +145,10 @@ setup(
     name='Deprecated',
     version='1.2.5',
     url='https://github.com/tantale/deprecated',
+    project_urls={
+        "Documentation": "https://deprecated.readthedocs.io/en/latest/",
+        "Source": "https://github.com/tantale/deprecated",
+        "Bug Tracker": "https://github.com/tantale/deprecated/issues"},
     license='MIT',
     author='Laurent LAPORTE',  # since v1.1.0
     author_email='tantale.solutions@gmail.com',

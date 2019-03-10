@@ -170,7 +170,7 @@ Bug fix release
 Fix
 ---
 
-- Fix #4: Correct the function :funct:`~deprecated.deprecated`:
+- Fix #4: Correct the function :func:`~deprecated.deprecated`:
   Don't pass arguments to :meth:`object.__new__` (other than *cls*).
 
 Other

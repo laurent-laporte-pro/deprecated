@@ -169,7 +169,11 @@ texinfo_documents = [
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'https://docs.python.org/3/': None,
-                       'http://wrapt.readthedocs.io/en/latest/': None}
+                       'https://wrapt.readthedocs.io/en/latest/': None,
+                       'http://flask.pocoo.org/docs/1.0/': None,
+                       'django': ('https://docs.djangoproject.com/en/2.1/',
+                                  'https://docs.djangoproject.com/en/2.1/_objects/'),
+                       }
 
 # -- Options for EPub output -------------------------------------------
 

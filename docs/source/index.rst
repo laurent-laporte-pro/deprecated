@@ -23,6 +23,7 @@ instructions for using Deprecated.
    installation
    introduction
    tutorial
+   white_paper
 
 
 API Reference

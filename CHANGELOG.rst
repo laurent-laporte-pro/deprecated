@@ -36,6 +36,9 @@ Other
 
 - Change the Tox configuration to test the library against different Wrapt versions.
 
+- Fix an issue with the AppVeyor build: upgrade setuptools version in ``appveyor.yml``,
+  change the Tox configuration: set ``py27,py34,py35: pip >= 9.0.3, < 19.2``.
+
 
 v1.2.5 (2019-02-28)
 ===================

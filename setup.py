@@ -143,7 +143,7 @@ from setuptools import setup
 
 setup(
     name='Deprecated',
-    version='1.2.5',
+    version='1.2.6',
     url='https://github.com/tantale/deprecated',
     project_urls={
         "Documentation": "https://deprecated.readthedocs.io/en/latest/",

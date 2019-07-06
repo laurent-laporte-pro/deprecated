@@ -29,6 +29,8 @@ Other
 - Upgrade project configuration (``setup.py``) to add the *project_urls* property:
   Documentation, Source and Bug Tracker URLs.
 
+- Change the Tox configuration to test the library against different Wrapt versions.
+
 
 v1.2.5 (2019-02-28)
 ===================

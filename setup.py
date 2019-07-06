@@ -157,7 +157,7 @@ setup(
     keywords='deprecate,deprecated,deprecation,warning,warn,decorator',
     packages=['deprecated'],
     install_requires=[
-        'wrapt < 2, >= 1',
+        'wrapt < 2, >= 1.10',
     ],
     zip_safe=False,
     include_package_data=True,

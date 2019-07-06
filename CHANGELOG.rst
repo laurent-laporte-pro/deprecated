@@ -23,6 +23,11 @@ v1.2.6 (unreleased)
 
 Bug fix release
 
+Fix
+---
+
+- Fix #9: Change the project's configuration: reinforce the constraint to the Wrapt requirement.
+
 Other
 -----
 

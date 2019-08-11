@@ -18,6 +18,18 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
       (only in comment or documentation).
 
 
+v1.2.7 (unreleased)
+===================
+
+Bug fix release
+
+Other
+-----
+
+- Support packit for Pull Request tests and sync to Fedora (thanks to Petr Hráček).
+  Supported since v1.2.6.
+
+
 v1.2.6 (2019-07-06)
 ===================
 

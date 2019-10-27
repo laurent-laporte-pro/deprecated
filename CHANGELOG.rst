@@ -29,6 +29,8 @@ Other
 - Support packit for Pull Request tests and sync to Fedora (thanks to Petr Hráček).
   Supported since v1.2.6.
 
+- Add `Black <https://black.readthedocs.io/en/latest/>`_ configuration file.
+
 
 v1.2.6 (2019-07-06)
 ===================

@@ -11,7 +11,6 @@ def with_metaclass(meta, *bases):
     # metaclass for one level of class instantiation that replaces itself with
     # the actual metaclass.
     class metaclass(type):
-
         def __new__(cls, name, this_bases, d):
             return meta(name, bases, d)
 
@@ -71,7 +70,6 @@ def test_with_metaclass():
 
     @deprecated.classic.deprecated
     class MyClass(with_metaclass(Meta)):
-
         def __init__(self, a, b=5):
             self.a = a
             self.b = b
@@ -98,7 +96,6 @@ def test_with_singleton_metaclass():
 
     @deprecated.classic.deprecated
     class MyClass(with_metaclass(Singleton)):
-
         def __init__(self, a, b=5):
             self.a = a
             self.b = b

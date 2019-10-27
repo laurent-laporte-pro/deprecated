@@ -10,19 +10,21 @@ class MyDeprecationWarning(DeprecationWarning):
     pass
 
 
-_PARAMS = [None,
-           ((), {}),
-           (('Good reason',), {}),
-           ((), {'reason': 'Good reason'}),
-           ((), {'version': '1.2.3'}),
-           ((), {'action': 'once'}),
-           ((), {'category': MyDeprecationWarning}),
-           ]
+_PARAMS = [
+    None,
+    ((), {}),
+    (('Good reason',), {}),
+    ((), {'reason': 'Good reason'}),
+    ((), {'version': '1.2.3'}),
+    ((), {'action': 'once'}),
+    ((), {'category': MyDeprecationWarning}),
+]
 
 
 @pytest.fixture(scope="module", params=_PARAMS)
 def classic_deprecated_function(request):
     if request.param is None:
+
         @deprecated.classic.deprecated
         def foo1():
             pass
@@ -41,6 +43,7 @@ def classic_deprecated_function(request):
 @pytest.fixture(scope="module", params=_PARAMS)
 def classic_deprecated_class(request):
     if request.param is None:
+
         @deprecated.classic.deprecated
         class Foo2(object):
             pass
@@ -59,6 +62,7 @@ def classic_deprecated_class(request):
 @pytest.fixture(scope="module", params=_PARAMS)
 def classic_deprecated_method(request):
     if request.param is None:
+
         class Foo3(object):
             @deprecated.classic.deprecated
             def foo3(self):
@@ -79,6 +83,7 @@ def classic_deprecated_method(request):
 @pytest.fixture(scope="module", params=_PARAMS)
 def classic_deprecated_static_method(request):
     if request.param is None:
+
         class Foo4(object):
             @staticmethod
             @deprecated.classic.deprecated
@@ -101,6 +106,7 @@ def classic_deprecated_static_method(request):
 @pytest.fixture(scope="module", params=_PARAMS)
 def classic_deprecated_class_method(request):
     if request.param is None:
+
         class Foo5(object):
             @classmethod
             @deprecated.classic.deprecated

@@ -11,46 +11,64 @@ import pytest
 import deprecated.sphinx
 
 
-@pytest.fixture(scope="module",
-                params=[None,
-                        """This function adds *x* and *y*.""",
-                        """
-                        This function adds *x* and *y*.
+@pytest.fixture(
+    scope="module",
+    params=[
+        None,
+        """This function adds *x* and *y*.""",
+        """
+        This function adds *x* and *y*.
 
-                        :param x: number *x*
-                        :param y: number *y*
-                        :return: sum = *x* + *y*
-                        """])
+        :param x: number *x*
+        :param y: number *y*
+        :return: sum = *x* + *y*
+        """,
+    ],
+)
 def docstring(request):
     return request.param
 
 
-@pytest.fixture(scope="module",
-                params=['versionadded', 'versionchanged', 'deprecated'])
+@pytest.fixture(scope="module", params=['versionadded', 'versionchanged', 'deprecated'])
 def directive(request):
     return request.param
 
 
 # noinspection PyShadowingNames
-@pytest.mark.parametrize("reason, version, expected", [
-    ('A good reason',
-     '1.2.0',
-     textwrap.dedent("""\
+@pytest.mark.parametrize(
+    "reason, version, expected",
+    [
+        (
+            'A good reason',
+            '1.2.0',
+            textwrap.dedent(
+                """\
                      .. {directive}:: {version}
                         {reason}
-                     """)),
-    (None,
-     '1.2.0',
-     textwrap.dedent("""\
+                     """
+            ),
+        ),
+        (
+            None,
+            '1.2.0',
+            textwrap.dedent(
+                """\
                      .. {directive}:: {version}
-                     """)),
-    ('A good reason',
-     None,
-     textwrap.dedent("""\
+                     """
+            ),
+        ),
+        (
+            'A good reason',
+            None,
+            textwrap.dedent(
+                """\
                      .. {directive}::
                         {reason}
-                     """)),
-])
+                     """
+            ),
+        ),
+    ],
+)
 def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
     # The function:
     def foo(x, y):
@@ -77,46 +95,62 @@ def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
 
 
 # noinspection PyShadowingNames
-@pytest.mark.skipif(sys.version_info < (3, 3),
-                    reason="Classes should have mutable docstrings -- resolved in python 3.3")
-@pytest.mark.parametrize("reason, version, expected", [
-    ('A good reason',
-     '1.2.0',
-     textwrap.dedent("""\
+@pytest.mark.skipif(
+    sys.version_info < (3, 3), reason="Classes should have mutable docstrings -- resolved in python 3.3"
+)
+@pytest.mark.parametrize(
+    "reason, version, expected",
+    [
+        (
+            'A good reason',
+            '1.2.0',
+            textwrap.dedent(
+                """\
                      .. {directive}:: {version}
                         {reason}
-                     """)),
-    (None,
-     '1.2.0',
-     textwrap.dedent("""\
+                     """
+            ),
+        ),
+        (
+            None,
+            '1.2.0',
+            textwrap.dedent(
+                """\
                      .. {directive}:: {version}
-                     """)),
-    ('A good reason',
-     None,
-     textwrap.dedent("""\
+                     """
+            ),
+        ),
+        (
+            'A good reason',
+            None,
+            textwrap.dedent(
+                """\
                      .. {directive}::
                         {reason}
-                     """)),
-])
+                     """
+            ),
+        ),
+    ],
+)
 def test_cls_has_sphinx_docstring(docstring, directive, reason, version, expected):
     # The class:
     class Foo(object):
         pass
- 
+
     # with docstring:
     Foo.__doc__ = docstring
- 
+
     # is decorated with:
     decorator_factory = getattr(deprecated.sphinx, directive)
     decorator = decorator_factory(reason=reason, version=version)
     Foo = decorator(Foo)
- 
+
     # The class must contain this Sphinx docstring:
     expected = expected.format(directive=directive, version=version, reason=reason)
- 
+
     current = textwrap.dedent(Foo.__doc__)
     assert current.endswith(expected)
- 
+
     # An empty line must separate the original docstring and the directive.
     current = current.replace(expected, '')
     if current:
@@ -127,19 +161,21 @@ class MyDeprecationWarning(DeprecationWarning):
     pass
 
 
-_PARAMS = [None,
-           ((), {}),
-           (('Good reason',), {}),
-           ((), {'reason': 'Good reason'}),
-           ((), {'version': '1.2.3'}),
-           ((), {'action': 'once'}),
-           ((), {'category': MyDeprecationWarning}),
-           ]
+_PARAMS = [
+    None,
+    ((), {}),
+    (('Good reason',), {}),
+    ((), {'reason': 'Good reason'}),
+    ((), {'version': '1.2.3'}),
+    ((), {'action': 'once'}),
+    ((), {'category': MyDeprecationWarning}),
+]
 
 
 @pytest.fixture(scope="module", params=_PARAMS)
 def sphinx_deprecated_function(request):
     if request.param is None:
+
         @deprecated.sphinx.deprecated
         def foo1():
             pass
@@ -158,6 +194,7 @@ def sphinx_deprecated_function(request):
 @pytest.fixture(scope="module", params=_PARAMS)
 def sphinx_deprecated_class(request):
     if request.param is None:
+
         @deprecated.sphinx.deprecated
         class Foo2(object):
             pass
@@ -176,6 +213,7 @@ def sphinx_deprecated_class(request):
 @pytest.fixture(scope="module", params=_PARAMS)
 def sphinx_deprecated_method(request):
     if request.param is None:
+
         class Foo3(object):
             @deprecated.sphinx.deprecated
             def foo3(self):
@@ -196,6 +234,7 @@ def sphinx_deprecated_method(request):
 @pytest.fixture(scope="module", params=_PARAMS)
 def sphinx_deprecated_static_method(request):
     if request.param is None:
+
         class Foo4(object):
             @staticmethod
             @deprecated.sphinx.deprecated
@@ -218,6 +257,7 @@ def sphinx_deprecated_static_method(request):
 @pytest.fixture(scope="module", params=_PARAMS)
 def sphinx_deprecated_class_method(request):
     if request.param is None:
+
         class Foo5(object):
             @classmethod
             @deprecated.sphinx.deprecated
@@ -249,8 +289,9 @@ def test_sphinx_deprecated_function__warns(sphinx_deprecated_function):
 
 
 # noinspection PyShadowingNames
-@pytest.mark.skipif(sys.version_info < (3, 3),
-                    reason="Classes should have mutable docstrings -- resolved in python 3.3")
+@pytest.mark.skipif(
+    sys.version_info < (3, 3), reason="Classes should have mutable docstrings -- resolved in python 3.3"
+)
 def test_sphinx_deprecated_class__warns(sphinx_deprecated_class):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")

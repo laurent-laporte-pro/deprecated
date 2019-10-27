@@ -31,11 +31,13 @@
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc',
-              'sphinx.ext.doctest',
-              'sphinx.ext.intersphinx',
-              'sphinx.ext.coverage',
-              'sphinx.ext.githubpages']
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.doctest',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.coverage',
+    'sphinx.ext.githubpages',
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -143,18 +145,14 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'Deprecated.tex', 'Deprecated Documentation',
-     'Marcos CARDOSO and Laurent LAPORTE', 'manual'),
+    (master_doc, 'Deprecated.tex', 'Deprecated Documentation', 'Marcos CARDOSO and Laurent LAPORTE', 'manual')
 ]
 
 # -- Options for manual page output ---------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    (master_doc, 'deprecated', 'Deprecated Documentation',
-     [author], 1)
-]
+man_pages = [(master_doc, 'deprecated', 'Deprecated Documentation', [author], 1)]
 
 # -- Options for Texinfo output -------------------------------------------
 
@@ -162,18 +160,24 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Deprecated', 'Deprecated Documentation',
-     author, 'Deprecated', 'Python @deprecated decorator to deprecate old python classes, functions or methods.',
-     'Miscellaneous'),
+    (
+        master_doc,
+        'Deprecated',
+        'Deprecated Documentation',
+        author,
+        'Deprecated',
+        'Python @deprecated decorator to deprecate old python classes, functions or methods.',
+        'Miscellaneous',
+    )
 ]
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/3/': None,
-                       'https://wrapt.readthedocs.io/en/latest/': None,
-                       'http://flask.pocoo.org/docs/1.0/': None,
-                       'django': ('https://docs.djangoproject.com/en/2.1/',
-                                  'https://docs.djangoproject.com/en/2.1/_objects/'),
-                       }
+intersphinx_mapping = {
+    'https://docs.python.org/3/': None,
+    'https://wrapt.readthedocs.io/en/latest/': None,
+    'http://flask.pocoo.org/docs/1.0/': None,
+    'django': ('https://docs.djangoproject.com/en/2.1/', 'https://docs.djangoproject.com/en/2.1/_objects/'),
+}
 
 # -- Options for EPub output -------------------------------------------
 
@@ -182,9 +186,8 @@ epub_theme = 'epub'
 epub_theme_options = {
     # relbar1: If this is true, the relbar1 block is inserted in the epub output, otherwise it is omitted.
     'relbar1': False,
-
     # footer: If this is true, the footer block is inserted in the epub output, otherwise it is omitted.
-    'footer': False
+    'footer': False,
 }
 epub_title = "Python Deprecated Library v1.2 Documentation"
 epub_description = "Python @deprecated decorator to deprecate old python classes, functions or methods."

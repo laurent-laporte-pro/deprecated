@@ -122,9 +122,7 @@ class ClassicAdapter(wrapt.AdapterFactory):
             fmt += " ({reason})"
         if self.version:
             fmt += " -- Deprecated since version {version}."
-        return fmt.format(name=wrapped.__name__,
-                          reason=self.reason or "",
-                          version=self.version or "")
+        return fmt.format(name=wrapped.__name__, reason=self.reason or "", version=self.version or "")
 
     def __call__(self, wrapped):
         """

@@ -82,8 +82,9 @@ class SphinxAdapter(ClassicAdapter):
         :return: the decorated class or function.
         """
         reason = textwrap.dedent(self.reason).strip()
-        reason = '\n'.join(textwrap.fill(line, width=70, initial_indent='   ', subsequent_indent='   ')
-                           for line in reason.splitlines()).strip()
+        reason = '\n'.join(
+            textwrap.fill(line, width=70, initial_indent='   ', subsequent_indent='   ') for line in reason.splitlines()
+        ).strip()
         docstring = textwrap.dedent(wrapped.__doc__ or "")
         if docstring:
             docstring += "\n\n"
@@ -180,7 +181,4 @@ def deprecated(*args, **kwargs):
     """
     directive = kwargs.pop('directive', 'deprecated')
     adapter_cls = kwargs.pop('adapter_cls', SphinxAdapter)
-    return _classic_deprecated(*args,
-                               directive=directive,
-                               adapter_cls=adapter_cls,
-                               **kwargs)
+    return _classic_deprecated(*args, directive=directive, adapter_cls=adapter_cls, **kwargs)

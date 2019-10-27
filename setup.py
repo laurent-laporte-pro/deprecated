@@ -148,7 +148,8 @@ setup(
     project_urls={
         "Documentation": "https://deprecated.readthedocs.io/en/latest/",
         "Source": "https://github.com/tantale/deprecated",
-        "Bug Tracker": "https://github.com/tantale/deprecated/issues"},
+        "Bug Tracker": "https://github.com/tantale/deprecated/issues",
+    },
     license='MIT',
     author='Laurent LAPORTE',  # since v1.1.0
     author_email='tantale.solutions@gmail.com',
@@ -156,9 +157,7 @@ setup(
     long_description=__doc__,
     keywords='deprecate,deprecated,deprecation,warning,warn,decorator',
     packages=['deprecated'],
-    install_requires=[
-        'wrapt < 2, >= 1.10',
-    ],
+    install_requires=['wrapt < 2, >= 1.10'],
     zip_safe=False,
     include_package_data=True,
     platforms='any',
@@ -176,7 +175,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
-        'Topic :: Software Development :: Libraries :: Python Modules'
+        'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     extras_require={
         'dev': [
@@ -187,8 +186,7 @@ setup(
             'PyTest-Cov < 2.6   ; python_version < "3"',
             'bumpversion < 1',
             'sphinx < 2',
-        ],
+        ]
     },
-
     python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',
 )

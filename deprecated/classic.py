@@ -12,6 +12,16 @@ import warnings
 
 import wrapt
 
+try:
+    # If the c extension for wrapt was compiled and wrapt/_wrappers.pyd exists, then the
+    # stack level that should be passed to warnings.warn should be 2. However, if using
+    # a pure python wrapt, a extra stacklevel is required.
+    import wrapt._wrappers
+    _stacklevel = 2
+except ImportError:
+    _stacklevel = 3
+
+
 string_types = (type(b''), type(u''))
 
 
@@ -227,7 +237,7 @@ def deprecated(*args, **kwargs):
                 msg = adapter.get_deprecated_msg(wrapped_, instance_)
                 with warnings.catch_warnings():
                     warnings.simplefilter(action, category)
-                    warnings.warn(msg, category=category, stacklevel=2)
+                    warnings.warn(msg, category=category, stacklevel=_stacklevel)
                 return wrapped_(*args_, **kwargs_)
 
             return wrapper_function(wrapped)

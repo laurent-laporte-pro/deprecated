@@ -23,6 +23,12 @@ v1.2.7 (unreleased)
 
 Bug fix release
 
+Fix
+---
+
+- Warning displays the correct filename and line number when decorating a function if wrapt
+  does not have the compiled c extension.
+
 Other
 -----
 

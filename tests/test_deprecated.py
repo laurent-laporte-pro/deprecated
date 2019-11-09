@@ -135,6 +135,7 @@ def test_classic_deprecated_function__warns(classic_deprecated_function):
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
     assert "deprecated function (or staticmethod)" in str(warn.message)
+    assert warn.filename == __file__, 'Incorrect warning stackLevel'
 
 
 # noinspection PyShadowingNames
@@ -146,6 +147,7 @@ def test_classic_deprecated_class__warns(classic_deprecated_class):
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
     assert "deprecated class" in str(warn.message)
+    assert warn.filename == __file__, 'Incorrect warning stackLevel'
 
 
 # noinspection PyShadowingNames
@@ -158,6 +160,7 @@ def test_classic_deprecated_method__warns(classic_deprecated_method):
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
     assert "deprecated method" in str(warn.message)
+    assert warn.filename == __file__, 'Incorrect warning stackLevel'
 
 
 # noinspection PyShadowingNames
@@ -169,6 +172,7 @@ def test_classic_deprecated_static_method__warns(classic_deprecated_static_metho
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
     assert "deprecated function (or staticmethod)" in str(warn.message)
+    assert warn.filename == __file__, 'Incorrect warning stackLevel'
 
 
 # noinspection PyShadowingNames
@@ -181,6 +185,7 @@ def test_classic_deprecated_class_method__warns(classic_deprecated_class_method)
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
     assert "deprecated function (or staticmethod)" in str(warn.message)
+    assert warn.filename == __file__, 'Incorrect warning stackLevel'
 
 
 def test_should_raise_type_error():

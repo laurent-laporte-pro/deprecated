@@ -23,6 +23,14 @@ v1.2.8 (unreleased)
 
 Bug fix release
 
+Fix
+---
+
+- Fix #15: The ``@deprecated`` decorator doesn't set a warning filter if the *action* keyword argument is
+  not provided or ``None``. In consequences, the warning messages are only emitted if the global filter allow it.
+  For more information, see `The Warning Filter <https://docs.python.org/3/library/warnings.html#the-warnings-filter>`_
+  in the Python documentation.
+
 
 v1.2.7 (2019-11-11)
 ===================

@@ -241,3 +241,15 @@ def test_specific_warning_cls_is_used():
         foo()
     warn = warns[0]
     assert issubclass(warn.category, MyDeprecationWarning)
+
+
+def test_respect_global_filter():
+    @deprecated.classic.deprecated(version='1.2.1', reason="deprecated function")
+    def fun():
+        print("fun")
+
+    warnings.simplefilter("ignore", category=DeprecationWarning)
+
+    with warnings.catch_warnings(record=True) as warns:
+        fun()
+    assert len(warns) == 0

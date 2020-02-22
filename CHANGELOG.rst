@@ -38,6 +38,12 @@ Documentation
   custom warning categories and local filtering (warning filtering at function call).
 
 
+Other
+-----
+
+- Change the Tox configuration to test the library with Wrapt 1.12.x.
+
+
 v1.2.7 (2019-11-11)
 ===================
 

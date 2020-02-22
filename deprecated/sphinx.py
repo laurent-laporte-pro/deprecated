@@ -40,7 +40,7 @@ class SphinxAdapter(ClassicAdapter):
     - The reason message is obviously added in the directive block if not empty.
     """
 
-    def __init__(self, directive, reason="", version="", action='always', category=DeprecationWarning):
+    def __init__(self, directive, reason="", version="", action=None, category=DeprecationWarning):
         """
         Construct a wrapper adapter.
 
@@ -62,7 +62,8 @@ class SphinxAdapter(ClassicAdapter):
         :param action:
             A warning filter used to activate or not the deprecation warning.
             Can be one of "error", "ignore", "always", "default", "module", or "once".
-            By default the deprecation warning is always emitted (the value is "always").
+            If ``None`` or empty, the the global filtering mechanism is used.
+            See: `The Warnings Filter`_ in the Python documentation.
 
         :type  category: type
         :param category:

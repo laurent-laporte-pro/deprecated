@@ -5,6 +5,7 @@ Classic deprecation warning
 
 Classic ``@deprecated`` decorator to deprecate old python classes, functions or methods.
 
+.. _The Warnings Filter: https://docs.python.org/3/library/warnings.html#the-warnings-filter
 """
 import functools
 import inspect
@@ -76,7 +77,7 @@ class ClassicAdapter(wrapt.AdapterFactory):
            return x + y
     """
 
-    def __init__(self, reason="", version="", action='always', category=DeprecationWarning):
+    def __init__(self, reason="", version="", action=None, category=DeprecationWarning):
         """
         Construct a wrapper adapter.
 
@@ -94,7 +95,8 @@ class ClassicAdapter(wrapt.AdapterFactory):
         :param action:
             A warning filter used to activate or not the deprecation warning.
             Can be one of "error", "ignore", "always", "default", "module", or "once".
-            By default the deprecation warning is always emitted (the value is "always").
+            If ``None`` or empty, the the global filtering mechanism is used.
+            See: `The Warnings Filter`_ in the Python documentation.
 
         :type  category: type
         :param category:
@@ -144,6 +146,9 @@ class ClassicAdapter(wrapt.AdapterFactory):
 
         .. versionchanged:: 1.2.4
            Don't pass arguments to :meth:`object.__new__` (other than *cls*).
+
+        .. versionchanged:: 1.2.8
+           The warning filter is not set if the *action* parameter is ``None`` or empty.
         """
         if inspect.isclass(wrapped):
             old_new1 = wrapped.__new__
@@ -151,7 +156,8 @@ class ClassicAdapter(wrapt.AdapterFactory):
             def wrapped_cls(cls, *args, **kwargs):
                 msg = self.get_deprecated_msg(wrapped, None)
                 with warnings.catch_warnings():
-                    warnings.simplefilter(self.action, self.category)
+                    if self.action:
+                        warnings.simplefilter(self.action, self.category)
                     warnings.warn(msg, category=self.category, stacklevel=2)
                 if old_new1 is object.__new__:
                     return old_new1(cls)
@@ -199,8 +205,8 @@ def deprecated(*args, **kwargs):
        class SomeOldClass(object):
            pass
 
-    You can give a "reason" message to help the developer to choose another function/class,
-    and a "version" number to specify the starting version number of the deprecation.
+    You can give a *reason* message to help the developer to choose another function/class,
+    and a *version* number to specify the starting version number of the deprecation.
 
     .. code-block:: python
 

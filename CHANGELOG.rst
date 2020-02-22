@@ -31,6 +31,12 @@ Fix
   For more information, see `The Warning Filter <https://docs.python.org/3/library/warnings.html#the-warnings-filter>`_
   in the Python documentation.
 
+Documentation
+-------------
+
+- The :ref:`api` documentation and the :ref:`tutorial` is improved to explain how to use
+  custom warning categories and local filtering (warning filtering at function call).
+
 
 v1.2.7 (2019-11-11)
 ===================

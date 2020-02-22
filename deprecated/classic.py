@@ -217,6 +217,33 @@ def deprecated(*args, **kwargs):
        def some_old_function(x, y):
            return x + y
 
+    The *category* keyword argument allow you to specify the deprecation warning class of your choice.
+    By default, :exc:`DeprecationWarning` is ued but you can choose :exc:`FutureWarning`,
+    :exc:`PendingDeprecationWarning` or a custom subclass.
+
+    .. code-block:: python
+
+       from deprecated import deprecated
+
+
+       @deprecated(category=PendingDeprecationWarning)
+       def some_old_function(x, y):
+           return x + y
+
+    The *action* keyword argument allow you to locally change the warning filtering.
+    *action* can be one of "error", "ignore", "always", "default", "module", or "once".
+    If ``None`` or empty, the the global filtering mechanism is used.
+    See: `The Warnings Filter`_ in the Python documentation.
+
+    .. code-block:: python
+
+       from deprecated import deprecated
+
+
+       @deprecated(action="error")
+       def some_old_function(x, y):
+           return x + y
+
     """
     if args and isinstance(args[0], string_types):
         kwargs['reason'] = args[0]

@@ -121,3 +121,124 @@ As a reminder, the magic method ``__new__`` will be called when instance is bein
 Using this method you can customize the instance creation.
 the :func:`~deprecated.deprecated` decorator patches the ``__new__`` method in order to
 emmit the warning message before instance creation.
+
+
+Controlling warnings
+--------------------
+
+.. _Python warning control: https://docs.python.org/3/library/warnings.html
+.. _-W: https://docs.python.org/3/using/cmdline.html#cmdoption-w
+.. _PYTHONWARNINGS: https://docs.python.org/3/using/cmdline.html#envvar-PYTHONWARNINGS
+
+Warnings are emitted using the `Python warning control`_. By default, Python installs several warning filters,
+which can be overridden by the `-W`_ command-line option, the `PYTHONWARNINGS`_ environment variable and
+calls to :func:`warnings.filterwarnings`. The warnings filter controls whether warnings are ignored, displayed,
+or turned into errors (raising an exception).
+
+For instance:
+
+.. literalinclude:: tutorial/warning_ctrl/filter_warnings_demo.py
+
+When the user runs this script, the deprecation warnings are ignored in the main program,
+so no warning message are emitted:
+
+.. code-block:: sh
+
+   $ python filter_warnings_demo.py
+
+   fun
+
+
+Deprecation warning classes
+---------------------------
+
+The :func:`deprecated.classic.deprecated` and :func:`deprecated.sphinx.deprecated` functions
+are using the :exc:`DeprecationWarning` category but you can customize them by using your own category
+(or hierarchy of categories).
+
+* *category* classes which you can use (among other) are:
+
+  +----------------------------------+-----------------------------------------------+
+  | Class                            | Description                                   |
+  +==================================+===============================================+
+  | :exc:`DeprecationWarning`        | Base category for warnings about deprecated   |
+  |                                  | features when those warnings are intended for |
+  |                                  | other Python developers (ignored by default,  |
+  |                                  | unless triggered by code in ``__main__``).    |
+  +----------------------------------+-----------------------------------------------+
+  | :exc:`FutureWarning`             | Base category for warnings about deprecated   |
+  |                                  | features when those warnings are intended for |
+  |                                  | end users of applications that are written in |
+  |                                  | Python.                                       |
+  +----------------------------------+-----------------------------------------------+
+  | :exc:`PendingDeprecationWarning` | Base category for warnings about features     |
+  |                                  | that will be deprecated in the future         |
+  |                                  | (ignored by default).                         |
+  +----------------------------------+-----------------------------------------------+
+
+You can define your own deprecation warning hierarchy based on the standard deprecation classes.
+
+For instance:
+
+.. literalinclude:: tutorial/warning_ctrl/warning_classes_demo.py
+
+When the user runs this script, the deprecation warnings for the 3.0 version are ignored:
+
+.. code-block:: sh
+
+   $ python warning_classes_demo.py
+
+    foo
+    bar
+    warning_classes_demo.py:30: DeprecatedIn26: Call to deprecated function (or staticmethod) foo. (deprecated function)
+      foo()
+
+
+Filtering warnings locally
+--------------------------
+
+The :func:`deprecated.classic.deprecated` and :func:`deprecated.sphinx.deprecated` functions
+can change the warning filtering locally (at function calls).
+
+* *action* is one of the following strings:
+
+  +---------------+----------------------------------------------+
+  | Value         | Disposition                                  |
+  +===============+==============================================+
+  | ``"default"`` | print the first occurrence of matching       |
+  |               | warnings for each location (module +         |
+  |               | line number) where the warning is issued     |
+  +---------------+----------------------------------------------+
+  | ``"error"``   | turn matching warnings into exceptions       |
+  +---------------+----------------------------------------------+
+  | ``"ignore"``  | never print matching warnings                |
+  +---------------+----------------------------------------------+
+  | ``"always"``  | always print matching warnings               |
+  +---------------+----------------------------------------------+
+  | ``"module"``  | print the first occurrence of matching       |
+  |               | warnings for each module where the warning   |
+  |               | is issued (regardless of line number)        |
+  +---------------+----------------------------------------------+
+  | ``"once"``    | print only the first occurrence of matching  |
+  |               | warnings, regardless of location             |
+  +---------------+----------------------------------------------+
+
+You can define the *action* keyword parameter to override the filtering warnings locally.
+
+For instance:
+
+.. literalinclude:: tutorial/warning_ctrl/filter_action_demo.py
+
+In this example, even if the global filter is set to "ignore", a call to the ``foo()``
+function will raise an exception because the *action* is set to "error".
+
+.. code-block:: sh
+
+   $ python filter_action_demo.py
+
+   Traceback (most recent call last):
+     File "filter_action_demo.py", line 12, in <module>
+       foo()
+     File "deprecated/classic.py", line 241, in wrapper_function
+       warnings.warn(msg, category=category, stacklevel=_stacklevel)
+   DeprecationWarning: Call to deprecated function (or staticmethod) foo. (do not call it)

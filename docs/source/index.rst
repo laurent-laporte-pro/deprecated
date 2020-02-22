@@ -1,7 +1,7 @@
 Welcome to Deprecated
 =====================
 
-.. image:: _static/logo-full.png
+.. image:: _static/banner.png
    :alt: Deprecated: When once-stable features are removed in upcoming releases
 
 Welcome to Deprecated’s Documentation.

@@ -232,7 +232,7 @@ def deprecated(*args, **kwargs):
 
     The *action* keyword argument allow you to locally change the warning filtering.
     *action* can be one of "error", "ignore", "always", "default", "module", or "once".
-    If ``None`` or empty, the the global filtering mechanism is used.
+    If ``None``, empty or missing, the the global filtering mechanism is used.
     See: `The Warnings Filter`_ in the Python documentation.
 
     .. code-block:: python

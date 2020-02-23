@@ -171,7 +171,7 @@ def deprecated(*args, **kwargs):
     -   "action":
         A warning filter used to activate or not the deprecation warning.
         Can be one of "error", "ignore", "always", "default", "module", or "once".
-        By default the deprecation warning is always emitted (the value is "always").
+        If ``None``, empty or missing, the the global filtering mechanism is used.
 
     -   "category":
         The warning category to use for the deprecation warning.

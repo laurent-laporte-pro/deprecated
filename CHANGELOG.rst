@@ -31,6 +31,9 @@ Fix
   For more information, see `The Warning Filter <https://docs.python.org/3/library/warnings.html#the-warnings-filter>`_
   in the Python documentation.
 
+- Fix #13: Warning displays the correct filename and line number when decorating a class if wrapt
+  does not have the compiled c extension.
+
 Documentation
 -------------
 
@@ -55,7 +58,7 @@ Bug fix release
 Fix
 ---
 
-- Warning displays the correct filename and line number when decorating a function if wrapt
+- Fix #13: Warning displays the correct filename and line number when decorating a function if wrapt
   does not have the compiled c extension.
 
 Other

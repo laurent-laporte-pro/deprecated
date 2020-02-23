@@ -18,10 +18,10 @@ try:
     # stack level that should be passed to warnings.warn should be 2. However, if using
     # a pure python wrapt, a extra stacklevel is required.
     import wrapt._wrappers
+
     _stacklevel = 2
 except ImportError:
     _stacklevel = 3
-
 
 string_types = (type(b''), type(u''))
 
@@ -158,7 +158,7 @@ class ClassicAdapter(wrapt.AdapterFactory):
                 with warnings.catch_warnings():
                     if self.action:
                         warnings.simplefilter(self.action, self.category)
-                    warnings.warn(msg, category=self.category, stacklevel=2)
+                    warnings.warn(msg, category=self.category, stacklevel=_stacklevel)
                 if old_new1 is object.__new__:
                     return old_new1(cls)
                 # actually, we don't know the real signature of *old_new1*

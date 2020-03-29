@@ -29,10 +29,10 @@ If the user tries to use the deprecated functions, he will have a warning for ea
 
    $ python use_liberty.py
 
-   using_liberty.py:4: DeprecationWarning: Call to deprecated function print_value.
+   using_liberty.py:4: DeprecationWarning: Call to deprecated function (or staticmethod) print_value.
      liberty.print_value("hello")
    'hello'
-   using_liberty.py:5: DeprecationWarning: Call to deprecated function print_value.
+   using_liberty.py:5: DeprecationWarning: Call to deprecated function (or staticmethod) print_value.
      liberty.print_value("hello again")
    'hello again'
    'Hi Tom!'
@@ -52,10 +52,10 @@ When the user calls the deprecated functions, he will have a more useful message
 
    $ python use_liberty.py
 
-   using_liberty.py:4: DeprecationWarning: Call to deprecated function print_value (This function is rotten, use 'better_print' instead).
+   using_liberty.py:4: DeprecationWarning: Call to deprecated function (or staticmethod) print_value. (This function is rotten, use 'better_print' instead)
      liberty.print_value("hello")
    'hello'
-   using_liberty.py:5: DeprecationWarning: Call to deprecated function print_value (This function is rotten, use 'better_print' instead).
+   using_liberty.py:5: DeprecationWarning: Call to deprecated function (or staticmethod) print_value. (This function is rotten, use 'better_print' instead)
      liberty.print_value("hello again")
    'hello again'
    'Hi Tom!'
@@ -78,10 +78,10 @@ He will have:
 
    $ python use_liberty.py
 
-   using_liberty.py:5: DeprecationWarning: Call to deprecated function print_value (This method is rotten, use 'better_print' instead).
+   using_liberty.py:5: DeprecationWarning: Call to deprecated method print_value. (This method is rotten, use 'better_print' instead)
      obj.print_value()
    'Greeting'
-   using_liberty.py:6: DeprecationWarning: Call to deprecated function print_value (This method is rotten, use 'better_print' instead).
+   using_liberty.py:6: DeprecationWarning: Call to deprecated method print_value. (This method is rotten, use 'better_print' instead)
      obj.print_value()
    'Greeting'
    'Greeting'
@@ -109,7 +109,7 @@ Once the object is initialised, no more warning are emitted.
 
    $ python use_liberty.py
 
-   using_liberty.py:4: DeprecationWarning: Call to deprecated class Liberty (This class is not perfect).
+   using_liberty.py:4: DeprecationWarning: Call to deprecated class Liberty. (This class is not perfect)
      obj = liberty.Liberty("Salutation")
    'Salutation'
    'Salutation'
@@ -239,6 +239,6 @@ function will raise an exception because the *action* is set to "error".
    Traceback (most recent call last):
      File "filter_action_demo.py", line 12, in <module>
        foo()
-     File "deprecated/classic.py", line 241, in wrapper_function
+     File "path/to/deprecated/classic.py", line 274, in wrapper_function
        warnings.warn(msg, category=category, stacklevel=_stacklevel)
    DeprecationWarning: Call to deprecated function (or staticmethod) foo. (do not call it)

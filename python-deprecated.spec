@@ -42,8 +42,8 @@ rm -rf %{pkgname}.egg-info
 
 
 %changelog
-* Fri Jul 26 2019 Petr Hracek <phracek@redhat.com> - 1.2.9-2
+* Fri Jul 26 2019 Petr Hracek <phracek@redhat.com> - 1.2.6-2
 - Fix python3_sitelib issue
 
-* Fri Jul 26 2019 Petr Hracek <phracek@redhat.com> - 1.2.9-1
+* Fri Jul 26 2019 Petr Hracek <phracek@redhat.com> - 1.2.6-1
 - Initial package

@@ -8,6 +8,8 @@ include .coveragerc
 include .editorconfig
 
 include *.rst
+include *.spec
+include *.yaml
 include *.yml
 include Makefile
 include tox.ini

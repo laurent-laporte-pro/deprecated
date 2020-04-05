@@ -59,7 +59,7 @@ def some_old_function(x, y):
 ## Authors
 
 The authors of this library are:
-[Marcos CARDOSO](https://github.com/tantale), and
+[Marcos CARDOSO](https://github.com/vrcmarcos), and
 [Laurent LAPORTE](https://github.com/tantale).
 
 The original code was made in [this StackOverflow post](https://stackoverflow.com/questions/2536307) by

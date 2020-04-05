@@ -2,7 +2,7 @@
 %global pkgname deprecated
 
 Name:           python-%{pkgname}
-Version:        1.2.8
+Version:        1.2.9
 Release:        2%{?dist}
 Summary:        Python decorator to deprecate old python classes, functions or methods
 License:        MIT
@@ -42,8 +42,8 @@ rm -rf %{pkgname}.egg-info
 
 
 %changelog
-* Fri Jul 26 2019 Petr Hracek <phracek@redhat.com> - 1.2.8-2
+* Fri Jul 26 2019 Petr Hracek <phracek@redhat.com> - 1.2.9-2
 - Fix python3_sitelib issue
 
-* Fri Jul 26 2019 Petr Hracek <phracek@redhat.com> - 1.2.8-1
+* Fri Jul 26 2019 Petr Hracek <phracek@redhat.com> - 1.2.9-1
 - Initial package

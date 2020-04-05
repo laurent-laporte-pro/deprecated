@@ -18,6 +18,12 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
       (only in comment or documentation).
 
 
+v1.2.9 (unreleased)
+===================
+
+Bug fix release
+
+
 v1.2.8 (2020-04-05)
 ===================
 

@@ -40,8 +40,10 @@ Documentation
 - The :ref:`api` documentation and the :ref:`tutorial` is improved to explain how to use
   custom warning categories and local filtering (warning filtering at function call).
 
-- Fix #17: Customize the sidebar to add links to the documentation, to the source in GitHub and to the Bug tracker.
+- Fix #17: Customize the sidebar to add links to the documentation to the source in GitHub and to the Bug tracker.
   Add a logo in the sidebar and change the logo in the main page to see the library version.
+
+- Add a detailed documentation about :ref:`sphinx_deco`.
 
 
 Other

@@ -23,6 +23,7 @@ instructions for using Deprecated.
    installation
    introduction
    tutorial
+   sphinx_deco
    white_paper
 
 

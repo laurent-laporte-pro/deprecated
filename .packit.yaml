@@ -9,15 +9,15 @@ jobs:
 - job: propose_downstream
   trigger: release
   metadata:
-    dist_git_branch: master
+    dist-git-branch: master
 - job: propose_downstream
   trigger: release
   metadata:
-    dist_git_branch: f30
+    dist-git-branch: f30
 - job: propose_downstream
   trigger: release
   metadata:
-    dist_git_branch: f29
+    dist-git-branch: f29
 - job: copr_build
   trigger: pull_request
   metadata:

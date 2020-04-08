@@ -28,6 +28,8 @@ Fix
 
 - Fix #20: Set the :func:`warnings.warn` stacklevel to 2 if the Python implementation is `PyPy <https://www.pypy.org/>`_.
 
+- Fix packit configuration: use ``dist-git-branch: fedora-all``.
+
 Other
 -----
 
@@ -60,6 +62,7 @@ Documentation
   Add a logo in the sidebar and change the logo in the main page to see the library version.
 
 - Add a detailed documentation about :ref:`sphinx_deco`.
+
 
 Other
 -----

@@ -155,6 +155,7 @@ setup(
     author_email='tantale.solutions@gmail.com',
     description='Python @deprecated decorator to deprecate old python classes, functions or methods.',
     long_description=__doc__,
+    long_description_content_type="text/x-rst",
     keywords='deprecate,deprecated,deprecation,warning,warn,decorator',
     packages=['deprecated'],
     install_requires=['wrapt < 2, >= 1.10'],

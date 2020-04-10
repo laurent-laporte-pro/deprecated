@@ -10,18 +10,24 @@ Classic ``@deprecated`` decorator to deprecate old python classes, functions or 
 import functools
 import inspect
 import warnings
+import platform
 
 import wrapt
 
 try:
-    # If the c extension for wrapt was compiled and wrapt/_wrappers.pyd exists, then the
+    # If the C extension for wrapt was compiled and wrapt/_wrappers.pyd exists, then the
     # stack level that should be passed to warnings.warn should be 2. However, if using
     # a pure python wrapt, a extra stacklevel is required.
     import wrapt._wrappers
 
-    _stacklevel = 2
+    _routine_stacklevel = 2
+    _class_stacklevel = 2
 except ImportError:
-    _stacklevel = 3
+    _routine_stacklevel = 3
+    if platform.python_implementation() == "PyPy":
+        _class_stacklevel = 2
+    else:
+        _class_stacklevel = 3
 
 string_types = (type(b''), type(u''))
 
@@ -158,13 +164,13 @@ class ClassicAdapter(wrapt.AdapterFactory):
                 with warnings.catch_warnings():
                     if self.action:
                         warnings.simplefilter(self.action, self.category)
-                    warnings.warn(msg, category=self.category, stacklevel=_stacklevel)
+                    warnings.warn(msg, category=self.category, stacklevel=_class_stacklevel)
                 if old_new1 is object.__new__:
                     return old_new1(cls)
                 # actually, we don't know the real signature of *old_new1*
-                return old_new1(*args, **kwargs)
+                return old_new1(cls, *args, **kwargs)
 
-            wrapped.__new__ = classmethod(wrapped_cls)
+            wrapped.__new__ = staticmethod(wrapped_cls)
 
         return wrapped
 
@@ -271,7 +277,7 @@ def deprecated(*args, **kwargs):
                 with warnings.catch_warnings():
                     if action:
                         warnings.simplefilter(action, category)
-                    warnings.warn(msg, category=category, stacklevel=_stacklevel)
+                    warnings.warn(msg, category=category, stacklevel=_routine_stacklevel)
                 return wrapped_(*args_, **kwargs_)
 
             return wrapper_function(wrapped)

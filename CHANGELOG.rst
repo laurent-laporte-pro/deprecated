@@ -23,10 +23,16 @@ v1.2.9 (unreleased)
 
 Bug fix release
 
+Fix
+---
+
+- Fix #20: Set the :func:`warnings.warn` stacklevel to 2 if the Python implementation is `PyPy <https://www.pypy.org/>`_.
+
 Other
 -----
 
 - Change the Tox configuration to run tests on PyPy v2.7 and 3.6.
+
 
 v1.2.8 (2020-04-05)
 ===================
@@ -54,7 +60,6 @@ Documentation
   Add a logo in the sidebar and change the logo in the main page to see the library version.
 
 - Add a detailed documentation about :ref:`sphinx_deco`.
-
 
 Other
 -----

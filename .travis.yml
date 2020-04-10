@@ -1,17 +1,14 @@
 language: python
 python:
-  # Python **2.6** and **3.3** are no more supported
   - "2.7"
-  - "3.4"
   - "3.5"
   - "3.6"
   - "3.7"
   - "3.8"
-  - "3.8-dev"   # 3.8 development branch
-  # - "pypy"    # some unit tests fail
+  - "3.9-dev"   # 3.8 development branch
+  # - "pypy3"    # some unit tests fail
 install:
-  - pip install tox-travis
-  - pip install coveralls
+  - pip install coveralls tox-travis
 script:
   tox
 after_success:

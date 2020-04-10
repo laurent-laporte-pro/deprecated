@@ -23,6 +23,10 @@ v1.2.9 (unreleased)
 
 Bug fix release
 
+Other
+-----
+
+- Change the Tox configuration to run tests on PyPy v2.7 and 3.6.
 
 v1.2.8 (2020-04-05)
 ===================

@@ -248,8 +248,9 @@ def test_respect_global_filter():
     def fun():
         print("fun")
 
-    warnings.simplefilter("ignore", category=DeprecationWarning)
+    warnings.simplefilter("once", category=DeprecationWarning)
 
     with warnings.catch_warnings(record=True) as warns:
         fun()
-    assert len(warns) == 0
+        fun()
+    assert len(warns) == 1

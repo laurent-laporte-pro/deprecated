@@ -106,6 +106,19 @@ def test_class_deprecation_using_deprecated_decorator():
     assert issubclass(MySubClass, MyBaseClass)
 
 
+def test_class_respect_global_filter():
+    @deprecated.classic.deprecated
+    class MyBaseClass(object):
+        pass
+
+    with warnings.catch_warnings(record=True) as warns:
+        warnings.simplefilter("once")
+        obj = MyBaseClass()
+        obj = MyBaseClass()
+
+    assert len(warns) == 1
+
+
 def test_subclass_deprecation_using_deprecated_decorator():
     @deprecated.classic.deprecated
     class MyBaseClass(object):

@@ -26,7 +26,7 @@ Bug fix release
 Fix
 ---
 
-- Fix #15: ``@deprecated`` respects global warning filters with actions other than "ignore" and "always" on Python 3.
+- Fix #25: ``@deprecated`` respects global warning filters with actions other than "ignore" and "always" on Python 3.
 
 Other
 -----

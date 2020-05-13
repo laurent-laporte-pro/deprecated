@@ -32,6 +32,8 @@ Other
 
 - Change the configuration for TravisCI to build on pypy and pypy3.
 
+- Change the configuration for TravisCI and AppVeyor: drop configuration for Python **3.4** and add **3.8**.
+
 
 v1.2.9 (2020-04-10)
 ===================

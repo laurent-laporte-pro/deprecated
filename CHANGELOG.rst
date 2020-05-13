@@ -27,6 +27,12 @@ Fix
 ---
 
 
+Other
+-----
+
+- Change the configuration for TravisCI to build on pypy and pypy3.
+
+
 v1.2.9 (2020-04-10)
 ===================
 

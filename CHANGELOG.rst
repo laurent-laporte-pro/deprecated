@@ -26,6 +26,11 @@ Bug fix release
 Fix
 ---
 
+Other
+-----
+
+- Change the Tox configuration to run tests on Python 2.7, Python 3.4 and above (and PyPy 2.7 & 3.6).
+
 
 v1.2.10 (2020-05-13)
 ====================

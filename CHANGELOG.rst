@@ -26,6 +26,9 @@ Bug fix release
 Fix
 ---
 
+- Fix packit configuration: use ``upstream_tag_template: v{version}``.
+
+
 Other
 -----
 

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import sys
 import warnings
 
 import pytest
@@ -184,7 +185,10 @@ def test_classic_deprecated_class_method__warns(classic_deprecated_class_method)
     assert len(warns) == 1
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
-    assert "deprecated function (or staticmethod)" in str(warn.message)
+    if sys.version_info >= (3, 9):
+        assert "deprecated class method" in str(warn.message)
+    else:
+        assert "deprecated function (or staticmethod)" in str(warn.message)
     assert warn.filename == __file__, 'Incorrect warning stackLevel'
 
 

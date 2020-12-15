@@ -7,7 +7,7 @@ Release:        2%{?dist}
 Summary:        Python decorator to deprecate old python classes, functions or methods
 License:        MIT
 URL:            https://github.com/tantale/%{pkgname}
-Source0:        https://files.pythonhosted.org/packages/source/D/%{srcname}/%{srcname}-%{version}.tar.gz
+Source0:        %{pypi_source}
 BuildArch:      noarch
 
 %description
@@ -38,7 +38,7 @@ rm -rf %{pkgname}.egg-info
 %license LICENSE.rst
 %doc README.md
 %{python3_sitelib}/%{pkgname}/
-%{python3_sitelib}/%{srcname}-%{version}-*.egg-info/
+%{python3_sitelib}/%{srcname}-*.egg-info/
 
 
 %changelog

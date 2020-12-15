@@ -1,33 +1,17 @@
-specfile_path: python-deprecated.spec
 synced_files:
   - python-deprecated.spec
   - .packit.yml
-upstream_project_name: Deprecated
+upstream_package_name: Deprecated
 upstream_tag_template: v{version}
 downstream_package_name: python-deprecated
-create_pr: false
 jobs:
-  - job: propose_downstream
-    trigger: release
-    metadata:
-      dist-git-branch: master
-  - job: propose_downstream
-    trigger: release
-    metadata:
-      dist-git-branch: fedora-all
-  - job: propose_downstream
-    trigger: release
-    metadata:
-      dist-git-branch: f30
-  - job: propose_downstream
-    trigger: release
-    metadata:
-      dist-git-branch: f29
-  - job: copr_build
-    trigger: pull_request
-    metadata:
-      targets:
-        - fedora-all
-        - fedora-30-x86_64
-        - fedora-29-x86_64
-        - fedora-rawhide-x86_64
+- job: propose_downstream
+  trigger: release
+  metadata:
+    dist_git_branches:
+    - fedora-all
+- job: copr_build
+  trigger: pull_request
+  metadata:
+    targets:
+    - fedora-all

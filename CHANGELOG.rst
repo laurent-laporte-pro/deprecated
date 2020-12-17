@@ -28,6 +28,9 @@ Fix
 
 - Fix packit configuration: use ``upstream_tag_template: v{version}``.
 
+- Fix #34: ``versionadded`` and ``versionchanged`` decorators don't emit ``DeprecationWarning``
+  anymore on decorated classes.
+
 
 Other
 -----

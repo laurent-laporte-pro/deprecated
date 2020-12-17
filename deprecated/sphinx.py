@@ -96,6 +96,8 @@ class SphinxAdapter(ClassicAdapter):
         if reason:
             docstring += "   {reason}\n".format(reason=reason)
         wrapped.__doc__ = docstring
+        if self.directive in {"versionadded", "versionchanged"}:
+            return wrapped
         return super(SphinxAdapter, self).__call__(wrapped)
 
 

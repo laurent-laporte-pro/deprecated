@@ -24,6 +24,7 @@ import deprecated.sphinx
         :return: sum = *x* + *y*
         """,
     ],
+    ids=["no_docstring", "short_docstring", "long_docstring"]
 )
 def docstring(request):
     return request.param
@@ -68,6 +69,7 @@ def directive(request):
             ),
         ),
     ],
+    ids=["reason&version", "version", "reason"]
 )
 def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
     # The function:
@@ -92,6 +94,16 @@ def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
     current = current.replace(expected, '')
     if current:
         assert re.search("\n[ ]*\n$", current, flags=re.DOTALL)
+
+    with warnings.catch_warnings(record=True) as warns:
+        foo(1, 2)
+
+    if directive in {'versionadded', 'versionchanged'}:
+        # don't emit DeprecationWarning
+        assert len(warns) == 0
+    else:
+        # emit DeprecationWarning
+        assert len(warns) == 1
 
 
 # noinspection PyShadowingNames
@@ -131,6 +143,7 @@ def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
             ),
         ),
     ],
+    ids=["reason&version", "version", "reason"]
 )
 def test_cls_has_sphinx_docstring(docstring, directive, reason, version, expected):
     # The class:
@@ -155,6 +168,16 @@ def test_cls_has_sphinx_docstring(docstring, directive, reason, version, expecte
     current = current.replace(expected, '')
     if current:
         assert re.search("\n[ ]*\n$", current, flags=re.DOTALL)
+
+    with warnings.catch_warnings(record=True) as warns:
+        Foo()
+
+    if directive in {'versionadded', 'versionchanged'}:
+        # don't emit DeprecationWarning
+        assert len(warns) == 0
+    else:
+        # emit DeprecationWarning
+        assert len(warns) == 1
 
 
 class MyDeprecationWarning(DeprecationWarning):

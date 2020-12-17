@@ -11,8 +11,8 @@ python:
   - "3.9-dev"  # 3.9 development branch
   - "pypy"
   - "pypy3"
-exclude:
- jobs:
+jobs:
+ exclude:
   - arch: ppc64le
     python: 2.7
   - arch: ppc64le
@@ -21,6 +21,7 @@ exclude:
     python: pypy3
   - arch: amd64
     python: pypy
+    
 jobs:
   allow_failures:
     - python: "3.9-dev"

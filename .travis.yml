@@ -22,8 +22,7 @@ jobs:
   - arch: amd64
     python: "pypy"
     
-jobs:
-  allow_failures:
+allow_failures:
     - python: "3.9-dev"
 install:
   - pip install coveralls tox-travis

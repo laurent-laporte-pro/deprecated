@@ -14,13 +14,13 @@ python:
 jobs:
  exclude:
   - arch: ppc64le
-    python: 2.7
+    python: "2.7"
   - arch: ppc64le
-    arch: pypy
+    arch: "pypy"
   - arch: ppc64le 
-    python: pypy3
+    python: "pypy3"
   - arch: amd64
-    python: pypy
+    python: "pypy"
     
 jobs:
   allow_failures:

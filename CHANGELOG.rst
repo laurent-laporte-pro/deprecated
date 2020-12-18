@@ -39,6 +39,9 @@ Other
 
 - Update the classifiers in ``setup.py``.
 
+- Replace ``bumpversion`` by `bump2version <https://pypi.org/project/bump2version/>`_ in ``setup.py`` and documentation.
+
+
 
 v1.2.10 (2020-05-13)
 ====================

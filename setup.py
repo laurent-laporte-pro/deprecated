@@ -185,8 +185,8 @@ setup(
             'PyTest             ; python_version >= "3.6"',
             'PyTest < 5         ; python_version < "3"',
             'PyTest-Cov         ; python_version >= "3.6"',
-            'PyTest-Cov < 2.6   ; python_version < "3"',
-            'bumpversion < 1',
+            'PyTest-Cov < 2.6   ; python_version < "3.6"',
+            'bump2version < 1',
             'sphinx < 2',
         ]
     },

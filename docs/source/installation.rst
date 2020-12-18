@@ -28,7 +28,7 @@ You need to install them explicitly with `pip install -e .[dev]`.
 *   `pytest-cov`_ is a `pytest`_ plugin used to produce coverage reports.
 *   `tox`_ aims to automate and standardize testing in Python.
     It is part of a larger vision of easing the packaging, testing and release process of Python software…
-*   `bumpversion`_ is a small command line tool to simplify releasing software
+*   `bump2version`_ is a small command line tool to simplify releasing software
     by updating all version strings in your source code by the correct increment.
     Also creates commits and tags…
 *   `sphinx`_ is a tool that makes it easy to create intelligent and beautiful documentation.
@@ -36,7 +36,7 @@ You need to install them explicitly with `pip install -e .[dev]`.
 .. _pytest: https://docs.pytest.org/en/latest/
 .. _pytest-cov: http://pytest-cov.readthedocs.io/en/latest/
 .. _tox: https://tox.readthedocs.io/en/latest/
-.. _bumpversion: https://github.com/peritus/bumpversion
+.. _bump2version: https://github.com/c4urself/bump2version
 .. _sphinx: http://www.sphinx-doc.org/en/stable/index.html
 
 

@@ -9,8 +9,8 @@ Classic ``@deprecated`` decorator to deprecate old python classes, functions or 
 """
 import functools
 import inspect
-import warnings
 import platform
+import warnings
 
 import wrapt
 

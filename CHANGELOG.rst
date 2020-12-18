@@ -41,6 +41,7 @@ Other
 
 - Replace ``bumpversion`` by `bump2version <https://pypi.org/project/bump2version/>`_ in ``setup.py`` and documentation.
 
+- Update configuration for Black and iSort.
 
 
 v1.2.10 (2020-05-13)

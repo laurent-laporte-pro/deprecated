@@ -28,6 +28,10 @@ Fix
 
 - Fix packit configuration: use ``upstream_tag_template: v{version}``.
 
+- Fix #33: Change the class :class:`~deprecated.sphinx.SphinxAdapter`:
+  add the ``line_length`` keyword argument to the constructor to specify the max line length of the directive text.
+  Sphinx decorators also accept the ``line_length`` argument.
+
 - Fix #34: ``versionadded`` and ``versionchanged`` decorators don't emit ``DeprecationWarning``
   anymore on decorated classes.
 

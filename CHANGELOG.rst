@@ -47,6 +47,8 @@ Other
 
 - Update configuration for Black and iSort.
 
+- Fix the development requirement versions in ``setup.py`` for Python 2.7 EOL.
+
 
 v1.2.10 (2020-05-13)
 ====================

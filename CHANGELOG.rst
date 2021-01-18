@@ -23,6 +23,11 @@ v1.2.12 (unreleased)
 
 Bug fix release
 
+Other
+-----
+
+- Change in Tox and Travis CI configurations: enable unit testing on Python 3.10.
+
 
 v1.2.11 (2021-01-17)
 ====================

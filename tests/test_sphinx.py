@@ -24,7 +24,7 @@ import deprecated.sphinx
         :return: sum = *x* + *y*
         """,
     ],
-    ids=["no_docstring", "short_docstring", "long_docstring"]
+    ids=["no_docstring", "short_docstring", "long_docstring"],
 )
 def docstring(request):
     return request.param
@@ -44,9 +44,9 @@ def directive(request):
             '1.2.0',
             textwrap.dedent(
                 """\
-                     .. {directive}:: {version}
-                        {reason}
-                     """
+                .. {directive}:: {version}
+                   {reason}
+                """
             ),
         ),
         (
@@ -54,8 +54,8 @@ def directive(request):
             '1.2.0',
             textwrap.dedent(
                 """\
-                     .. {directive}:: {version}
-                     """
+                .. {directive}:: {version}
+                """
             ),
         ),
         (
@@ -63,13 +63,13 @@ def directive(request):
             None,
             textwrap.dedent(
                 """\
-                     .. {directive}::
-                        {reason}
-                     """
+                .. {directive}::
+                   {reason}
+                """
             ),
         ),
     ],
-    ids=["reason&version", "version", "reason"]
+    ids=["reason&version", "version", "reason"],
 )
 def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
     # The function:
@@ -90,10 +90,13 @@ def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
     current = textwrap.dedent(foo.__doc__)
     assert current.endswith(expected)
 
-    # An empty line must separate the original docstring and the directive.
     current = current.replace(expected, '')
-    if current:
+    if docstring:
+        # An empty line must separate the original docstring and the directive.
         assert re.search("\n[ ]*\n$", current, flags=re.DOTALL)
+    else:
+        # Avoid "Explicit markup ends without a blank line" when the decorated function has no docstring
+        assert current == "\n"
 
     with warnings.catch_warnings(record=True) as warns:
         foo(1, 2)
@@ -118,9 +121,9 @@ def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
             '1.2.0',
             textwrap.dedent(
                 """\
-                     .. {directive}:: {version}
-                        {reason}
-                     """
+                .. {directive}:: {version}
+                   {reason}
+                """
             ),
         ),
         (
@@ -128,8 +131,8 @@ def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
             '1.2.0',
             textwrap.dedent(
                 """\
-                     .. {directive}:: {version}
-                     """
+                .. {directive}:: {version}
+                """
             ),
         ),
         (
@@ -137,13 +140,13 @@ def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
             None,
             textwrap.dedent(
                 """\
-                     .. {directive}::
-                        {reason}
-                     """
+                .. {directive}::
+                   {reason}
+                """
             ),
         ),
     ],
-    ids=["reason&version", "version", "reason"]
+    ids=["reason&version", "version", "reason"],
 )
 def test_cls_has_sphinx_docstring(docstring, directive, reason, version, expected):
     # The class:
@@ -164,10 +167,13 @@ def test_cls_has_sphinx_docstring(docstring, directive, reason, version, expecte
     current = textwrap.dedent(Foo.__doc__)
     assert current.endswith(expected)
 
-    # An empty line must separate the original docstring and the directive.
     current = current.replace(expected, '')
-    if current:
+    if docstring:
+        # An empty line must separate the original docstring and the directive.
         assert re.search("\n[ ]*\n$", current, flags=re.DOTALL)
+    else:
+        # Avoid "Explicit markup ends without a blank line" when the decorated function has no docstring
+        assert current == "\n"
 
     with warnings.catch_warnings(record=True) as warns:
         Foo()

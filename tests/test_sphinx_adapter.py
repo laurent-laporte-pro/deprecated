@@ -86,7 +86,7 @@ def test_sphinx_adapter__empty_docstring(directive):
 
     wrapped = adapter.__call__(foo)
     expected = textwrap.dedent(
-        """\
+        """
         .. {directive}:: 1.2.3
            foo has changed in this version
 
@@ -117,7 +117,7 @@ def test_decorator_accept_line_length(decorator_factory, directive):
     foo = decorator(foo)
 
     expected = textwrap.dedent(
-        """\
+        """
         .. {directive}:: 1.2.3
            bar bar bar bar bar bar bar bar bar bar bar
            bar bar bar bar bar bar bar bar bar bar bar

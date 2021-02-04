@@ -119,6 +119,9 @@ class SphinxAdapter(ClassicAdapter):
         if docstring:
             # An empty line must separate the original docstring and the directive.
             docstring = re.sub(r"\n+$", "", docstring, flags=re.DOTALL) + "\n\n"
+        else:
+            # Avoid "Explicit markup ends without a blank line" when the decorated function has no docstring
+            docstring = "\n"
 
         # -- append the directive division to the docstring
         docstring += "".join("{}\n".format(line) for line in div_lines)

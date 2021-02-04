@@ -23,6 +23,12 @@ v1.2.12 (unreleased)
 
 Bug fix release
 
+Fix
+---
+
+- Avoid "Explicit markup ends without a blank line" when the decorated function has no docstring.
+
+
 Other
 -----
 

@@ -84,6 +84,9 @@ class SphinxAdapter(ClassicAdapter):
         :param line_length:
             Max line length of the directive text. If non nul, a long text is wrapped in several lines.
         """
+        if not version:
+            # https://github.com/tantale/deprecated/issues/40
+            raise ValueError("'version' argument is required in Sphinx directives")
         self.directive = directive
         self.line_length = line_length
         super(SphinxAdapter, self).__init__(reason=reason, version=version, action=action, category=category)

@@ -58,18 +58,8 @@ def directive(request):
                 """
             ),
         ),
-        (
-            'A good reason',
-            None,
-            textwrap.dedent(
-                """\
-                .. {directive}::
-                   {reason}
-                """
-            ),
-        ),
     ],
-    ids=["reason&version", "version", "reason"],
+    ids=["reason&version", "version"],
 )
 def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
     # The function:
@@ -135,18 +125,8 @@ def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
                 """
             ),
         ),
-        (
-            'A good reason',
-            None,
-            textwrap.dedent(
-                """\
-                .. {directive}::
-                   {reason}
-                """
-            ),
-        ),
     ],
-    ids=["reason&version", "version", "reason"],
+    ids=["reason&version", "version"],
 )
 def test_cls_has_sphinx_docstring(docstring, directive, reason, version, expected):
     # The class:
@@ -191,119 +171,71 @@ class MyDeprecationWarning(DeprecationWarning):
 
 
 _PARAMS = [
-    None,
-    ((), {}),
-    (('Good reason',), {}),
-    ((), {'reason': 'Good reason'}),
-    ((), {'version': '1.2.3'}),
-    ((), {'action': 'once'}),
-    ((), {'category': MyDeprecationWarning}),
+    {'version': '1.2.3'},
+    {'version': '1.2.3', 'reason': 'Good reason'},
+    {'version': '1.2.3', 'action': 'once'},
+    {'version': '1.2.3', 'category': MyDeprecationWarning},
 ]
 
 
 @pytest.fixture(scope="module", params=_PARAMS)
 def sphinx_deprecated_function(request):
-    if request.param is None:
+    kwargs = request.param
 
-        @deprecated.sphinx.deprecated
-        def foo1():
-            pass
+    @deprecated.sphinx.deprecated(**kwargs)
+    def foo1():
+        pass
 
-        return foo1
-    else:
-        args, kwargs = request.param
-
-        @deprecated.sphinx.deprecated(*args, **kwargs)
-        def foo1():
-            pass
-
-        return foo1
+    return foo1
 
 
 @pytest.fixture(scope="module", params=_PARAMS)
 def sphinx_deprecated_class(request):
-    if request.param is None:
+    kwargs = request.param
 
-        @deprecated.sphinx.deprecated
-        class Foo2(object):
-            pass
+    @deprecated.sphinx.deprecated(**kwargs)
+    class Foo2(object):
+        pass
 
-        return Foo2
-    else:
-        args, kwargs = request.param
-
-        @deprecated.sphinx.deprecated(*args, **kwargs)
-        class Foo2(object):
-            pass
-
-        return Foo2
+    return Foo2
 
 
 @pytest.fixture(scope="module", params=_PARAMS)
 def sphinx_deprecated_method(request):
-    if request.param is None:
+    kwargs = request.param
 
-        class Foo3(object):
-            @deprecated.sphinx.deprecated
-            def foo3(self):
-                pass
+    class Foo3(object):
+        @deprecated.sphinx.deprecated(**kwargs)
+        def foo3(self):
+            pass
 
-        return Foo3
-    else:
-        args, kwargs = request.param
-
-        class Foo3(object):
-            @deprecated.sphinx.deprecated(*args, **kwargs)
-            def foo3(self):
-                pass
-
-        return Foo3
+    return Foo3
 
 
 @pytest.fixture(scope="module", params=_PARAMS)
 def sphinx_deprecated_static_method(request):
-    if request.param is None:
+    kwargs = request.param
 
-        class Foo4(object):
-            @staticmethod
-            @deprecated.sphinx.deprecated
-            def foo4():
-                pass
+    class Foo4(object):
+        @staticmethod
+        @deprecated.sphinx.deprecated(**kwargs)
+        def foo4():
+            pass
 
-        return Foo4.foo4
-    else:
-        args, kwargs = request.param
-
-        class Foo4(object):
-            @staticmethod
-            @deprecated.sphinx.deprecated(*args, **kwargs)
-            def foo4():
-                pass
-
-        return Foo4.foo4
+    return Foo4.foo4
 
 
 @pytest.fixture(scope="module", params=_PARAMS)
 def sphinx_deprecated_class_method(request):
-    if request.param is None:
+    kwargs = request.param
 
-        class Foo5(object):
-            @classmethod
-            @deprecated.sphinx.deprecated
-            def foo5(cls):
-                pass
+    class Foo5(object):
+        @classmethod
+        @deprecated.sphinx.deprecated(**kwargs)
+        def foo5(cls):
+            pass
 
-        return Foo5
-    else:
-        args, kwargs = request.param
-
-        class Foo5(object):
-            @classmethod
-            @deprecated.sphinx.deprecated(*args, **kwargs)
-            def foo5(cls):
-                pass
-
-        return Foo5
+    return Foo5
 
 
 # noinspection PyShadowingNames
@@ -380,7 +312,7 @@ def test_should_raise_type_error():
 def test_warning_msg_has_reason():
     reason = "Good reason"
 
-    @deprecated.sphinx.deprecated(reason=reason)
+    @deprecated.sphinx.deprecated(version="4.5.6", reason=reason)
     def foo():
         pass
 
@@ -404,7 +336,7 @@ def test_warning_msg_has_version():
 
 
 def test_warning_is_ignored():
-    @deprecated.sphinx.deprecated(action='ignore')
+    @deprecated.sphinx.deprecated(version="4.5.6", action='ignore')
     def foo():
         pass
 
@@ -414,7 +346,7 @@ def test_warning_is_ignored():
 
 
 def test_specific_warning_cls_is_used():
-    @deprecated.sphinx.deprecated(category=MyDeprecationWarning)
+    @deprecated.sphinx.deprecated(version="4.5.6", category=MyDeprecationWarning)
     def foo():
         pass
 

@@ -45,7 +45,7 @@ def test_class_deprecation_using_a_simple_decorator():
     sys.version_info < (3, 3), reason="Classes should have mutable docstrings -- resolved in python 3.3"
 )
 def test_class_deprecation_using_deprecated_decorator():
-    @deprecated.sphinx.deprecated
+    @deprecated.sphinx.deprecated(version="7.8.9")
     class MyBaseClass(object):
         pass
 
@@ -66,11 +66,11 @@ def test_class_deprecation_using_deprecated_decorator():
     sys.version_info < (3, 3), reason="Classes should have mutable docstrings -- resolved in python 3.3"
 )
 def test_subclass_deprecation_using_deprecated_decorator():
-    @deprecated.sphinx.deprecated
+    @deprecated.sphinx.deprecated(version="7.8.9")
     class MyBaseClass(object):
         pass
 
-    @deprecated.sphinx.deprecated
+    @deprecated.sphinx.deprecated(version="7.8.9")
     class MySubClass(MyBaseClass):
         pass
 

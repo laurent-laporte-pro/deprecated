@@ -28,6 +28,8 @@ Fix
 
 - Avoid "Explicit markup ends without a blank line" when the decorated function has no docstring.
 
+- Fix #40: 'version' argument is required in Sphinx directives.
+
 
 Other
 -----

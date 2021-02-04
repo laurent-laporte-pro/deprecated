@@ -151,6 +151,10 @@ For instance, you can configure a documentation building task in your ``tox.ini`
    commands =
        sphinx-build -b html -d {envtmpdir}/doctrees docs/source/ {envtmpdir}/html
 
+.. hint::
+
+   You can see a sample implementation of Sphinx directives in the demo project
+   `Deprecated-Demo.Sphinx <https://github.com/tantale/deprecated-demo.sphinx>`_.
 
 .. rubric:: Footnotes
 

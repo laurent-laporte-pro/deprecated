@@ -361,3 +361,38 @@ def test_can_catch_warnings():
         warnings.simplefilter("always")
         warnings.warn("A message in a bottle", category=DeprecationWarning, stacklevel=2)
     assert len(warns) == 1
+
+
+@pytest.mark.parametrize(
+    ["reason", "expected"],
+    [
+        (
+            "Use :function:`bar` instead",
+            "Use `bar` instead"
+        ),
+        (
+            "Use :py:func:`bar` instead",
+            "Use `bar` instead"),
+        (
+            "Use :py:meth:`Bar.bar` instead",
+            "Use `Bar.bar` instead"),
+        (
+            "Use :py:class:`Bar` instead",
+            "Use `Bar` instead"
+        ),
+        (
+            "Use :py:func:`bar` or :py:meth:`Bar.bar` instead",
+            "Use `bar` or `Bar.bar` instead"
+        ),
+    ]
+)
+def test_sphinx_syntax_trimming(reason, expected):
+
+    @deprecated.sphinx.deprecated(version="4.5.6", reason=reason)
+    def foo():
+        pass
+
+    with warnings.catch_warnings(record=True) as warns:
+        foo()
+    warn = warns[0]
+    assert expected in str(warn.message)

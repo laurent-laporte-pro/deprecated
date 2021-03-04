@@ -134,6 +134,25 @@ class SphinxAdapter(ClassicAdapter):
             return wrapped
         return super(SphinxAdapter, self).__call__(wrapped)
 
+    def get_deprecated_msg(self, wrapped, instance):
+        """
+        Get the deprecation warning message (without Sphinx cross-referencing syntax) for the user.
+
+        :param wrapped: Wrapped class or function.
+
+        :param instance: The object to which the wrapped function was bound when it was called.
+
+        :return: The warning message.
+
+        .. versionchanged:: 1.2.12
+           Strip Sphinx cross-referencing syntax from warning message.
+
+        """
+        msg = super(SphinxAdapter, self).get_deprecated_msg(wrapped, instance)
+        # Strip Sphinx cross reference syntax (like ":function:", ":py:func:" and ":py:meth:")
+        msg = re.sub(r"(:[a-z]{2,3})?:[a-z]{2,8}:(`.*?`)", r"\2", msg)
+        return msg
+
 
 def versionadded(reason="", version="", line_length=70):
     """

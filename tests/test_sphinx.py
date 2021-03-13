@@ -366,28 +366,11 @@ def test_can_catch_warnings():
 @pytest.mark.parametrize(
     ["reason", "expected"],
     [
-        (
-            "Use :function:`bar` instead",
-            "Use `bar` instead"
-        ),
-        (
-            "Use :py:func:`bar` instead",
-            "Use `bar` instead"),
-        (
-            "Use :py:meth:`Bar.bar` instead",
-            "Use `Bar.bar` instead"),
-        (
-            "Use :py:class:`Bar` instead",
-            "Use `Bar` instead"
-        ),
-        (
-            "Use :py:func:`bar` or :py:meth:`Bar.bar` instead",
-            "Use `bar` or `Bar.bar` instead"
-        ),
-    ]
+        ("Use :function:`bar` instead", "Use `bar` instead"),
+        ("Use :py:func:`bar` instead", "Use `bar` instead"),
+    ],
 )
 def test_sphinx_syntax_trimming(reason, expected):
-
     @deprecated.sphinx.deprecated(version="4.5.6", reason=reason)
     def foo():
         pass
@@ -396,3 +379,37 @@ def test_sphinx_syntax_trimming(reason, expected):
         foo()
     warn = warns[0]
     assert expected in str(warn.message)
+
+
+# noinspection SpellCheckingInspection
+@pytest.mark.parametrize(
+    "reason, expected",
+    [
+        # classic examples using the default domain (Python)
+        ("Use :func:`bar` instead", "Use `bar` instead"),
+        ("Use :function:`bar` instead", "Use `bar` instead"),
+        ("Use :class:`Baz` instead", "Use `Baz` instead"),
+        ("Use :exc:`Baz` instead", "Use `Baz` instead"),
+        ("Use :exception:`Baz` instead", "Use `Baz` instead"),
+        ("Use :meth:`Baz.bar` instead", "Use `Baz.bar` instead"),
+        ("Use :method:`Baz.bar` instead", "Use `Baz.bar` instead"),
+        # other examples using a domain :
+        ("Use :py:func:`bar` instead", "Use `bar` instead"),
+        ("Use :cpp:func:`bar` instead", "Use `bar` instead"),
+        ("Use :js:func:`bar` instead", "Use `bar` instead"),
+        # the reference can have special characters:
+        ("Use :func:`~pkg.mod.bar` instead", "Use `~pkg.mod.bar` instead"),
+        # edge cases:
+        ("Use :r:`` instead", "Use `` instead"),
+        ("Use :d:r:`` instead", "Use `` instead"),
+        ("Use :r:`foo` instead", "Use `foo` instead"),
+        ("Use :d:r:`foo` instead", "Use `foo` instead"),
+        ("Use r:`bad` instead", "Use r:`bad` instead"),
+        ("Use ::`bad` instead", "Use ::`bad` instead"),
+        ("Use :::`bad` instead", "Use :::`bad` instead"),
+    ],
+)
+def test_get_deprecated_msg(reason, expected):
+    adapter = deprecated.sphinx.SphinxAdapter("deprecated", reason=reason, version="1")
+    actual = adapter.get_deprecated_msg(lambda: None, None)
+    assert expected in actual

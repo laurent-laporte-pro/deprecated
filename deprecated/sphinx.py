@@ -150,7 +150,9 @@ class SphinxAdapter(ClassicAdapter):
         """
         msg = super(SphinxAdapter, self).get_deprecated_msg(wrapped, instance)
         # Strip Sphinx cross reference syntax (like ":function:", ":py:func:" and ":py:meth:")
-        msg = re.sub(r"(:[a-z]{2,3})?:[a-z]{2,8}:(`.*?`)", r"\2", msg)
+        # Possible values are ":role:`foo`", ":domain:role:`foo`"
+        # where ``role`` and ``domain`` should match "[a-zA-Z]+"
+        msg = re.sub(r"(?: : [a-zA-Z]+ )? : [a-zA-Z]+ : (`[^`]*`)", r"\1", msg, flags=re.X)
         return msg
 
 

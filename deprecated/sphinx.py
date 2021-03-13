@@ -144,7 +144,7 @@ class SphinxAdapter(ClassicAdapter):
 
         :return: The warning message.
 
-        .. versionchanged:: 1.2.12
+        .. versionadded:: 1.2.12
            Strip Sphinx cross-referencing syntax from warning message.
 
         """

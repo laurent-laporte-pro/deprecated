@@ -30,13 +30,13 @@ Fix
 
 - Fix #40: 'version' argument is required in Sphinx directives.
 
+- Fix #41: :mod:`deprecated.sphinx`: strip Sphinx cross-referencing syntax from warning message.
+
 
 Other
 -----
 
 - Change in Tox and Travis CI configurations: enable unit testing on Python 3.10.
-
-- Fix #41: ``deprecated.sphinx``: strip Sphinx cross-referencing syntax from warning message.
 
 
 v1.2.11 (2021-01-17)

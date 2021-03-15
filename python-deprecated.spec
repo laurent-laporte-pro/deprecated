@@ -3,7 +3,7 @@
 
 Name:           python-%{pkgname}
 Version:        1.2.13
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Python decorator to deprecate old python classes, functions or methods
 License:        MIT
 URL:            https://github.com/tantale/%{pkgname}

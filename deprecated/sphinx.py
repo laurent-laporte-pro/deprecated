@@ -233,27 +233,25 @@ def deprecated(*args, **kwargs):
     in your function/class docstring in order to documents the
     version of the project which deprecates this functionality in your library.
 
-    Keyword arguments can be:
-
-    -   "reason":
+    :param reason:
         Reason message which documents the deprecation in your library (can be omitted).
 
-    -   "version":
+    :param version:
         Version of your project which deprecates this feature.
         If you follow the `Semantic Versioning <https://semver.org/>`_,
         the version number has the format "MAJOR.MINOR.PATCH".
 
-    -   "action":
+    :param action:
         A warning filter used to activate or not the deprecation warning.
         Can be one of "error", "ignore", "always", "default", "module", or "once".
         If ``None``, empty or missing, the the global filtering mechanism is used.
 
-    -   "category":
+    :param category:
         The warning category to use for the deprecation warning.
         By default, the category class is :class:`~DeprecationWarning`,
         you can inherit this class to define your own deprecation warning category.
 
-    -   "line_length":
+    :param line_length:
         Max line length of the directive text. If non nul, a long text is wrapped in several lines.
 
     :return: the decorated function.

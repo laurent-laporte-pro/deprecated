@@ -23,6 +23,12 @@ v1.2.13 (unreleased)
 
 Bug fix release
 
+Fix
+---
+
+- Fix #45: Change the signature of the :func:`~deprecated.sphinx.deprecated` decorator to reflect
+  the valid use cases.
+
 
 v1.2.12 (2021-03-13)
 ====================

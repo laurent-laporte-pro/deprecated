@@ -227,21 +227,25 @@ def versionchanged(reason="", version="", line_length=70):
     return wrapper
 
 
-def deprecated(*args, **kwargs):
+def deprecated(reason="", version="", line_length=70, **kwargs):
     """
     This decorator can be used to insert a "deprecated" directive
     in your function/class docstring in order to documents the
     version of the project which deprecates this functionality in your library.
 
-    Keyword arguments can be:
-
-    -   "reason":
+    :param str reason:
         Reason message which documents the deprecation in your library (can be omitted).
 
-    -   "version":
+    :param str version:
         Version of your project which deprecates this feature.
         If you follow the `Semantic Versioning <https://semver.org/>`_,
         the version number has the format "MAJOR.MINOR.PATCH".
+
+    :type  line_length: int
+    :param line_length:
+        Max line length of the directive text. If non nul, a long text is wrapped in several lines.
+
+    Keyword arguments can be:
 
     -   "action":
         A warning filter used to activate or not the deprecation warning.
@@ -253,11 +257,14 @@ def deprecated(*args, **kwargs):
         By default, the category class is :class:`~DeprecationWarning`,
         you can inherit this class to define your own deprecation warning category.
 
-    -   "line_length":
-        Max line length of the directive text. If non nul, a long text is wrapped in several lines.
+    :return: a decorator used to deprecate a function.
 
-    :return: the decorated function.
+    .. versionchanged:: 1.2.13
+       Change the signature of the decorator to reflect the valid use cases.
     """
     directive = kwargs.pop('directive', 'deprecated')
     adapter_cls = kwargs.pop('adapter_cls', SphinxAdapter)
-    return _classic_deprecated(*args, directive=directive, adapter_cls=adapter_cls, **kwargs)
+    kwargs["reason"] = reason
+    kwargs["version"] = version
+    kwargs["line_length"] = line_length
+    return _classic_deprecated(directive=directive, adapter_cls=adapter_cls, **kwargs)

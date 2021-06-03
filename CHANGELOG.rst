@@ -34,6 +34,8 @@ Other
 
 - Fix configuration for AppVeyor: simplify the test scripts and set the version format to match the current version.
 
+- Change configuration for Tox: change the requirements for ``pip`` to "pip >= 9.0.3, < 21" (Python 2.7, 3.4 and 3.5).
+
 
 v1.2.12 (2021-03-13)
 ====================

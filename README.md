@@ -2,7 +2,7 @@
 
 Python ``@deprecated`` decorator to deprecate old python classes, functions or methods.
 
-[![Build Status](https://travis-ci.org/tantale/deprecated.svg?branch=master)](https://travis-ci.org/tantale/deprecated)
+[![Build Status](https://travis-ci.com/tantale/deprecated.svg?branch=master)](https://travis-ci.com/tantale/deprecated)
 [![Build status](https://ci.appveyor.com/api/projects/status/ctgktcdg2pf8lsxe?svg=true)](https://ci.appveyor.com/project/tantale/deprecated)
 [![Coverage Status](https://coveralls.io/repos/github/tantale/deprecated/badge.svg?branch=master)](https://coveralls.io/github/tantale/deprecated?branch=master)
 [![GitHub version](https://badge.fury.io/gh/tantale%2Fdeprecated.svg)](https://badge.fury.io/gh/tantale%2Fdeprecated)

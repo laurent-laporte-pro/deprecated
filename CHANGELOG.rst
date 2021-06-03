@@ -36,6 +36,8 @@ Other
 
 - Change configuration for Tox: change the requirements for ``pip`` to "pip >= 9.0.3, < 21" (Python 2.7, 3.4 and 3.5).
 
+- Migrating project to `travis-ci.com <https://travis-ci.com/github/tantale/deprecated>`_.
+
 
 v1.2.12 (2021-03-13)
 ====================
@@ -419,7 +421,7 @@ Added
 Other
 -----
 
-- Improve `Travis <https://travis-ci.org/>`_ configuration file (compatibility from Python 2.6 to 3.7-dev, and PyPy).
+- Improve `Travis <https://travis-ci.com/>`_ configuration file (compatibility from Python 2.6 to 3.7-dev, and PyPy).
 - Add `AppVeyor <https://www.appveyor.com/docs/>`_ configuration file.
 - Add `Tox <https://tox.readthedocs.io/en/latest/>`_ configuration file.
 - Add `BumpVersion <https://github.com/peritus/bumpversion>`_ configuration file.

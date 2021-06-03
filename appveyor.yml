@@ -1,78 +1,58 @@
 # What Python version is installed where:
 # http://www.appveyor.com/docs/installed-software#python
 
+version: 1.2.13.{build}
+
 environment:
   matrix:
     # Python **2.6** and **3.3** are no more supported
     - PYTHON: "C:\\Python27"
       TOX_ENV: "py27"
-      PIP: "'pip<21'"
-      SETUPTOOLS: "'setuptools<45'"
 
     - PYTHON: "C:\\Python27-x64"
       TOX_ENV: "py27"
-      PIP: "'pip<21'"
-      SETUPTOOLS: "'setuptools<45'"
 
     - PYTHON: "C:\\Python35"
       TOX_ENV: "py35"
-      PIP: "'pip<21'"
-      SETUPTOOLS: "'setuptools<45'"
 
     - PYTHON: "C:\\Python35-x64"
       TOX_ENV: "py35"
-      PIP: "'pip<21'"
-      SETUPTOOLS: "'setuptools<45'"
 
     - PYTHON: "C:\\Python36"
       TOX_ENV: "py36"
-      PIP: "pip"
-      SETUPTOOLS: "setuptools"
 
     - PYTHON: "C:\\Python36-x64"
       TOX_ENV: "py36"
-      PIP: "pip"
-      SETUPTOOLS: "setuptools"
 
     - PYTHON: "C:\\Python37"
       TOX_ENV: "py37"
-      PIP: "pip"
-      SETUPTOOLS: "setuptools"
 
     - PYTHON: "C:\\Python37-x64"
       TOX_ENV: "py37"
-      PIP: "pip"
-      SETUPTOOLS: "setuptools"
 
     - PYTHON: "C:\\Python38"
       TOX_ENV: "py38"
-      PIP: "pip"
-      SETUPTOOLS: "setuptools"
 
     - PYTHON: "C:\\Python38-x64"
       TOX_ENV: "py38"
-      PIP: "pip"
-      SETUPTOOLS: "setuptools"
 
 init:
   - set PATH=%PYTHON%;%PYTHON%\Scripts;C:\MinGW\msys\1.0\bin;%PATH%
   - "git config --system http.sslcainfo \"C:\\Program Files\\Git\\mingw64\\ssl\\certs\\ca-bundle.crt\""
-  - "%PYTHON%/python -V"
-  - "%PYTHON%/python -c \"import struct;print(8 * struct.calcsize(\'P\'))\""
+  - "%PYTHON%\\python.exe -V"
+  - "%PYTHON%\\python.exe -c \"import struct;print(8 * struct.calcsize(\'P\'))\""
 
 install:
-  - "%PYTHON%/Scripts/easy_install -U %PIP%"
-  - "%PYTHON%/Scripts/pip install -U %SETUPTOOLS%"
-  - "%PYTHON%/Scripts/pip install tox"
-  - "%PYTHON%/Scripts/pip install wheel"
+  - "%PYTHON%\\python.exe -m pip install wheel"
+  - "%PYTHON%\\python.exe -m pip install tox"
 
 build: false  # Not a C# project, build stuff at the test step instead.
 
 test_script:
-  - "%PYTHON%/Scripts/tox -e %TOX_ENV%"
+  - "%PYTHON%\\Scripts\\tox.exe -e %TOX_ENV%"
 
 after_test:
-  - "%PYTHON%/python setup.py --command-packages wheel bdist_wheel"
+  - "%PYTHON%\\python.exe setup.py --command-packages wheel bdist_wheel"
   - ps: "ls dist"
 
 artifacts:

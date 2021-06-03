@@ -29,6 +29,11 @@ Fix
 - Fix #45: Change the signature of the :func:`~deprecated.sphinx.deprecated` decorator to reflect
   the valid use cases.
 
+Other
+-----
+
+- Fix configuration for AppVeyor: simplify the test scripts and set the version format to match the current version.
+
 
 v1.2.12 (2021-03-13)
 ====================

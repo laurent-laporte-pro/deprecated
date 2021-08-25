@@ -82,3 +82,68 @@ def test_subclass_deprecation_using_deprecated_decorator():
     assert isinstance(obj, MyBaseClass)
     assert inspect.isclass(MyBaseClass)
     assert issubclass(MySubClass, MyBaseClass)
+
+
+@pytest.mark.skipif(
+    sys.version_info < (3, 3), reason="Classes should have mutable docstrings -- resolved in python 3.3"
+)
+def test_isinstance_versionadded():
+    # https://github.com/tantale/deprecated/issues/48
+    @deprecated.sphinx.versionadded(version="X.Y", reason="some reason")
+    class VersionAddedCls:
+        pass
+
+    @deprecated.sphinx.versionadded(version="X.Y", reason="some reason")
+    class VersionAddedChildCls(VersionAddedCls):
+        pass
+
+    instance = VersionAddedChildCls()
+    assert isinstance(instance, VersionAddedChildCls)
+    assert isinstance(instance, VersionAddedCls)
+
+
+@pytest.mark.skipif(
+    sys.version_info < (3, 3), reason="Classes should have mutable docstrings -- resolved in python 3.3"
+)
+def test_isinstance_versionchanged():
+    @deprecated.sphinx.versionchanged(version="X.Y", reason="some reason")
+    class VersionChangedCls:
+        pass
+
+    @deprecated.sphinx.versionchanged(version="X.Y", reason="some reason")
+    class VersionChangedChildCls(VersionChangedCls):
+        pass
+
+    instance = VersionChangedChildCls()
+    assert isinstance(instance, VersionChangedChildCls)
+    assert isinstance(instance, VersionChangedCls)
+
+
+@pytest.mark.skipif(
+    sys.version_info < (3, 3), reason="Classes should have mutable docstrings -- resolved in python 3.3"
+)
+def test_isinstance_deprecated():
+    @deprecated.sphinx.deprecated(version="X.Y", reason="some reason")
+    class DeprecatedCls:
+        pass
+
+    @deprecated.sphinx.deprecated(version="Y.Z", reason="some reason")
+    class DeprecatedChildCls(DeprecatedCls):
+        pass
+
+    instance = DeprecatedChildCls()
+    assert isinstance(instance, DeprecatedChildCls)
+    assert isinstance(instance, DeprecatedCls)
+
+
+@pytest.mark.skipif(
+    sys.version_info < (3, 3), reason="Classes should have mutable docstrings -- resolved in python 3.3"
+)
+def test_isinstance_versionadded_versionchanged():
+    @deprecated.sphinx.versionadded(version="X.Y")
+    @deprecated.sphinx.versionchanged(version="X.Y.Z")
+    class AddedChangedCls:
+        pass
+
+    instance = AddedChangedCls()
+    assert isinstance(instance, AddedChangedCls)

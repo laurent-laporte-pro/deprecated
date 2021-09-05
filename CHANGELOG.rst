@@ -29,6 +29,9 @@ Fix
 - Fix #45: Change the signature of the :func:`~deprecated.sphinx.deprecated` decorator to reflect
   the valid use cases.
 
+- Fix #48: Fix ``versionadded`` and ``versionchanged`` decorators: do not return a decorator factory,
+  but a Wrapt adapter.
+
 Other
 -----
 

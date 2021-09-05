@@ -37,7 +37,10 @@ Other
 
 - Fix configuration for AppVeyor: simplify the test scripts and set the version format to match the current version.
 
-- Change configuration for Tox: change the requirements for ``pip`` to "pip >= 9.0.3, < 21" (Python 2.7, 3.4 and 3.5).
+- Change configuration for Tox:
+
+  + change the requirements for ``pip`` to "pip >= 9.0.3, < 21" (Python 2.7, 3.4 and 3.5).
+  + install ``typing`` when building on Python 3.4 (required by Pytest->Attrs).
 
 - Migrating project to `travis-ci.com <https://travis-ci.com/github/tantale/deprecated>`_.
 

@@ -45,6 +45,8 @@ Other
 
 - Migrating project to `travis-ci.com <https://travis-ci.com/github/tantale/deprecated>`_.
 
+- Change the configuration for AppVeyor: update the matrix to build on Python 3.9.
+
 
 v1.2.12 (2021-03-13)
 ====================

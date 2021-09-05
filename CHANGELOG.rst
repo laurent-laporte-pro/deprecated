@@ -41,6 +41,7 @@ Other
 
   + change the requirements for ``pip`` to "pip >= 9.0.3, < 21" (Python 2.7, 3.4 and 3.5).
   + install ``typing`` when building on Python 3.4 (required by Pytest->Attrs).
+  + run unit tests on Wrapt 1.13 (release candidate).
 
 - Migrating project to `travis-ci.com <https://travis-ci.com/github/tantale/deprecated>`_.
 

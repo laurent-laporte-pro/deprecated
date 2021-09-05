@@ -183,13 +183,7 @@ def versionadded(reason="", version="", line_length=70):
         version=version,
         line_length=line_length,
     )
-
-    # noinspection PyUnusedLocal
-    @wrapt.decorator(adapter=adapter)
-    def wrapper(wrapped, instance, args, kwargs):
-        return wrapped(*args, **kwargs)
-
-    return wrapper
+    return adapter
 
 
 def versionchanged(reason="", version="", line_length=70):
@@ -218,13 +212,7 @@ def versionchanged(reason="", version="", line_length=70):
         version=version,
         line_length=line_length,
     )
-
-    # noinspection PyUnusedLocal
-    @wrapt.decorator(adapter=adapter)
-    def wrapper(wrapped, instance, args, kwargs):
-        return wrapped(*args, **kwargs)
-
-    return wrapper
+    return adapter
 
 
 def deprecated(reason="", version="", line_length=70, **kwargs):

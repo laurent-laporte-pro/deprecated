@@ -23,6 +23,10 @@ v1.2.14 (unreleased)
 
 Bug fix release
 
+Fix
+---
+
+- Fix #49: Pin wrapt package version to <1.13
 
 v1.2.13 (2021-09-05)
 ====================

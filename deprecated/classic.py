@@ -83,7 +83,7 @@ class ClassicAdapter(wrapt.AdapterFactory):
            return x + y
     """
 
-    def __init__(self, reason="", version="", action=None, category=DeprecationWarning):
+    def __init__(self, reason="", version="", action=None, deprecated_args=None, category=DeprecationWarning):
         """
         Construct a wrapper adapter.
 
@@ -104,6 +104,10 @@ class ClassicAdapter(wrapt.AdapterFactory):
             If ``None`` or empty, the the global filtering mechanism is used.
             See: `The Warnings Filter`_ in the Python documentation.
 
+        :type deprecated_args: str
+        :param deprecated_args:
+            String of kwargs to be deprecated, e.g. "x y" to deprecate `x` and `y`.
+
         :type  category: type
         :param category:
             The warning category to use for the deprecation warning.
@@ -114,9 +118,10 @@ class ClassicAdapter(wrapt.AdapterFactory):
         self.version = version or ""
         self.action = action
         self.category = category
+        self.deprecated_args=deprecated_args
         super(ClassicAdapter, self).__init__()
 
-    def get_deprecated_msg(self, wrapped, instance):
+    def get_deprecated_msg(self, wrapped, instance, kwargs):
         """
         Get the deprecation warning message for the user.
 
@@ -136,11 +141,21 @@ class ClassicAdapter(wrapt.AdapterFactory):
                 fmt = "Call to deprecated class method {name}."
             else:
                 fmt = "Call to deprecated method {name}."
+        if self.deprecated_args is None:
+            name = wrapped.__name__
+        if self.deprecated_args is not None:
+            fmt = "Call to deprecated Parameter(s) {name}."
+            self.deprecated_args = set(self.deprecated_args.split())
+            argstodeprecate = self.deprecated_args.intersection(kwargs)
+            if argstodeprecate is not None:
+                name = ", ".join(repr(arg) for arg in argstodeprecate)
+                if name=="":
+                    self.action=False
         if self.reason:
             fmt += " ({reason})"
         if self.version:
             fmt += " -- Deprecated since version {version}."
-        return fmt.format(name=wrapped.__name__, reason=self.reason or "", version=self.version or "")
+        return fmt.format(name=name, reason=self.reason or "", version=self.version or "")
 
     def __call__(self, wrapped):
         """
@@ -160,7 +175,7 @@ class ClassicAdapter(wrapt.AdapterFactory):
             old_new1 = wrapped.__new__
 
             def wrapped_cls(cls, *args, **kwargs):
-                msg = self.get_deprecated_msg(wrapped, None)
+                msg = self.get_deprecated_msg(wrapped=wrapped, instance=None, kwargs=kwargs)
                 if self.action:
                     with warnings.catch_warnings():
                         warnings.simplefilter(self.action, self.category)
@@ -275,7 +290,7 @@ def deprecated(*args, **kwargs):
 
             @wrapt.decorator(adapter=adapter)
             def wrapper_function(wrapped_, instance_, args_, kwargs_):
-                msg = adapter.get_deprecated_msg(wrapped_, instance_)
+                msg = adapter.get_deprecated_msg(wrapped_, instance_, kwargs_)
                 if action:
                     with warnings.catch_warnings():
                         warnings.simplefilter(action, category)

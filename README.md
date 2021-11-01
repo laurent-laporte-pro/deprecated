@@ -60,4 +60,4 @@ The original code was made in [this StackOverflow post](https://stackoverflow.co
 [Eric WIESER](https://stackoverflow.com/users/102441/eric).
 
 
-Modified and now maintained by: [Meenal Jhajharia]((https://github.com/vrcmarcos) 
+Modified and now maintained by: [Meenal Jhajharia](https://github.com/mjhajharia) 

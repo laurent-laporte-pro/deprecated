@@ -145,17 +145,20 @@ class ClassicAdapter(wrapt.AdapterFactory):
             name = wrapped.__name__
         if self.deprecated_args is not None:
             fmt = "Call to deprecated Parameter(s) {name}."
-            self.deprecated_args = set(self.deprecated_args.split())
-            argstodeprecate = self.deprecated_args.intersection(kwargs)
-            if argstodeprecate is not None:
+            deprecated_args = set(self.deprecated_args.split())
+            argstodeprecate = deprecated_args.intersection(kwargs)
+            if len(argstodeprecate)!=0:
                 name = ", ".join(repr(arg) for arg in argstodeprecate)
-                if name=="":
-                    self.action=False
+            else:
+                name=""
+        if name=="":
+            return None
         if self.reason:
             fmt += " ({reason})"
         if self.version:
             fmt += " -- Deprecated since version {version}."
         return fmt.format(name=name, reason=self.reason or "", version=self.version or "")
+
 
     def __call__(self, wrapped):
         """
@@ -291,12 +294,13 @@ def deprecated(*args, **kwargs):
             @wrapt.decorator(adapter=adapter)
             def wrapper_function(wrapped_, instance_, args_, kwargs_):
                 msg = adapter.get_deprecated_msg(wrapped_, instance_, kwargs_)
-                if action:
-                    with warnings.catch_warnings():
-                        warnings.simplefilter(action, category)
+                if msg:
+                    if action:
+                        with warnings.catch_warnings():
+                            warnings.simplefilter(action, category)
+                            warnings.warn(msg, category=category, stacklevel=_routine_stacklevel)
+                    else:
                         warnings.warn(msg, category=category, stacklevel=_routine_stacklevel)
-                else:
-                    warnings.warn(msg, category=category, stacklevel=_routine_stacklevel)
                 return wrapped_(*args_, **kwargs_)
 
             return wrapper_function(wrapped)

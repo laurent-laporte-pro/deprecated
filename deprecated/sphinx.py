@@ -21,12 +21,11 @@ when the function/method is called or the class is constructed.
 """
 import re
 import textwrap
-
+import functools
 import wrapt
 
 from deprecated.classic import ClassicAdapter
 from deprecated.classic import deprecated as _classic_deprecated
-
 
 class SphinxAdapter(ClassicAdapter):
     """
@@ -49,6 +48,7 @@ class SphinxAdapter(ClassicAdapter):
         action=None,
         category=DeprecationWarning,
         line_length=70,
+        deprecated_args=None
     ):
         """
         Construct a wrapper adapter.
@@ -89,7 +89,10 @@ class SphinxAdapter(ClassicAdapter):
             raise ValueError("'version' argument is required in Sphinx directives")
         self.directive = directive
         self.line_length = line_length
-        super(SphinxAdapter, self).__init__(reason=reason, version=version, action=action, category=category)
+        self.deprecated_args = deprecated_args
+        if deprecated_args is not None:
+            self.directive = "note"
+        super(SphinxAdapter, self).__init__(reason=reason, version=version, action=action, category=category, deprecated_args=deprecated_args)
 
     def __call__(self, wrapped):
         """
@@ -134,7 +137,7 @@ class SphinxAdapter(ClassicAdapter):
             return wrapped
         return super(SphinxAdapter, self).__call__(wrapped)
 
-    def get_deprecated_msg(self, wrapped, instance):
+    def get_deprecated_msg(self, wrapped, instance, kwargs):
         """
         Get the deprecation warning message (without Sphinx cross-referencing syntax) for the user.
 
@@ -148,11 +151,14 @@ class SphinxAdapter(ClassicAdapter):
            Strip Sphinx cross-referencing syntax from warning message.
 
         """
-        msg = super(SphinxAdapter, self).get_deprecated_msg(wrapped, instance)
+        msg = super(SphinxAdapter, self).get_deprecated_msg(wrapped, instance, kwargs)
         # Strip Sphinx cross reference syntax (like ":function:", ":py:func:" and ":py:meth:")
         # Possible values are ":role:`foo`", ":domain:role:`foo`"
         # where ``role`` and ``domain`` should match "[a-zA-Z]+"
-        msg = re.sub(r"(?: : [a-zA-Z]+ )? : [a-zA-Z]+ : (`[^`]*`)", r"\1", msg, flags=re.X)
+        
+        if msg:
+            msg = re.sub(r"(?: : [a-zA-Z]+ )? : [a-zA-Z]+ : (`[^`]*`)", r"\1", msg, flags=re.X)
+                
         return msg
 
 
@@ -215,7 +221,7 @@ def versionchanged(reason="", version="", line_length=70):
     return adapter
 
 
-def deprecated(reason="", version="", line_length=70, **kwargs):
+def deprecated(reason="", version="", line_length=70, deprecated_args=None, **kwargs):
     """
     This decorator can be used to insert a "deprecated" directive
     in your function/class docstring in order to documents the
@@ -255,4 +261,6 @@ def deprecated(reason="", version="", line_length=70, **kwargs):
     kwargs["reason"] = reason
     kwargs["version"] = version
     kwargs["line_length"] = line_length
+    kwargs["deprecated_args"] = deprecated_args
+
     return _classic_deprecated(directive=directive, adapter_cls=adapter_cls, **kwargs)

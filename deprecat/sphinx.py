@@ -16,7 +16,7 @@ of `Paragraph-level markups <http://www.sphinx-doc.org/en/stable/markup/para.htm
 The purpose of this module is to defined decorators which adds this Sphinx directives
 to the docstring of your function and classes.
 
-Of course, the ``@deprecator`` decorator will emit a deprecation warning
+Of course, the ``@deprecat`` decorator will emit a deprecation warning
 when the function/method is called or the class is constructed.
 """
 import re
@@ -24,14 +24,14 @@ import textwrap
 import functools
 import wrapt
 
-from deprecator.classic import ClassicAdapter
-from deprecator.classic import deprecator as _classic_deprecator
+from deprecat.classic import ClassicAdapter
+from deprecat.classic import deprecat as _classic_deprecat
 
 class SphinxAdapter(ClassicAdapter):
     """
     Sphinx adapter -- *for advanced usage only*
 
-    This adapter override the :class:`~deprecator.classic.ClassicAdapter`
+    This adapter override the :class:`~deprecat.classic.ClassicAdapter`
     in order to add the Sphinx directives to the end of the function/class docstring.
     Such a directive is a `Paragraph-level markup <http://www.sphinx-doc.org/en/stable/markup/para.html>`_
 
@@ -220,7 +220,7 @@ def versionchanged(reason="", version="", line_length=70):
     return adapter
 
 
-def deprecator(reason="", version="", line_length=70, deprecated_args=None, **kwargs):
+def deprecat(reason="", version="", line_length=70, deprecated_args=None, **kwargs):
     """
     This decorator can be used to insert a "deprecated" directive
     in your function/class docstring in order to documents the
@@ -262,4 +262,4 @@ def deprecator(reason="", version="", line_length=70, deprecated_args=None, **kw
     kwargs["line_length"] = line_length
     kwargs["deprecated_args"] = deprecated_args
 
-    return _classic_deprecator(directive=directive, adapter_cls=adapter_cls, **kwargs)
+    return _classic_deprecat(directive=directive, adapter_cls=adapter_cls, **kwargs)

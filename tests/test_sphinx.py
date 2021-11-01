@@ -8,7 +8,7 @@ import warnings
 
 import pytest
 
-import deprecator.sphinx
+import deprecat.sphinx
 
 
 @pytest.fixture(
@@ -70,7 +70,7 @@ def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
     foo.__doc__ = docstring
 
     # is decorated with:
-    decorator_factory = getattr(deprecator.sphinx, directive)
+    decorator_factory = getattr(deprecat.sphinx, directive)
     decorator = decorator_factory(reason=reason, version=version)
     foo = decorator(foo)
 
@@ -137,7 +137,7 @@ def test_cls_has_sphinx_docstring(docstring, directive, reason, version, expecte
     Foo.__doc__ = docstring
 
     # is decorated with:
-    decorator_factory = getattr(deprecator.sphinx, directive)
+    decorator_factory = getattr(deprecat.sphinx, directive)
     decorator = decorator_factory(reason=reason, version=version)
     Foo = decorator(Foo)
 
@@ -179,10 +179,10 @@ _PARAMS = [
 
 
 @pytest.fixture(scope="module", params=_PARAMS)
-def sphinx_deprecator_function(request):
+def sphinx_deprecat_function(request):
     kwargs = request.param
 
-    @deprecator.sphinx.deprecator(**kwargs)
+    @deprecat.sphinx.deprecat(**kwargs)
     def foo1():
         pass
 
@@ -190,10 +190,10 @@ def sphinx_deprecator_function(request):
 
 
 @pytest.fixture(scope="module", params=_PARAMS)
-def sphinx_deprecator_class(request):
+def sphinx_deprecat_class(request):
     kwargs = request.param
 
-    @deprecator.sphinx.deprecator(**kwargs)
+    @deprecat.sphinx.deprecat(**kwargs)
     class Foo2(object):
         pass
 
@@ -201,11 +201,11 @@ def sphinx_deprecator_class(request):
 
 
 @pytest.fixture(scope="module", params=_PARAMS)
-def sphinx_deprecator_method(request):
+def sphinx_deprecat_method(request):
     kwargs = request.param
 
     class Foo3(object):
-        @deprecator.sphinx.deprecator(**kwargs)
+        @deprecat.sphinx.deprecat(**kwargs)
         def foo3(self):
             pass
 
@@ -213,12 +213,12 @@ def sphinx_deprecator_method(request):
 
 
 @pytest.fixture(scope="module", params=_PARAMS)
-def sphinx_deprecator_static_method(request):
+def sphinx_deprecat_static_method(request):
     kwargs = request.param
 
     class Foo4(object):
         @staticmethod
-        @deprecator.sphinx.deprecator(**kwargs)
+        @deprecat.sphinx.deprecat(**kwargs)
         def foo4():
             pass
 
@@ -226,12 +226,12 @@ def sphinx_deprecator_static_method(request):
 
 
 @pytest.fixture(scope="module", params=_PARAMS)
-def sphinx_deprecator_class_method(request):
+def sphinx_deprecat_class_method(request):
     kwargs = request.param
 
     class Foo5(object):
         @classmethod
-        @deprecator.sphinx.deprecator(**kwargs)
+        @deprecat.sphinx.deprecat(**kwargs)
         def foo5(cls):
             pass
 
@@ -239,10 +239,10 @@ def sphinx_deprecator_class_method(request):
 
 
 # noinspection PyShadowingNames
-def test_sphinx_deprecator_function__warns(sphinx_deprecator_function):
+def test_sphinx_deprecat_function__warns(sphinx_deprecat_function):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
-        sphinx_deprecator_function()
+        sphinx_deprecat_function()
     assert len(warns) == 1
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
@@ -253,10 +253,10 @@ def test_sphinx_deprecator_function__warns(sphinx_deprecator_function):
 @pytest.mark.skipif(
     sys.version_info < (3, 3), reason="Classes should have mutable docstrings -- resolved in python 3.3"
 )
-def test_sphinx_deprecator_class__warns(sphinx_deprecator_class):
+def test_sphinx_deprecat_class__warns(sphinx_deprecat_class):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
-        sphinx_deprecator_class()
+        sphinx_deprecat_class()
     assert len(warns) == 1
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
@@ -264,10 +264,10 @@ def test_sphinx_deprecator_class__warns(sphinx_deprecator_class):
 
 
 # noinspection PyShadowingNames
-def test_sphinx_deprecator_method__warns(sphinx_deprecator_method):
+def test_sphinx_deprecat_method__warns(sphinx_deprecat_method):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
-        obj = sphinx_deprecator_method()
+        obj = sphinx_deprecat_method()
         obj.foo3()
     assert len(warns) == 1
     warn = warns[0]
@@ -276,10 +276,10 @@ def test_sphinx_deprecator_method__warns(sphinx_deprecator_method):
 
 
 # noinspection PyShadowingNames
-def test_sphinx_deprecator_static_method__warns(sphinx_deprecator_static_method):
+def test_sphinx_deprecat_static_method__warns(sphinx_deprecat_static_method):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
-        sphinx_deprecator_static_method()
+        sphinx_deprecat_static_method()
     assert len(warns) == 1
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
@@ -287,10 +287,10 @@ def test_sphinx_deprecator_static_method__warns(sphinx_deprecator_static_method)
 
 
 # noinspection PyShadowingNames
-def test_sphinx_deprecator_class_method__warns(sphinx_deprecator_class_method):
+def test_sphinx_deprecat_class_method__warns(sphinx_deprecat_class_method):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
-        cls = sphinx_deprecator_class_method()
+        cls = sphinx_deprecat_class_method()
         cls.foo5()
     assert len(warns) == 1
     warn = warns[0]
@@ -303,7 +303,7 @@ def test_sphinx_deprecator_class_method__warns(sphinx_deprecator_class_method):
 
 def test_should_raise_type_error():
     try:
-        @deprecator.sphinx.deprecator(version="4.5.6", reason=5)
+        @deprecat.sphinx.deprecat(version="4.5.6", reason=5)
         def foo():
             pass
 
@@ -315,7 +315,7 @@ def test_should_raise_type_error():
 def test_warning_msg_has_reason():
     reason = "Good reason"
 
-    @deprecator.sphinx.deprecator(version="4.5.6", reason=reason)
+    @deprecat.sphinx.deprecat(version="4.5.6", reason=reason)
     def foo():
         pass
 
@@ -328,7 +328,7 @@ def test_warning_msg_has_reason():
 def test_warning_msg_has_version():
     version = "1.2.3"
 
-    @deprecator.sphinx.deprecator(version=version)
+    @deprecat.sphinx.deprecat(version=version)
     def foo():
         pass
 
@@ -339,7 +339,7 @@ def test_warning_msg_has_version():
 
 
 def test_warning_is_ignored():
-    @deprecator.sphinx.deprecator(version="4.5.6", action='ignore')
+    @deprecat.sphinx.deprecat(version="4.5.6", action='ignore')
     def foo():
         pass
 
@@ -349,7 +349,7 @@ def test_warning_is_ignored():
 
 
 def test_specific_warning_cls_is_used():
-    @deprecator.sphinx.deprecator(version="4.5.6", category=MyDeprecationWarning)
+    @deprecat.sphinx.deprecat(version="4.5.6", category=MyDeprecationWarning)
     def foo():
         pass
 
@@ -374,7 +374,7 @@ def test_can_catch_warnings():
     ],
 )
 def test_sphinx_syntax_trimming(reason, expected):
-    @deprecator.sphinx.deprecator(version="4.5.6", reason=reason)
+    @deprecat.sphinx.deprecat(version="4.5.6", reason=reason)
     def foo():
         pass
 
@@ -412,7 +412,7 @@ def test_sphinx_syntax_trimming(reason, expected):
         ("Use :::`bad` instead", "Use :::`bad` instead"),
     ],
 )
-def test_get_deprecator_msg(reason, expected):
-    adapter = deprecator.sphinx.SphinxAdapter("deprecated", reason=reason, version="1")
-    actual = adapter.get_deprecator_msg(lambda: None, None)
+def test_get_deprecat_msg(reason, expected):
+    adapter = deprecat.sphinx.SphinxAdapter("deprecated", reason=reason, version="1")
+    actual = adapter.get_deprecat_msg(lambda: None, None)
     assert expected in actual

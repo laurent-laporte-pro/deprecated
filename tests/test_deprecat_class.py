@@ -5,7 +5,7 @@ import inspect
 import io
 import warnings
 
-import deprecator.classic
+import deprecat.classic
 
 
 def test_simple_class_deprecation():
@@ -88,8 +88,8 @@ def test_class_deprecation_using_a_simple_decorator():
     assert stream.getvalue().strip() == u"I am deprecated!"
 
 
-def test_class_deprecation_using_deprecator_decorator():
-    @deprecator.classic.deprecator
+def test_class_deprecation_using_deprecat_decorator():
+    @deprecat.classic.deprecat
     class MyBaseClass(object):
         pass
 
@@ -107,7 +107,7 @@ def test_class_deprecation_using_deprecator_decorator():
 
 
 def test_class_respect_global_filter():
-    @deprecator.classic.deprecator
+    @deprecat.classic.deprecat
     class MyBaseClass(object):
         pass
 
@@ -119,12 +119,12 @@ def test_class_respect_global_filter():
     assert len(warns) == 1
 
 
-def test_subclass_deprecation_using_deprecator_decorator():
-    @deprecator.classic.deprecator
+def test_subclass_deprecation_using_deprecat_decorator():
+    @deprecat.classic.deprecat
     class MyBaseClass(object):
         pass
 
-    @deprecator.classic.deprecator
+    @deprecat.classic.deprecat
     class MySubClass(MyBaseClass):
         pass
 
@@ -139,7 +139,7 @@ def test_subclass_deprecation_using_deprecator_decorator():
 
 
 def test_simple_class_deprecation_with_args():
-    @deprecator.classic.deprecator('kwargs class')
+    @deprecat.classic.deprecat('kwargs class')
     class MyClass(object):
         def __init__(self, arg):
             super(MyClass, self).__init__()

@@ -1,6 +1,6 @@
-# deprecator Decorator
+# deprecat Decorator
 
-Python ``@deprecator`` decorator to deprecate old python classes, functions or methods.
+Python ``@deprecat`` decorator to deprecate old python classes, functions or methods.
 
 [![Build Status](https://travis-ci.com/tantale/deprecated.svg?branch=master)](https://travis-ci.com/tantale/deprecated)
 [![Build status](https://ci.appveyor.com/api/projects/status/ctgktcdg2pf8lsxe?svg=true)](https://ci.appveyor.com/project/tantale/deprecated)
@@ -12,18 +12,18 @@ Python ``@deprecator`` decorator to deprecate old python classes, functions or m
 ## Installation
 
 ```shell
-pip install deprecator
+pip install deprecat
 ```
 
 ## Usage
 
-To use this, decorate your deprecated function with **@deprecator** decorator:
+To use this, decorate your deprecated function with **@deprecat** decorator:
 
 ```python
-from deprecator import deprecator
+from deprecat import deprecat
 
 
-@deprecator
+@deprecat
 def some_old_function(x, y):
     return x + y
 ```
@@ -31,16 +31,16 @@ def some_old_function(x, y):
 You can also decorate a class or a method:
 
 ```python
-from deprecated import deprecator
+from deprecated import deprecat
 
 
 class SomeClass(object):
-    @deprecator
+    @deprecat
     def some_old_method(self, x, y):
         return x + y
 
 
-@deprecator
+@deprecat
 class SomeOldClass(object):
     pass
 ```
@@ -48,10 +48,10 @@ class SomeOldClass(object):
 You can give a "reason" message to help the developer to choose another function/class:
 
 ```python
-from deprecator import deprecator
+from deprecat import deprecat
 
 
-@deprecator(reason="use another function")
+@deprecat(reason="use another function")
 def some_old_function(x, y):
     return x + y
 ```

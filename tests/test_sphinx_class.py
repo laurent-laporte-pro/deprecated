@@ -8,7 +8,7 @@ import warnings
 
 import pytest
 
-import deprecator.sphinx
+import deprecat.sphinx
 
 
 def test_class_deprecation_using_a_simple_decorator():
@@ -44,8 +44,8 @@ def test_class_deprecation_using_a_simple_decorator():
 @pytest.mark.skipif(
     sys.version_info < (3, 3), reason="Classes should have mutable docstrings -- resolved in python 3.3"
 )
-def test_class_deprecation_using_deprecator_decorator():
-    @deprecator.sphinx.deprecator(version="7.8.9")
+def test_class_deprecation_using_deprecat_decorator():
+    @deprecat.sphinx.deprecat(version="7.8.9")
     class MyBaseClass(object):
         pass
 
@@ -65,12 +65,12 @@ def test_class_deprecation_using_deprecator_decorator():
 @pytest.mark.skipif(
     sys.version_info < (3, 3), reason="Classes should have mutable docstrings -- resolved in python 3.3"
 )
-def test_subclass_deprecation_using_deprecator_decorator():
-    @deprecator.sphinx.deprecator(version="7.8.9")
+def test_subclass_deprecation_using_deprecat_decorator():
+    @deprecat.sphinx.deprecat(version="7.8.9")
     class MyBaseClass(object):
         pass
 
-    @deprecator.sphinx.deprecator(version="7.8.9")
+    @deprecat.sphinx.deprecat(version="7.8.9")
     class MySubClass(MyBaseClass):
         pass
 
@@ -88,11 +88,11 @@ def test_subclass_deprecation_using_deprecator_decorator():
     sys.version_info < (3, 3), reason="Classes should have mutable docstrings -- resolved in python 3.3"
 )
 def test_isinstance_versionadded():
-    @deprecator.sphinx.versionadded(version="X.Y", reason="some reason")
+    @deprecat.sphinx.versionadded(version="X.Y", reason="some reason")
     class VersionAddedCls:
         pass
 
-    @deprecator.sphinx.versionadded(version="X.Y", reason="some reason")
+    @deprecat.sphinx.versionadded(version="X.Y", reason="some reason")
     class VersionAddedChildCls(VersionAddedCls):
         pass
 
@@ -105,11 +105,11 @@ def test_isinstance_versionadded():
     sys.version_info < (3, 3), reason="Classes should have mutable docstrings -- resolved in python 3.3"
 )
 def test_isinstance_versionchanged():
-    @deprecator.sphinx.versionchanged(version="X.Y", reason="some reason")
+    @deprecat.sphinx.versionchanged(version="X.Y", reason="some reason")
     class VersionChangedCls:
         pass
 
-    @deprecator.sphinx.versionchanged(version="X.Y", reason="some reason")
+    @deprecat.sphinx.versionchanged(version="X.Y", reason="some reason")
     class VersionChangedChildCls(VersionChangedCls):
         pass
 
@@ -121,26 +121,26 @@ def test_isinstance_versionchanged():
 @pytest.mark.skipif(
     sys.version_info < (3, 3), reason="Classes should have mutable docstrings -- resolved in python 3.3"
 )
-def test_isinstance_deprecator():
-    @deprecator.sphinx.deprecator(version="X.Y", reason="some reason")
-    class deprecatorCls:
+def test_isinstance_deprecat():
+    @deprecat.sphinx.deprecat(version="X.Y", reason="some reason")
+    class deprecatCls:
         pass
 
-    @deprecator.sphinx.deprecator(version="Y.Z", reason="some reason")
-    class deprecatorChildCls(deprecatorCls):
+    @deprecat.sphinx.deprecat(version="Y.Z", reason="some reason")
+    class deprecatChildCls(deprecatCls):
         pass
 
-    instance = deprecatorChildCls()
-    assert isinstance(instance, deprecatorChildCls)
-    assert isinstance(instance, deprecatorCls)
+    instance = deprecatChildCls()
+    assert isinstance(instance, deprecatChildCls)
+    assert isinstance(instance, deprecatCls)
 
 
 @pytest.mark.skipif(
     sys.version_info < (3, 3), reason="Classes should have mutable docstrings -- resolved in python 3.3"
 )
 def test_isinstance_versionadded_versionchanged():
-    @deprecator.sphinx.versionadded(version="X.Y")
-    @deprecator.sphinx.versionchanged(version="X.Y.Z")
+    @deprecat.sphinx.versionadded(version="X.Y")
+    @deprecat.sphinx.versionchanged(version="X.Y.Z")
     class AddedChangedCls:
         pass
 

@@ -4,7 +4,7 @@ import warnings
 
 import pytest
 
-import deprecator.classic
+import deprecat.classic
 
 
 class MyDeprecationWarning(DeprecationWarning):
@@ -23,10 +23,10 @@ _PARAMS = [
 
 
 @pytest.fixture(scope="module", params=_PARAMS)
-def classic_deprecator_function(request):
+def classic_deprecat_function(request):
     if request.param is None:
 
-        @deprecator.classic.deprecator
+        @deprecat.classic.deprecat
         def foo1():
             pass
 
@@ -34,7 +34,7 @@ def classic_deprecator_function(request):
     else:
         args, kwargs = request.param
 
-        @deprecator.classic.deprecator(*args, **kwargs)
+        @deprecat.classic.deprecat(*args, **kwargs)
         def foo1():
             pass
 
@@ -42,10 +42,10 @@ def classic_deprecator_function(request):
 
 
 @pytest.fixture(scope="module", params=_PARAMS)
-def classic_deprecator_class(request):
+def classic_deprecat_class(request):
     if request.param is None:
 
-        @deprecator.classic.deprecator
+        @deprecat.classic.deprecat
         class Foo2(object):
             pass
 
@@ -53,7 +53,7 @@ def classic_deprecator_class(request):
     else:
         args, kwargs = request.param
 
-        @deprecator.classic.deprecator(*args, **kwargs)
+        @deprecat.classic.deprecat(*args, **kwargs)
         class Foo2(object):
             pass
 
@@ -61,11 +61,11 @@ def classic_deprecator_class(request):
 
 
 @pytest.fixture(scope="module", params=_PARAMS)
-def classic_deprecator_method(request):
+def classic_deprecat_method(request):
     if request.param is None:
 
         class Foo3(object):
-            @deprecator.classic.deprecator
+            @deprecat.classic.deprecat
             def foo3(self):
                 pass
 
@@ -74,7 +74,7 @@ def classic_deprecator_method(request):
         args, kwargs = request.param
 
         class Foo3(object):
-            @deprecator.classic.deprecator(*args, **kwargs)
+            @deprecat.classic.deprecat(*args, **kwargs)
             def foo3(self):
                 pass
 
@@ -82,12 +82,12 @@ def classic_deprecator_method(request):
 
 
 @pytest.fixture(scope="module", params=_PARAMS)
-def classic_deprecator_static_method(request):
+def classic_deprecat_static_method(request):
     if request.param is None:
 
         class Foo4(object):
             @staticmethod
-            @deprecator.classic.deprecator
+            @deprecat.classic.deprecat
             def foo4():
                 pass
 
@@ -97,7 +97,7 @@ def classic_deprecator_static_method(request):
 
         class Foo4(object):
             @staticmethod
-            @deprecator.classic.deprecator(*args, **kwargs)
+            @deprecat.classic.deprecat(*args, **kwargs)
             def foo4():
                 pass
 
@@ -105,12 +105,12 @@ def classic_deprecator_static_method(request):
 
 
 @pytest.fixture(scope="module", params=_PARAMS)
-def classic_deprecator_class_method(request):
+def classic_deprecat_class_method(request):
     if request.param is None:
 
         class Foo5(object):
             @classmethod
-            @deprecator.classic.deprecator
+            @deprecat.classic.deprecat
             def foo5(cls):
                 pass
 
@@ -120,7 +120,7 @@ def classic_deprecator_class_method(request):
 
         class Foo5(object):
             @classmethod
-            @deprecator.classic.deprecator(*args, **kwargs)
+            @deprecat.classic.deprecat(*args, **kwargs)
             def foo5(cls):
                 pass
 
@@ -128,10 +128,10 @@ def classic_deprecator_class_method(request):
 
 
 # noinspection PyShadowingNames
-def test_classic_deprecator_function__warns(classic_deprecator_function):
+def test_classic_deprecat_function__warns(classic_deprecat_function):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
-        classic_deprecator_function()
+        classic_deprecat_function()
     assert len(warns) == 1
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
@@ -140,10 +140,10 @@ def test_classic_deprecator_function__warns(classic_deprecator_function):
 
 
 # noinspection PyShadowingNames
-def test_classic_deprecator_class__warns(classic_deprecator_class):
+def test_classic_deprecat_class__warns(classic_deprecat_class):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
-        classic_deprecator_class()
+        classic_deprecat_class()
     assert len(warns) == 1
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
@@ -152,10 +152,10 @@ def test_classic_deprecator_class__warns(classic_deprecator_class):
 
 
 # noinspection PyShadowingNames
-def test_classic_deprecator_method__warns(classic_deprecator_method):
+def test_classic_deprecat_method__warns(classic_deprecat_method):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
-        obj = classic_deprecator_method()
+        obj = classic_deprecat_method()
         obj.foo3()
     assert len(warns) == 1
     warn = warns[0]
@@ -165,10 +165,10 @@ def test_classic_deprecator_method__warns(classic_deprecator_method):
 
 
 # noinspection PyShadowingNames
-def test_classic_deprecator_static_method__warns(classic_deprecator_static_method):
+def test_classic_deprecat_static_method__warns(classic_deprecat_static_method):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
-        classic_deprecator_static_method()
+        classic_deprecat_static_method()
     assert len(warns) == 1
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
@@ -177,10 +177,10 @@ def test_classic_deprecator_static_method__warns(classic_deprecator_static_metho
 
 
 # noinspection PyShadowingNames
-def test_classic_deprecator_class_method__warns(classic_deprecator_class_method):
+def test_classic_deprecat_class_method__warns(classic_deprecat_class_method):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
-        cls = classic_deprecator_class_method()
+        cls = classic_deprecat_class_method()
         cls.foo5()
     assert len(warns) == 1
     warn = warns[0]
@@ -194,7 +194,7 @@ def test_classic_deprecator_class_method__warns(classic_deprecator_class_method)
 
 def test_should_raise_type_error():
     try:
-        deprecator.classic.deprecator(5)
+        deprecat.classic.deprecat(5)
         assert False, "TypeError not raised"
     except TypeError:
         pass
@@ -203,7 +203,7 @@ def test_should_raise_type_error():
 def test_warning_msg_has_reason():
     reason = "Good reason"
 
-    @deprecator.classic.deprecator(reason=reason)
+    @deprecat.classic.deprecat(reason=reason)
     def foo():
         pass
 
@@ -216,7 +216,7 @@ def test_warning_msg_has_reason():
 def test_warning_msg_has_version():
     version = "1.2.3"
 
-    @deprecator.classic.deprecator(version=version)
+    @deprecat.classic.deprecat(version=version)
     def foo():
         pass
 
@@ -227,7 +227,7 @@ def test_warning_msg_has_version():
 
 
 def test_warning_is_ignored():
-    @deprecator.classic.deprecator(action='ignore')
+    @deprecat.classic.deprecat(action='ignore')
     def foo():
         pass
 
@@ -237,7 +237,7 @@ def test_warning_is_ignored():
 
 
 def test_specific_warning_cls_is_used():
-    @deprecator.classic.deprecator(category=MyDeprecationWarning)
+    @deprecat.classic.deprecat(category=MyDeprecationWarning)
     def foo():
         pass
 
@@ -248,7 +248,7 @@ def test_specific_warning_cls_is_used():
 
 
 def test_respect_global_filter():
-    @deprecator.classic.deprecator(version='1.2.1', reason="deprecated function")
+    @deprecat.classic.deprecat(version='1.2.1', reason="deprecated function")
     def fun():
         print("fun")
 

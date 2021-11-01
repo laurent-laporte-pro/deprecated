@@ -4,17 +4,18 @@
 from setuptools import setup
 
 setup(
-    name='deprecator',
+    name='deprecat',
     version='1.0.0',
-    url='https://github.com/mjhajharia/deprecator',
+    url='https://github.com/mjhajharia/deprecat',
+    download_url='https://github.com/mjhajharia/deprecat/archive/refs/tags/v1.0.0.tar.gz',
     license='MIT',
-    author='Meenal Jhajharia',  # since v1.1.0
+    author='Meenal Jhajharia',  
     author_email='meenal@mjhajharia.com',
-    description='Python @deprecator decorator to deprecate old python classes, functions or methods.',
+    description='Python @deprecat decorator to deprecate old python classes, functions or methods.',
     long_description=__doc__,
     long_description_content_type="text/x-rst",
     keywords='deprecate,deprecated,deprecation,warning,warn,decorator',
-    packages=['deprecator'],
+    packages=['deprecat'],
     install_requires=['wrapt < 2, >= 1.10'],
     zip_safe=False,
     include_package_data=True,

@@ -3,10 +3,10 @@ import textwrap
 
 import pytest
 
-from deprecator.sphinx import SphinxAdapter
-from deprecator.sphinx import deprecator
-from deprecator.sphinx import versionadded
-from deprecator.sphinx import versionchanged
+from deprecat.sphinx import SphinxAdapter
+from deprecat.sphinx import deprecat
+from deprecat.sphinx import versionadded
+from deprecat.sphinx import versionchanged
 
 
 @pytest.mark.parametrize(

@@ -1,6 +1,7 @@
 The MIT License (MIT)
 
 Copyright (c) 2017 -- November 2021, Laurent LAPORTE
+
 Copyright (c) November 2021, Meenal Jhajharia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

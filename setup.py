@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name='deprecator',
-    version='1.0',
+    version='1.0.0',
     url='https://github.com/mjhajharia/deprecator',
     license='MIT',
     author='Meenal Jhajharia',  # since v1.1.0

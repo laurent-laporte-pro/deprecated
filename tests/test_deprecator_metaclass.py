@@ -1,7 +1,7 @@
 # coding: utf-8
 import warnings
 
-import deprecated.classic
+import deprecator.classic
 
 
 def with_metaclass(meta, *bases):
@@ -22,7 +22,7 @@ def with_metaclass(meta, *bases):
 
 
 def test_with_init():
-    @deprecated.classic.deprecated
+    @deprecator.classic.deprecator
     class MyClass(object):
         def __init__(self, a, b=5):
             self.a = a
@@ -39,7 +39,7 @@ def test_with_init():
 
 
 def test_with_new():
-    @deprecated.classic.deprecated
+    @deprecator.classic.deprecator
     class MyClass(object):
         def __new__(cls, a, b=5):
             obj = super(MyClass, cls).__new__(cls)
@@ -68,7 +68,7 @@ def test_with_metaclass():
             obj.c = 3.14
             return obj
 
-    @deprecated.classic.deprecated
+    @deprecator.classic.deprecator
     class MyClass(with_metaclass(Meta)):
         def __init__(self, a, b=5):
             self.a = a
@@ -94,7 +94,7 @@ def test_with_singleton_metaclass():
                 cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
             return cls._instances[cls]
 
-    @deprecated.classic.deprecated
+    @deprecator.classic.deprecator
     class MyClass(with_metaclass(Singleton)):
         def __init__(self, a, b=5):
             self.a = a

@@ -5,7 +5,7 @@ import inspect
 import io
 import warnings
 
-import deprecated.classic
+import deprecator.classic
 
 
 def test_simple_class_deprecation():
@@ -36,7 +36,7 @@ def test_class_deprecation_using_wrapper():
     class MyBaseClass(object):
         pass
 
-    # To deprecated the class, we use a wrapper function which emits
+    # To deprecate the class, we use a wrapper function which emits
     # the deprecation message and calls ``__new__```.
 
     original_new = MyBaseClass.__new__
@@ -62,14 +62,14 @@ def test_class_deprecation_using_a_simple_decorator():
     # stream is used to store the deprecation message for testing
     stream = io.StringIO()
 
-    # To deprecated the class, we use a simple decorator
+    # To deprecate the class, we use a simple decorator
     # which patches the original ``__new__`` method.
 
     def simple_decorator(wrapped_cls):
         old_new = wrapped_cls.__new__
 
         def wrapped_new(unused, *args, **kwargs):
-            print(u"I am deprecated!", file=stream)
+            print(u"I am deprecate!", file=stream)
             return old_new(*args, **kwargs)
 
         wrapped_cls.__new__ = classmethod(wrapped_new)
@@ -88,8 +88,8 @@ def test_class_deprecation_using_a_simple_decorator():
     assert stream.getvalue().strip() == u"I am deprecated!"
 
 
-def test_class_deprecation_using_deprecated_decorator():
-    @deprecated.classic.deprecated
+def test_class_deprecation_using_deprecator_decorator():
+    @deprecator.classic.deprecator
     class MyBaseClass(object):
         pass
 
@@ -107,7 +107,7 @@ def test_class_deprecation_using_deprecated_decorator():
 
 
 def test_class_respect_global_filter():
-    @deprecated.classic.deprecated
+    @deprecator.classic.deprecator
     class MyBaseClass(object):
         pass
 
@@ -119,12 +119,12 @@ def test_class_respect_global_filter():
     assert len(warns) == 1
 
 
-def test_subclass_deprecation_using_deprecated_decorator():
-    @deprecated.classic.deprecated
+def test_subclass_deprecation_using_deprecator_decorator():
+    @deprecator.classic.deprecator
     class MyBaseClass(object):
         pass
 
-    @deprecated.classic.deprecated
+    @deprecator.classic.deprecator
     class MySubClass(MyBaseClass):
         pass
 
@@ -139,7 +139,7 @@ def test_subclass_deprecation_using_deprecated_decorator():
 
 
 def test_simple_class_deprecation_with_args():
-    @deprecated.classic.deprecated('kwargs class')
+    @deprecator.classic.deprecator('kwargs class')
     class MyClass(object):
         def __init__(self, arg):
             super(MyClass, self).__init__()

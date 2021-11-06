@@ -1,7 +1,7 @@
 # What Python version is installed where:
 # http://www.appveyor.com/docs/installed-software#python
 
-version: 1.2.14.{build}
+version: 1.3.0.{build}
 
 environment:
   matrix:

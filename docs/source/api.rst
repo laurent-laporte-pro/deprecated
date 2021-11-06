@@ -11,5 +11,8 @@ This part of the documentation covers all the interfaces of the Deprecated Libra
 .. automodule:: deprecated.classic
    :members:
 
+.. automodule:: deprecated.deprecated_params
+   :members:
+
 .. automodule:: deprecated.sphinx
    :members:

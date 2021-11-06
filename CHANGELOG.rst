@@ -17,6 +17,12 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
     - I decided to keep the same version number because there is really no change in the source code
       (only in comment or documentation).
 
+v1.3.0 (unreleased)
+===================
+
+Minor release: Parameters deprecation
+
+
 v1.2.18 (2024-01-25)
 ====================
 

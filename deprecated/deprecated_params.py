@@ -53,8 +53,8 @@ class DeprecatedParams(object):
 
     def check_params(self, signature, *args, **kwargs):
         binding = signature.bind(*args, **kwargs)
-        binded = collections.OrderedDict(binding.arguments, **binding.kwargs)
-        return [param for param in binded if param in self.messages]
+        bound = collections.OrderedDict(binding.arguments, **binding.kwargs)
+        return [param for param in bound if param in self.messages]
 
     def warn_messages(self, messages):
         # type: (list[str]) -> None

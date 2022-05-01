@@ -9,7 +9,7 @@ import warnings
 
 import pytest
 
-from deprecated import deprecated_params
+from deprecated.params import deprecated_params
 
 PY38 = sys.version_info[0:2] >= (3, 8)
 

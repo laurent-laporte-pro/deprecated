@@ -8,7 +8,7 @@ import warnings
 
 import pytest
 
-from deprecated import deprecated_params
+from deprecated.params import deprecated_params
 
 
 @deprecated_params(

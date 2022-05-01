@@ -9,7 +9,7 @@ import xml.sax.saxutils
 
 import pytest
 
-from deprecated import deprecated_params
+from deprecated.params import deprecated_params
 
 PY3 = sys.version_info[0] == 3
 

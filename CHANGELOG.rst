@@ -23,6 +23,11 @@ v1.2.14 (unreleased)
 
 Bug fix release
 
+Other
+-----
+
+- Add support for Python 3.11.
+
 
 v1.2.13 (2021-09-05)
 ====================

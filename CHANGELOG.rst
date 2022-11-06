@@ -28,6 +28,11 @@ Fix
 
 - Fix #60: return a correctly dedented docstring when long docstring are using the D212 or D213 format.
 
+Other
+-----
+
+- Add support for Python 3.11.
+
 
 v1.2.13 (2021-09-05)
 ====================

@@ -190,6 +190,7 @@ setup(
             'PyTest-Cov',
             'bump2version < 1',
             'sphinx < 2',
+            'importlib-metadata'
         ]
     },
     python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',

@@ -14,7 +14,7 @@ python:
 jobs:
  exclude:
   - arch: ppc64le
-    python: "pypy3.9"
+    python: "pypy3.9-7.3.9"
 
 allow_failures:
     - python: "3.12-dev"

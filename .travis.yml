@@ -3,29 +3,20 @@ arch:
   - ppc64le
 language: python
 python:
-  - "2.7"
-  - "3.5"
-  - "3.6"
   - "3.7"
   - "3.8"
   - "3.9"
   - "3.10"
-  - "3.11-dev"  # development branch
-  - "pypy"
+  - "3.11"  # development branch
+  - "3.12-dev"
   - "pypy3"
 jobs:
  exclude:
   - arch: ppc64le
-    python: "2.7"
-  - arch: ppc64le
-    python: "pypy"
-  - arch: ppc64le
     python: "pypy3"
-  - arch: amd64
-    python: "pypy"
 
 allow_failures:
-    - python: "3.10-dev"
+    - python: "3.12-dev"
 
 install:
   - pip install coveralls tox-travis

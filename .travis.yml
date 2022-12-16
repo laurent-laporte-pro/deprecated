@@ -20,7 +20,7 @@ allow_failures:
     - python: "3.12-dev"
 
 install:
-  - pip install coveralls tox-travis
+  - pip install coveralls tox-travis importlib_metadata
 script:
   tox
 after_success:

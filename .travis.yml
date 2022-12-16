@@ -1,3 +1,4 @@
+dist: focal
 arch:
   - amd64
   - ppc64le
@@ -9,11 +10,11 @@ python:
   - "3.10"
   - "3.11"  # development branch
   - "3.12-dev"
-  - "pypy3"
+  - "pypy3.9"
 jobs:
  exclude:
   - arch: ppc64le
-    python: "pypy3"
+    python: "pypy3.9"
 
 allow_failures:
     - python: "3.12-dev"

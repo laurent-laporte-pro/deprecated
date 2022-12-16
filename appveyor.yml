@@ -1,10 +1,12 @@
-# What Python version is installed where:
-# http://www.appveyor.com/docs/installed-software#python
-
+# Deprecated's package version, sync with setup.py
 version: 1.2.14.{build}
+# Explicitly set base image to use
+image: Visual Studio 2022
 
 environment:
   matrix:
+    # What Python version is installed where:
+    # https://www.appveyor.com/docs/windows-images-software/#python
     - PYTHON: "C:\\Python37"
       TOX_ENV: "py37"
 

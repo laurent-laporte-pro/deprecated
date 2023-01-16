@@ -20,8 +20,7 @@ allow_failures:
     - python: "3.12-dev"
 
 install:
-  # TODO: Remove tox limitation when https://github.com/tox-dev/tox-travis/pull/160
-  - pip install coveralls tox-travis importlib_metadata 'tox<4'
+  - pip install coveralls tox-travis importlib_metadata
 script:
   tox
 after_success:

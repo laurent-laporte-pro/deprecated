@@ -27,6 +27,7 @@ Other
 -----
 
 - Add support for Python 3.11.
+- Drops support for all Python versions earlier than 3.7, including 2.7.
 
 
 v1.2.13 (2021-09-05)

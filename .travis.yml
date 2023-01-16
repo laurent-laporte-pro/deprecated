@@ -8,8 +8,8 @@ python:
   - "3.8"
   - "3.9"
   - "3.10"
-  - "3.11"  # development branch
-  - "3.12-dev"
+  - "3.11"
+  - "3.12-dev"  # development branch
   - "pypy3.9-7.3.9"
 jobs:
  exclude:

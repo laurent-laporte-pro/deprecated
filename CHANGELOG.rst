@@ -33,6 +33,11 @@ Other
 
 - Add support for Python 3.11.
 
+- Drop support for Python older than 3.7 in build systems like pytest and tox,
+  while ensuring the library remains production-compatible.
+
+- Update GitHub workflow to run in recent Python versions.
+
 
 v1.2.13 (2021-09-05)
 ====================

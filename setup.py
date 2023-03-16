@@ -169,12 +169,7 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
@@ -185,19 +180,11 @@ setup(
     extras_require={
         'dev': [
             'tox',
-            'PyTest             ; python_version >= "3.6"',
-            'PyTest < 5         ; python_version < "3.6"',
-            'PyTest-Cov         ; python_version >= "3.6"',
-            'PyTest-Cov < 2.6   ; python_version < "3.6"',
+            'PyTest',
+            'PyTest-Cov'
             'bump2version < 1',
             'sphinx < 2',
-            # Python 2.7 EOL:
-            'importlib-metadata < 3       ; python_version < "3"',
-            'importlib-resources < 4      ; python_version < "3"',
-            'configparser < 5             ; python_version < "3"',
-            'sphinxcontrib-websupport < 2 ; python_version < "3"',
-            'zipp < 2                     ; python_version < "3"',
         ]
     },
-    python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',
+    python_requires='>=3.6',
 )

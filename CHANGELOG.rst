@@ -23,8 +23,13 @@ v1.2.14 (unreleased)
 
 Bug fix release
 
-Other
------
+Fix
+---
+
+- Fix #60: return a correctly dedented docstring when long docstring are using the D212 or D213 format.
+
+GitHub Workflows
+----------------
 
 - Add support for Python 3.11.
 - Drops support for all Python versions earlier than 3.7, including 2.7.

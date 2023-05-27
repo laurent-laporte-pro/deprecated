@@ -23,8 +23,14 @@ import deprecated.sphinx
         :param y: number *y*
         :return: sum = *x* + *y*
         """,
+        """This function adds *x* and *y*.
+
+        :param x: number *x*
+        :param y: number *y*
+        :return: sum = *x* + *y*
+        """,
     ],
-    ids=["no_docstring", "short_docstring", "long_docstring"],
+    ids=["no_docstring", "short_docstring", "D213_long_docstring", "D212_long_docstring"],
 )
 def docstring(request):
     return request.param

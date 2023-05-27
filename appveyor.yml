@@ -1,5 +1,5 @@
 # Deprecated's package version, sync with setup.py
-version: 1.2.14.{build}
+version: 1.3.0.{build}
 # Explicitly set base image to use
 image: Visual Studio 2022
 

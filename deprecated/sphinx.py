@@ -118,7 +118,11 @@ class SphinxAdapter(ClassicAdapter):
                 div_lines.append("")
 
         # -- get the docstring, normalize the trailing newlines
-        docstring = textwrap.dedent(wrapped.__doc__ or "")
+        # keep a consistent behaviour if the docstring starts with newline or directly on the first one
+        docstring = wrapped.__doc__ or ""
+        lines = docstring.splitlines(keepends=True) or [""]
+        docstring = textwrap.dedent("".join(lines[1:])) if len(lines) > 1 else ""
+        docstring = lines[0] + docstring
         if docstring:
             # An empty line must separate the original docstring and the directive.
             docstring = re.sub(r"\n+$", "", docstring, flags=re.DOTALL) + "\n\n"

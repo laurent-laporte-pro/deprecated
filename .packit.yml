@@ -15,3 +15,8 @@ jobs:
   metadata:
     targets:
     - fedora-all
+
+srpm_build_deps:
+  - python3-pip
+  - python3-setuptools_scm
+

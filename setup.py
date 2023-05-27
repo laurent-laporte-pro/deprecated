@@ -178,24 +178,20 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
-        # 'Programming Language :: Python :: 3.10',  # scheduled on 2021-10-04
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     extras_require={
         'dev': [
             'tox',
-            'PyTest             ; python_version >= "3.6"',
-            'PyTest < 5         ; python_version < "3.6"',
-            'PyTest-Cov         ; python_version >= "3.6"',
-            'PyTest-Cov < 2.6   ; python_version < "3.6"',
+            'PyTest',
+            'PyTest-Cov',
             'bump2version < 1',
             'sphinx < 2',
-            # Python 2.7 EOL:
-            'importlib-metadata < 3       ; python_version < "3"',
-            'importlib-resources < 4      ; python_version < "3"',
-            'configparser < 5             ; python_version < "3"',
-            'sphinxcontrib-websupport < 2 ; python_version < "3"',
-            'zipp < 2                     ; python_version < "3"',
+            # jinja2 3.0.3 was the last version to have contextfunction that sphinx 1.x needs
+            'jinja2~=3.0.3',
         ]
     },
     python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',

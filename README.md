@@ -4,7 +4,7 @@ Python ``@deprecated`` decorator to deprecate old python classes, functions or m
 
 
 [![license](https://img.shields.io/badge/license-MIT-blue?logo=opensourceinitiative&logoColor=white)](https://raw.githubusercontent.com/tantale/deprecated/master/LICENSE.rst)
-[![GitHub release (release name instead of tag name)](https://img.shields.io/github/v/release/tantale/deprecated?logo=github&logoColor=white)](https://github.com/tantale/deprecated/releases)
+[![GitHub release](https://img.shields.io/github/v/release/tantale/deprecated?logo=github&logoColor=white)](https://github.com/tantale/deprecated/releases/latest)
 [![PyPI](https://img.shields.io/pypi/v/deprecated?logo=pypi&logoColor=white)](https://pypi.org/project/Deprecated/)
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/tantale/deprecated/python-package.yml?logo=github&logoColor=white)](https://github.com/tantale/deprecated/actions/workflows/python-package.yml)
 [![Coveralls branch](https://img.shields.io/coverallsCoverage/github/tantale/deprecated?logo=coveralls&logoColor=white)](https://coveralls.io/github/tantale/deprecated?branch=master)

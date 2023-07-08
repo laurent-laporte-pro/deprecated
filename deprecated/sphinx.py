@@ -48,6 +48,7 @@ class SphinxAdapter(ClassicAdapter):
         version="",
         action=None,
         category=DeprecationWarning,
+        extra_stacklevel=0,
         line_length=70,
     ):
         """
@@ -80,6 +81,11 @@ class SphinxAdapter(ClassicAdapter):
             By default, the category class is :class:`~DeprecationWarning`,
             you can inherit this class to define your own deprecation warning category.
 
+        :type  extra_stacklevel: int
+        :param extra_stacklevel:
+            The offset to apply to the stacklevel of the emitted warning.
+            By default, no offset is applied.
+
         :type  line_length: int
         :param line_length:
             Max line length of the directive text. If non nul, a long text is wrapped in several lines.
@@ -89,7 +95,9 @@ class SphinxAdapter(ClassicAdapter):
             raise ValueError("'version' argument is required in Sphinx directives")
         self.directive = directive
         self.line_length = line_length
-        super(SphinxAdapter, self).__init__(reason=reason, version=version, action=action, category=category)
+        super(SphinxAdapter, self).__init__(
+            reason=reason, version=version, action=action, category=category, extra_stacklevel=extra_stacklevel
+        )
 
     def __call__(self, wrapped):
         """
@@ -102,7 +110,7 @@ class SphinxAdapter(ClassicAdapter):
         # -- build the directive division
         fmt = ".. {directive}:: {version}" if self.version else ".. {directive}::"
         div_lines = [fmt.format(directive=self.directive, version=self.version)]
-        width = self.line_length - 3 if self.line_length > 3 else 2 ** 16
+        width = self.line_length - 3 if self.line_length > 3 else 2**16
         reason = textwrap.dedent(self.reason).strip()
         for paragraph in reason.splitlines():
             if paragraph:
@@ -248,6 +256,11 @@ def deprecated(reason="", version="", line_length=70, **kwargs):
         The warning category to use for the deprecation warning.
         By default, the category class is :class:`~DeprecationWarning`,
         you can inherit this class to define your own deprecation warning category.
+    
+    -   "extra_stacklevel":
+        The offset to apply to the stacklevel of the emitted warning.
+        By default, no offset is applied.
+
 
     :return: a decorator used to deprecate a function.
 

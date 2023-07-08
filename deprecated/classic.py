@@ -83,7 +83,7 @@ class ClassicAdapter(wrapt.AdapterFactory):
            return x + y
     """
 
-    def __init__(self, reason="", version="", action=None, category=DeprecationWarning):
+    def __init__(self, reason="", version="", action=None, category=DeprecationWarning, extra_stacklevel=0):
         """
         Construct a wrapper adapter.
 
@@ -109,11 +109,17 @@ class ClassicAdapter(wrapt.AdapterFactory):
             The warning category to use for the deprecation warning.
             By default, the category class is :class:`~DeprecationWarning`,
             you can inherit this class to define your own deprecation warning category.
+
+        :type  extra_stacklevel: int
+        :param extra_stacklevel:
+            The offset to apply to the stacklevel of the emitted warning.
+            By default, no offset is applied.
         """
         self.reason = reason or ""
         self.version = version or ""
         self.action = action
         self.category = category
+        self.extra_stacklevel = extra_stacklevel
         super(ClassicAdapter, self).__init__()
 
     def get_deprecated_msg(self, wrapped, instance):
@@ -164,9 +170,9 @@ class ClassicAdapter(wrapt.AdapterFactory):
                 if self.action:
                     with warnings.catch_warnings():
                         warnings.simplefilter(self.action, self.category)
-                        warnings.warn(msg, category=self.category, stacklevel=_class_stacklevel)
+                        warnings.warn(msg, category=self.category, stacklevel=_class_stacklevel + self.extra_stacklevel)
                 else:
-                    warnings.warn(msg, category=self.category, stacklevel=_class_stacklevel)
+                    warnings.warn(msg, category=self.category, stacklevel=_class_stacklevel + self.extra_stacklevel)
                 if old_new1 is object.__new__:
                     return old_new1(cls)
                 # actually, we don't know the real signature of *old_new1*
@@ -265,6 +271,7 @@ def deprecated(*args, **kwargs):
         category = kwargs.get('category', DeprecationWarning)
         adapter_cls = kwargs.pop('adapter_cls', ClassicAdapter)
         adapter = adapter_cls(**kwargs)
+        extra_stacklevel = kwargs.get("extra_stacklevel", 0)
 
         wrapped = args[0]
         if inspect.isclass(wrapped):
@@ -279,9 +286,9 @@ def deprecated(*args, **kwargs):
                 if action:
                     with warnings.catch_warnings():
                         warnings.simplefilter(action, category)
-                        warnings.warn(msg, category=category, stacklevel=_routine_stacklevel)
+                        warnings.warn(msg, category=category, stacklevel=_routine_stacklevel + extra_stacklevel)
                 else:
-                    warnings.warn(msg, category=category, stacklevel=_routine_stacklevel)
+                    warnings.warn(msg, category=category, stacklevel=_routine_stacklevel + extra_stacklevel)
                 return wrapped_(*args_, **kwargs_)
 
             return wrapper_function(wrapped)

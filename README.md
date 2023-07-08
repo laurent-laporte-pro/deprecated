@@ -2,12 +2,14 @@
 
 Python ``@deprecated`` decorator to deprecate old python classes, functions or methods.
 
-[![Build Status](https://travis-ci.com/tantale/deprecated.svg?branch=master)](https://travis-ci.com/tantale/deprecated)
-[![Build status](https://ci.appveyor.com/api/projects/status/ctgktcdg2pf8lsxe?svg=true)](https://ci.appveyor.com/project/tantale/deprecated)
-[![Coverage Status](https://coveralls.io/repos/github/tantale/deprecated/badge.svg?branch=master)](https://coveralls.io/github/tantale/deprecated?branch=master)
-[![GitHub version](https://badge.fury.io/gh/tantale%2Fdeprecated.svg)](https://badge.fury.io/gh/tantale%2Fdeprecated)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/tantale/deprecated/master/LICENSE.rst)
-[![Documentation Status](http://readthedocs.org/projects/deprecated/badge/?version=latest)](http://deprecated.readthedocs.io/en/latest/?badge=latest)
+
+[![license](https://img.shields.io/badge/license-MIT-blue?logo=opensourceinitiative&logoColor=white)](https://raw.githubusercontent.com/tantale/deprecated/master/LICENSE.rst)
+[![GitHub release](https://img.shields.io/github/v/release/tantale/deprecated?logo=github&logoColor=white)](https://github.com/tantale/deprecated/releases/latest)
+[![PyPI](https://img.shields.io/pypi/v/deprecated?logo=pypi&logoColor=white)](https://pypi.org/project/Deprecated/)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/tantale/deprecated/python-package.yml?logo=github&logoColor=white)](https://github.com/tantale/deprecated/actions/workflows/python-package.yml)
+[![Coveralls branch](https://img.shields.io/coverallsCoverage/github/tantale/deprecated?logo=coveralls&logoColor=white)](https://coveralls.io/github/tantale/deprecated?branch=master)
+[![Read the Docs (version)](https://img.shields.io/readthedocs/deprecated/latest?logo=readthedocs&logoColor=white)
+](http://deprecated.readthedocs.io/en/latest/?badge=latest)
 
 ## Installation
 

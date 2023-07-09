@@ -70,7 +70,7 @@ class SphinxAdapter(ClassicAdapter):
         :param action:
             A warning filter used to activate or not the deprecation warning.
             Can be one of "error", "ignore", "always", "default", "module", or "once".
-            If ``None`` or empty, the the global filtering mechanism is used.
+            If ``None`` or empty, the global filtering mechanism is used.
             See: `The Warnings Filter`_ in the Python documentation.
 
         :type  category: type
@@ -81,7 +81,7 @@ class SphinxAdapter(ClassicAdapter):
 
         :type  extra_stacklevel: int
         :param extra_stacklevel:
-            Number of additonal stacklevels to consider instrumentation rather than user code.
+            Number of additional stack levels to consider instrumentation rather than user code.
             With the default value of 0, the warning refers to where the class was instantiated
             or the function was called.
 
@@ -163,7 +163,7 @@ class SphinxAdapter(ClassicAdapter):
 
         """
         msg = super(SphinxAdapter, self).get_deprecated_msg(wrapped, instance)
-        # Strip Sphinx cross reference syntax (like ":function:", ":py:func:" and ":py:meth:")
+        # Strip Sphinx cross-reference syntax (like ":function:", ":py:func:" and ":py:meth:")
         # Possible values are ":role:`foo`", ":domain:role:`foo`"
         # where ``role`` and ``domain`` should match "[a-zA-Z]+"
         msg = re.sub(r"(?: : [a-zA-Z]+ )? : [a-zA-Z]+ : (`[^`]*`)", r"\1", msg, flags=re.X)
@@ -173,7 +173,7 @@ class SphinxAdapter(ClassicAdapter):
 def versionadded(reason="", version="", line_length=70):
     """
     This decorator can be used to insert a "versionadded" directive
-    in your function/class docstring in order to documents the
+    in your function/class docstring in order to document the
     version of the project which adds this new functionality in your library.
 
     :param str reason:
@@ -203,7 +203,7 @@ def versionadded(reason="", version="", line_length=70):
 def versionchanged(reason="", version="", line_length=70):
     """
     This decorator can be used to insert a "versionchanged" directive
-    in your function/class docstring in order to documents the
+    in your function/class docstring in order to document the
     version of the project which modifies this functionality in your library.
 
     :param str reason:
@@ -232,7 +232,7 @@ def versionchanged(reason="", version="", line_length=70):
 def deprecated(reason="", version="", line_length=70, **kwargs):
     """
     This decorator can be used to insert a "deprecated" directive
-    in your function/class docstring in order to documents the
+    in your function/class docstring in order to document the
     version of the project which deprecates this functionality in your library.
 
     :param str reason:
@@ -252,15 +252,15 @@ def deprecated(reason="", version="", line_length=70, **kwargs):
     -   "action":
         A warning filter used to activate or not the deprecation warning.
         Can be one of "error", "ignore", "always", "default", "module", or "once".
-        If ``None``, empty or missing, the the global filtering mechanism is used.
+        If ``None``, empty or missing, the global filtering mechanism is used.
 
     -   "category":
         The warning category to use for the deprecation warning.
         By default, the category class is :class:`~DeprecationWarning`,
         you can inherit this class to define your own deprecation warning category.
-    
+
     -   "extra_stacklevel":
-        Number of additional stacklevels to consider instrumentation rather than user code.
+        Number of additional stack levels to consider instrumentation rather than user code.
         With the default value of 0, the warning refers to where the class was instantiated
         or the function was called.
 

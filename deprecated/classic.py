@@ -17,7 +17,7 @@ import wrapt
 try:
     # If the C extension for wrapt was compiled and wrapt/_wrappers.pyd exists, then the
     # stack level that should be passed to warnings.warn should be 2. However, if using
-    # a pure python wrapt, a extra stacklevel is required.
+    # a pure python wrapt, an extra stacklevel is required.
     import wrapt._wrappers
 
     _routine_stacklevel = 2
@@ -101,7 +101,7 @@ class ClassicAdapter(wrapt.AdapterFactory):
         :param action:
             A warning filter used to activate or not the deprecation warning.
             Can be one of "error", "ignore", "always", "default", "module", or "once".
-            If ``None`` or empty, the the global filtering mechanism is used.
+            If ``None`` or empty, the global filtering mechanism is used.
             See: `The Warnings Filter`_ in the Python documentation.
 
         :type  category: type
@@ -112,7 +112,7 @@ class ClassicAdapter(wrapt.AdapterFactory):
 
         :type  extra_stacklevel: int
         :param extra_stacklevel:
-            Number of additonal stacklevels to consider instrumentation rather than user code.
+            Number of additional stack levels to consider instrumentation rather than user code.
             With the default value of 0, the warning refers to where the class was instantiated
             or the function was called.
 
@@ -255,7 +255,7 @@ def deprecated(*args, **kwargs):
            return x + y
 
     The *category* keyword argument allow you to specify the deprecation warning class of your choice.
-    By default, :exc:`DeprecationWarning` is used but you can choose :exc:`FutureWarning`,
+    By default, :exc:`DeprecationWarning` is used, but you can choose :exc:`FutureWarning`,
     :exc:`PendingDeprecationWarning` or a custom subclass.
 
     .. code-block:: python
@@ -269,7 +269,7 @@ def deprecated(*args, **kwargs):
 
     The *action* keyword argument allow you to locally change the warning filtering.
     *action* can be one of "error", "ignore", "always", "default", "module", or "once".
-    If ``None``, empty or missing, the the global filtering mechanism is used.
+    If ``None``, empty or missing, the global filtering mechanism is used.
     See: `The Warnings Filter`_ in the Python documentation.
 
     .. code-block:: python
@@ -281,7 +281,7 @@ def deprecated(*args, **kwargs):
        def some_old_function(x, y):
            return x + y
 
-    The *extra_stacklevel* keyword argument allows you to specify additional stacklevels
+    The *extra_stacklevel* keyword argument allows you to specify additional stack levels
     to consider instrumentation rather than user code. With the default value of 0, the
     warning refers to where the class was instantiated or the function was called.
     """

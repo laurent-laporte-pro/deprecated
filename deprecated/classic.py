@@ -112,8 +112,12 @@ class ClassicAdapter(wrapt.AdapterFactory):
 
         :type  extra_stacklevel: int
         :param extra_stacklevel:
-            The offset to apply to the stacklevel of the emitted warning.
-            By default, no offset is applied.
+            Number of additonal stacklevels to consider instrumentation rather than user code.
+            With the default value of 0, the warning refers to where the class was instantiated
+            or the function was called.
+
+        .. versionchanged:: 1.2.15
+            Add the *extra_stacklevel* parameter.
         """
         self.reason = reason or ""
         self.version = version or ""
@@ -258,6 +262,12 @@ def deprecated(*args, **kwargs):
        def some_old_function(x, y):
            return x + y
 
+    The *extra_stacklevel* keyword argument allows you to specify additional stacklevels
+    to consider instrumentation rather than user code. With the default value of 0, the
+    warning refers to where the class was instantiated or the function was called.
+
+    .. versionchanged:: 1.2.15
+        Add the *extra_stacklevel* parameter.
     """
     if args and isinstance(args[0], string_types):
         kwargs['reason'] = args[0]

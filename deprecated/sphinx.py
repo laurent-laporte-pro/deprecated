@@ -22,8 +22,6 @@ when the function/method is called or the class is constructed.
 import re
 import textwrap
 
-import wrapt
-
 from deprecated.classic import ClassicAdapter
 from deprecated.classic import deprecated as _classic_deprecated
 
@@ -83,12 +81,16 @@ class SphinxAdapter(ClassicAdapter):
 
         :type  extra_stacklevel: int
         :param extra_stacklevel:
-            The offset to apply to the stacklevel of the emitted warning.
-            By default, no offset is applied.
+            Number of additonal stacklevels to consider instrumentation rather than user code.
+            With the default value of 0, the warning refers to where the class was instantiated
+            or the function was called.
 
         :type  line_length: int
         :param line_length:
             Max line length of the directive text. If non nul, a long text is wrapped in several lines.
+
+        .. versionchanged:: 1.2.15
+            Add the *extra_stacklevel* parameter.
         """
         if not version:
             # https://github.com/tantale/deprecated/issues/40
@@ -258,14 +260,18 @@ def deprecated(reason="", version="", line_length=70, **kwargs):
         you can inherit this class to define your own deprecation warning category.
     
     -   "extra_stacklevel":
-        The offset to apply to the stacklevel of the emitted warning.
-        By default, no offset is applied.
+        Number of additional stacklevels to consider instrumentation rather than user code.
+        With the default value of 0, the warning refers to where the class was instantiated
+        or the function was called.
 
 
     :return: a decorator used to deprecate a function.
 
     .. versionchanged:: 1.2.13
        Change the signature of the decorator to reflect the valid use cases.
+
+    .. versionchanged:: 1.2.15
+        Add the *extra_stacklevel* parameter.
     """
     directive = kwargs.pop('directive', 'deprecated')
     adapter_cls = kwargs.pop('adapter_cls', SphinxAdapter)

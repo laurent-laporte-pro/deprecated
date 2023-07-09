@@ -242,3 +242,28 @@ function will raise an exception because the *action* is set to "error".
      File "path/to/deprecated/classic.py", line 274, in wrapper_function
        warnings.warn(msg, category=category, stacklevel=_stacklevel)
    DeprecationWarning: Call to deprecated function (or staticmethod) foo. (do not call it)
+
+
+Modifying the deprecated code reference
+---------------------------------------
+
+By default, when a deprecated function or class is called, the warning message indicates the location of the caller.
+
+The ``extra_stacklevel`` parameter allows customizing the stack level reference in the deprecation warning message.
+
+This parameter is particularly useful in scenarios where you have a factory or utility function that creates deprecated
+objects or performs deprecated operations. By specifying an ``extra_stacklevel`` value, you can control the stack level
+at which the deprecation warning is emitted, making it appear as if the calling function is the deprecated one,
+rather than the actual deprecated entity.
+
+For example, if you have a factory function ``create_object()`` that creates deprecated objects, you can use
+the ``extra_stacklevel`` parameter to emit the deprecation warning at the calling location. This provides clearer and
+more actionable deprecation messages, allowing developers to identify and update the code that invokes the deprecated
+functionality.
+
+For instance:
+
+.. literalinclude:: tutorial/warning_ctrl/extra_stacklevel_demo.py
+
+Please note that the ``extra_stacklevel`` value should be an integer indicating the number of stack levels to skip
+when emitting the deprecation warning.

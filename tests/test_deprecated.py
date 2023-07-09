@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import inspect
 import sys
 import warnings
 
@@ -11,6 +12,10 @@ class MyDeprecationWarning(DeprecationWarning):
     pass
 
 
+class WrongStackLevelWarning(DeprecationWarning):
+    pass
+
+
 _PARAMS = [
     None,
     ((), {}),
@@ -19,6 +24,7 @@ _PARAMS = [
     ((), {'version': '1.2.3'}),
     ((), {'action': 'once'}),
     ((), {'category': MyDeprecationWarning}),
+    ((), {'extra_stacklevel': 1, 'category': WrongStackLevelWarning}),
 ]
 
 
@@ -136,7 +142,7 @@ def test_classic_deprecated_function__warns(classic_deprecated_function):
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
     assert "deprecated function (or staticmethod)" in str(warn.message)
-    assert warn.filename == __file__, 'Incorrect warning stackLevel'
+    assert warn.filename == __file__ or warn.category is WrongStackLevelWarning, 'Incorrect warning stackLevel'
 
 
 # noinspection PyShadowingNames
@@ -148,7 +154,7 @@ def test_classic_deprecated_class__warns(classic_deprecated_class):
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
     assert "deprecated class" in str(warn.message)
-    assert warn.filename == __file__, 'Incorrect warning stackLevel'
+    assert warn.filename == __file__ or warn.category is WrongStackLevelWarning, 'Incorrect warning stackLevel'
 
 
 # noinspection PyShadowingNames
@@ -161,7 +167,7 @@ def test_classic_deprecated_method__warns(classic_deprecated_method):
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
     assert "deprecated method" in str(warn.message)
-    assert warn.filename == __file__, 'Incorrect warning stackLevel'
+    assert warn.filename == __file__ or warn.category is WrongStackLevelWarning, 'Incorrect warning stackLevel'
 
 
 # noinspection PyShadowingNames
@@ -173,7 +179,7 @@ def test_classic_deprecated_static_method__warns(classic_deprecated_static_metho
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
     assert "deprecated function (or staticmethod)" in str(warn.message)
-    assert warn.filename == __file__, 'Incorrect warning stackLevel'
+    assert warn.filename == __file__ or warn.category is WrongStackLevelWarning, 'Incorrect warning stackLevel'
 
 
 # noinspection PyShadowingNames
@@ -189,7 +195,7 @@ def test_classic_deprecated_class_method__warns(classic_deprecated_class_method)
         assert "deprecated class method" in str(warn.message)
     else:
         assert "deprecated function (or staticmethod)" in str(warn.message)
-    assert warn.filename == __file__, 'Incorrect warning stackLevel'
+    assert warn.filename == __file__ or warn.category is WrongStackLevelWarning, 'Incorrect warning stackLevel'
 
 
 def test_should_raise_type_error():
@@ -258,3 +264,61 @@ def test_respect_global_filter():
         fun()
         fun()
     assert len(warns) == 1
+
+
+def test_default_stacklevel():
+    """
+    The objective of this unit test is to ensure that the triggered warning message,
+    when invoking the 'use_foo' function, correctly indicates the line where the
+    deprecated 'foo' function is called.
+    """
+
+    @deprecated.classic.deprecated
+    def foo():
+        pass
+
+    def use_foo():
+        foo()
+
+    with warnings.catch_warnings(record=True) as warns:
+        warnings.simplefilter("always")
+        use_foo()
+
+    # Check that the warning path matches the module path
+    warn = warns[0]
+    assert warn.filename == __file__
+
+    # Check that the line number points to the first line inside 'use_foo'
+    use_foo_lineno = inspect.getsourcelines(use_foo)[1]
+    assert warn.lineno == use_foo_lineno + 1
+
+
+def test_extra_stacklevel():
+    """
+    The unit test utilizes an 'extra_stacklevel' of 1 to ensure that the warning message
+    accurately identifies the caller of the deprecated function. It verifies that when
+    the 'use_foo' function is called, the warning message correctly indicates the line
+    where the call to 'use_foo' is made.
+    """
+
+    @deprecated.classic.deprecated(extra_stacklevel=1)
+    def foo():
+        pass
+
+    def use_foo():
+        foo()
+
+    def demo():
+        use_foo()
+
+    with warnings.catch_warnings(record=True) as warns:
+        warnings.simplefilter("always")
+        demo()
+
+    # Check that the warning path matches the module path
+    warn = warns[0]
+    assert warn.filename == __file__
+
+    # Check that the line number points to the first line inside 'demo'
+    demo_lineno = inspect.getsourcelines(demo)[1]
+    assert warn.lineno == demo_lineno + 1

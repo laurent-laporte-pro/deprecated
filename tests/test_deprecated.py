@@ -263,3 +263,18 @@ def test_respect_global_filter():
         fun()
         fun()
     assert len(warns) == 1
+
+
+def test_extra_stacklevel():
+    @deprecated.classic.deprecated(version='1.2.1', reason="deprecated function", extra_stacklevel=1)
+    def inner():
+        pass
+        
+    def outer():
+        inner()
+
+    warnings.simplefilter("default", category=DeprecationWarning)
+    with warnings.catch_warnings(record=True) as warns:
+        outer()
+        outer()
+    assert len(warns) == 2

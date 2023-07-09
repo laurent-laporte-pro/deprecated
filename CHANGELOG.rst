@@ -23,6 +23,11 @@ v1.2.15 (unreleased)
 
 Bug fix release
 
+Fix
+---
+
+- Resolve Python 2.7 support issue introduced in v1.2.14 in ``sphinx.py``.
+
 Other
 -----
 

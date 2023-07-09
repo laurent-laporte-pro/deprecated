@@ -97,14 +97,14 @@ class ClassicAdapter(wrapt.AdapterFactory):
             If you follow the `Semantic Versioning <https://semver.org/>`_,
             the version number has the format "MAJOR.MINOR.PATCH".
 
-        :type  action: str
+        :type  action: Literal["default", "error", "ignore", "always", "module", "once"]
         :param action:
             A warning filter used to activate or not the deprecation warning.
             Can be one of "error", "ignore", "always", "default", "module", or "once".
             If ``None`` or empty, the global filtering mechanism is used.
             See: `The Warnings Filter`_ in the Python documentation.
 
-        :type  category: type
+        :type  category: Type[Warning]
         :param category:
             The warning category to use for the deprecation warning.
             By default, the category class is :class:`~DeprecationWarning`,

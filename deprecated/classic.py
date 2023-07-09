@@ -171,18 +171,37 @@ class ClassicAdapter(wrapt.AdapterFactory):
 
             def wrapped_cls(cls, *args, **kwargs):
                 msg = self.get_deprecated_msg(wrapped, None)
+                stacklevel = _class_stacklevel + self.extra_stacklevel
                 if self.action:
                     with warnings.catch_warnings():
                         warnings.simplefilter(self.action, self.category)
-                        warnings.warn(msg, category=self.category, stacklevel=_class_stacklevel + self.extra_stacklevel)
+                        warnings.warn(msg, category=self.category, stacklevel=stacklevel)
                 else:
-                    warnings.warn(msg, category=self.category, stacklevel=_class_stacklevel + self.extra_stacklevel)
+                    warnings.warn(msg, category=self.category, stacklevel=stacklevel)
                 if old_new1 is object.__new__:
                     return old_new1(cls)
                 # actually, we don't know the real signature of *old_new1*
                 return old_new1(cls, *args, **kwargs)
 
             wrapped.__new__ = staticmethod(wrapped_cls)
+
+        elif inspect.isroutine(wrapped):
+            @wrapt.decorator
+            def wrapper_function(wrapped_, instance_, args_, kwargs_):
+                msg = self.get_deprecated_msg(wrapped_, instance_)
+                stacklevel = _routine_stacklevel + self.extra_stacklevel
+                if self.action:
+                    with warnings.catch_warnings():
+                        warnings.simplefilter(self.action, self.category)
+                        warnings.warn(msg, category=self.category, stacklevel=stacklevel)
+                else:
+                    warnings.warn(msg, category=self.category, stacklevel=stacklevel)
+                return wrapped_(*args_, **kwargs_)
+
+            return wrapper_function(wrapped)
+
+        else:
+            raise TypeError(repr(type(wrapped)))
 
         return wrapped
 
@@ -265,9 +284,6 @@ def deprecated(*args, **kwargs):
     The *extra_stacklevel* keyword argument allows you to specify additional stacklevels
     to consider instrumentation rather than user code. With the default value of 0, the
     warning refers to where the class was instantiated or the function was called.
-
-    .. versionchanged:: 1.2.15
-        Add the *extra_stacklevel* parameter.
     """
     if args and isinstance(args[0], string_types):
         kwargs['reason'] = args[0]
@@ -277,33 +293,9 @@ def deprecated(*args, **kwargs):
         raise TypeError(repr(type(args[0])))
 
     if args:
-        action = kwargs.get('action')
-        category = kwargs.get('category', DeprecationWarning)
         adapter_cls = kwargs.pop('adapter_cls', ClassicAdapter)
         adapter = adapter_cls(**kwargs)
-        extra_stacklevel = kwargs.get("extra_stacklevel", 0)
-
         wrapped = args[0]
-        if inspect.isclass(wrapped):
-            wrapped = adapter(wrapped)
-            return wrapped
-
-        elif inspect.isroutine(wrapped):
-
-            @wrapt.decorator(adapter=adapter)
-            def wrapper_function(wrapped_, instance_, args_, kwargs_):
-                msg = adapter.get_deprecated_msg(wrapped_, instance_)
-                if action:
-                    with warnings.catch_warnings():
-                        warnings.simplefilter(action, category)
-                        warnings.warn(msg, category=category, stacklevel=_routine_stacklevel + extra_stacklevel)
-                else:
-                    warnings.warn(msg, category=category, stacklevel=_routine_stacklevel + extra_stacklevel)
-                return wrapped_(*args_, **kwargs_)
-
-            return wrapper_function(wrapped)
-
-        else:
-            raise TypeError(repr(type(wrapped)))
+        return adapter(wrapped)
 
     return functools.partial(deprecated, **kwargs)

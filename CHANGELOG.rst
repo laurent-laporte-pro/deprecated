@@ -28,6 +28,8 @@ Fix
 
 - Resolve Python 2.7 support issue introduced in v1.2.14 in ``sphinx.py``.
 
+- Fix #69: Add ``extra_stacklevel`` argument for interoperating with other wrapper functions (refer to #68 for a concrete use case).
+
 Other
 -----
 

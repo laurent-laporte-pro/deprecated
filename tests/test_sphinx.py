@@ -1,6 +1,3 @@
-# coding: utf-8
-from __future__ import print_function
-
 import re
 import sys
 import textwrap
@@ -136,7 +133,7 @@ def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
 )
 def test_cls_has_sphinx_docstring(docstring, directive, reason, version, expected):
     # The class:
-    class Foo(object):
+    class Foo:
         pass
 
     # with docstring:
@@ -200,7 +197,7 @@ def sphinx_deprecated_class(request):
     kwargs = request.param
 
     @deprecated.sphinx.deprecated(**kwargs)
-    class Foo2(object):
+    class Foo2:
         pass
 
     return Foo2
@@ -210,7 +207,7 @@ def sphinx_deprecated_class(request):
 def sphinx_deprecated_method(request):
     kwargs = request.param
 
-    class Foo3(object):
+    class Foo3:
         @deprecated.sphinx.deprecated(**kwargs)
         def foo3(self):
             pass
@@ -222,7 +219,7 @@ def sphinx_deprecated_method(request):
 def sphinx_deprecated_static_method(request):
     kwargs = request.param
 
-    class Foo4(object):
+    class Foo4:
         @staticmethod
         @deprecated.sphinx.deprecated(**kwargs)
         def foo4():
@@ -235,7 +232,7 @@ def sphinx_deprecated_static_method(request):
 def sphinx_deprecated_class_method(request):
     kwargs = request.param
 
-    class Foo5(object):
+    class Foo5:
         @classmethod
         @deprecated.sphinx.deprecated(**kwargs)
         def foo5(cls):

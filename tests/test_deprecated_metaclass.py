@@ -1,4 +1,3 @@
-# coding: utf-8
 import warnings
 
 import deprecated.classic
@@ -23,7 +22,7 @@ def with_metaclass(meta, *bases):
 
 def test_with_init():
     @deprecated.classic.deprecated
-    class MyClass(object):
+    class MyClass:
         def __init__(self, a, b=5):
             self.a = a
             self.b = b
@@ -40,9 +39,9 @@ def test_with_init():
 
 def test_with_new():
     @deprecated.classic.deprecated
-    class MyClass(object):
+    class MyClass:
         def __new__(cls, a, b=5):
-            obj = super(MyClass, cls).__new__(cls)
+            obj = super().__new__(cls)
             obj.c = 3.14
             return obj
 
@@ -64,7 +63,7 @@ def test_with_new():
 def test_with_metaclass():
     class Meta(type):
         def __call__(cls, *args, **kwargs):
-            obj = super(Meta, cls).__call__(*args, **kwargs)
+            obj = super().__call__(*args, **kwargs)
             obj.c = 3.14
             return obj
 
@@ -91,7 +90,7 @@ def test_with_singleton_metaclass():
 
         def __call__(cls, *args, **kwargs):
             if cls not in cls._instances:
-                cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+                cls._instances[cls] = super().__call__(*args, **kwargs)
             return cls._instances[cls]
 
     @deprecated.classic.deprecated

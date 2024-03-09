@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Classic deprecation warning
 ===========================
@@ -29,7 +28,7 @@ except ImportError:
     else:
         _class_stacklevel = 3
 
-string_types = (type(b''), type(u''))
+string_types = (bytes, str)
 
 
 class ClassicAdapter(wrapt.AdapterFactory):
@@ -124,7 +123,7 @@ class ClassicAdapter(wrapt.AdapterFactory):
         self.action = action
         self.category = category
         self.extra_stacklevel = extra_stacklevel
-        super(ClassicAdapter, self).__init__()
+        super().__init__()
 
     def get_deprecated_msg(self, wrapped, instance):
         """

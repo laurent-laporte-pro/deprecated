@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 #
 # Deprecated Library Documentation build configuration file, created by
 # sphinx-quickstart on Wed Jul 19 22:23:11 2017.

@@ -1,4 +1,3 @@
-# coding: utf-8
 """ Liberty library is free """
 
 import pprint
@@ -6,7 +5,7 @@ import pprint
 from deprecated import deprecated
 
 
-class Liberty(object):
+class Liberty:
     def __init__(self, value):
         self.value = value
 

@@ -30,6 +30,8 @@ Fix
 
 - Fix #69: Add ``extra_stacklevel`` argument for interoperating with other wrapper functions (refer to #68 for a concrete use case).
 
+- Fix #73: Update class method deprecation warnings for Python 3.13.
+
 Other
 -----
 

@@ -192,6 +192,7 @@ setup(
             'sphinx < 2',
             # jinja2 3.0.3 was the last version to have contextfunction that sphinx 1.x needs
             'jinja2~=3.0.3',
+            'setuptools; python_version>="3.12"',
         ]
     },
     python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',

@@ -86,7 +86,7 @@ Other
   + install ``typing`` when building on Python 3.4 (required by Pytest->Attrs).
   + run unit tests on Wrapt 1.13 (release candidate).
 
-- Migrating project to `travis-ci.com <https://travis-ci.com/github/tantale/deprecated>`_.
+- Migrating project to `travis-ci.com <https://www.travis-ci.com/github/tantale/deprecated>`_.
 
 
 v1.2.12 (2021-03-13)
@@ -168,7 +168,7 @@ Bug fix release
 Fix
 ---
 
-- Fix #20: Set the :func:`warnings.warn` stacklevel to 2 if the Python implementation is `PyPy <https://www.pypy.org/>`_.
+- Fix #20: Set the :func:`warnings.warn` stacklevel to 2 if the Python implementation is `PyPy <https://pypy.org/>`_.
 
 - Fix packit configuration: use ``dist-git-branch: fedora-all``.
 
@@ -471,7 +471,7 @@ Added
 Other
 -----
 
-- Improve `Travis <https://travis-ci.com/>`_ configuration file (compatibility from Python 2.6 to 3.7-dev, and PyPy).
+- Improve `Travis <https://www.travis-ci.com/>`_ configuration file (compatibility from Python 2.6 to 3.7-dev, and PyPy).
 - Add `AppVeyor <https://www.appveyor.com/docs/>`_ configuration file.
 - Add `Tox <https://tox.readthedocs.io/en/latest/>`_ configuration file.
 - Add `BumpVersion <https://github.com/peritus/bumpversion>`_ configuration file.

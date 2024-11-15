@@ -3,11 +3,11 @@
 Python ``@deprecated`` decorator to deprecate old python classes, functions or methods.
 
 
-[![license](https://img.shields.io/badge/license-MIT-blue?logo=opensourceinitiative&logoColor=white)](https://raw.githubusercontent.com/tantale/deprecated/master/LICENSE.rst)
-[![GitHub release](https://img.shields.io/github/v/release/tantale/deprecated?logo=github&logoColor=white)](https://github.com/tantale/deprecated/releases/latest)
+[![license](https://img.shields.io/badge/license-MIT-blue?logo=opensourceinitiative&logoColor=white)](https://raw.githubusercontent.com/laurent-laporte-pro/deprecated/master/LICENSE.rst)
+[![GitHub release](https://img.shields.io/github/v/release/laurent-laporte-pro/deprecated?logo=github&logoColor=white)](https://github.com/laurent-laporte-pro/deprecated/releases/latest)
 [![PyPI](https://img.shields.io/pypi/v/deprecated?logo=pypi&logoColor=white)](https://pypi.org/project/Deprecated/)
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/tantale/deprecated/python-package.yml?logo=github&logoColor=white)](https://github.com/tantale/deprecated/actions/workflows/python-package.yml)
-[![Coveralls branch](https://img.shields.io/coverallsCoverage/github/tantale/deprecated?logo=coveralls&logoColor=white)](https://coveralls.io/github/tantale/deprecated?branch=master)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/laurent-laporte-pro/deprecated/python-package.yml?logo=github&logoColor=white)](https://github.com/laurent-laporte-pro/deprecated/actions/workflows/python-package.yml)
+[![Coveralls branch](https://img.shields.io/coverallsCoverage/github/laurent-laporte-pro/deprecated?logo=coveralls&logoColor=white)](https://coveralls.io/github/laurent-laporte-pro/deprecated?branch=master)
 [![Read the Docs (version)](https://img.shields.io/readthedocs/deprecated/latest?logo=readthedocs&logoColor=white)
 ](http://deprecated.readthedocs.io/en/latest/?badge=latest)
 
@@ -62,7 +62,7 @@ def some_old_function(x, y):
 
 The authors of this library are:
 [Marcos CARDOSO](https://github.com/vrcmarcos), and
-[Laurent LAPORTE](https://github.com/tantale).
+[Laurent LAPORTE](https://github.com/laurent-laporte-pro).
 
 The original code was made in [this StackOverflow post](https://stackoverflow.com/questions/2536307) by
 [Leandro REGUEIRO](https://stackoverflow.com/users/1336250/leandro-regueiro),

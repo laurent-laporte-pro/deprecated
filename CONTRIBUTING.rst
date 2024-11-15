@@ -55,8 +55,8 @@ First time setup
 
 - Add the main repository as a remote to update later::
 
-        git remote add tantale https://github.com/tantale/deprecated.git
-        git fetch tantale
+        git remote add upstream https://github.com/laurent-laporte-pro/deprecated.git
+        git fetch upstream
 
 - Create a virtualenv::
 
@@ -72,7 +72,7 @@ First time setup
 .. _latest version of git: https://git-scm.com/downloads
 .. _username: https://help.github.com/articles/setting-your-username-in-git/
 .. _email: https://help.github.com/articles/setting-your-commit-email-address-in-git/
-.. _Fork: https://github.com/tantale/deprecated#fork-destination-box
+.. _Fork: https://github.com/laurent-laporte-pro/deprecated#fork-destination-box
 .. _Clone: https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork
 
 Start coding

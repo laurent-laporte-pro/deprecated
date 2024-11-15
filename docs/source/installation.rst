@@ -127,7 +127,7 @@ update the code from the master branch:
 
 .. code-block:: sh
 
-    pip install -U https://github.com/tantale/deprecated/archive/master.tar.gz
+    pip install -U https://github.com/laurent-laporte-pro/deprecated/archive/master.tar.gz
 
 .. _install-install-virtualenv:
 

@@ -130,13 +130,13 @@ Run it:
 Links
 `````
 
-* `Python package index (PyPi) <https://pypi.python.org/pypi/deprecated>`_
-* `GitHub website <https://github.com/tantale/deprecated>`_
+* `Python package index (PyPi) <https://pypi.org/project/Deprecated/>`_
+* `GitHub website <https://github.com/laurent-laporte-pro/deprecated>`_
 * `Read The Docs <https://readthedocs.org/projects/deprecated>`_
 * `EBook on Lulu.com <http://www.lulu.com/commerce/index.php?fBuyContent=21305117>`_
 * `StackOverFlow Q&A <https://stackoverflow.com/a/40301488/1513933>`_
 * `Development version
-  <https://github.com/tantale/deprecated/zipball/master#egg=Deprecated-dev>`_
+  <https://github.com/laurent-laporte-pro/deprecated/zipball/master#egg=Deprecated-dev>`_
 
 """
 
@@ -145,11 +145,11 @@ from setuptools import setup
 setup(
     name="Deprecated",
     version="1.2.15",
-    url="https://github.com/tantale/deprecated",
+    url="https://github.com/laurent-laporte-pro/deprecated",
     project_urls={
         "Documentation": "https://deprecated.readthedocs.io/en/latest/",
-        "Source": "https://github.com/tantale/deprecated",
-        "Bug Tracker": "https://github.com/tantale/deprecated/issues",
+        "Source": "https://github.com/laurent-laporte-pro/deprecated",
+        "Bug Tracker": "https://github.com/laurent-laporte-pro/deprecated/issues",
     },
     license="MIT",
     author="Laurent LAPORTE",  # since v1.1.0

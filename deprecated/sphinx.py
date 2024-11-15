@@ -93,7 +93,7 @@ class SphinxAdapter(ClassicAdapter):
             Add the *extra_stacklevel* parameter.
         """
         if not version:
-            # https://github.com/tantale/deprecated/issues/40
+            # https://github.com/laurent-laporte-pro/deprecated/issues/40
             raise ValueError("'version' argument is required in Sphinx directives")
         self.directive = directive
         self.line_length = line_length

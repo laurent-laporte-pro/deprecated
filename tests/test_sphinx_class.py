@@ -88,7 +88,7 @@ def test_subclass_deprecation_using_deprecated_decorator():
     sys.version_info < (3, 3), reason="Classes should have mutable docstrings -- resolved in python 3.3"
 )
 def test_isinstance_versionadded():
-    # https://github.com/tantale/deprecated/issues/48
+    # https://github.com/laurent-laporte-pro/deprecated/issues/48
     @deprecated.sphinx.versionadded(version="X.Y", reason="some reason")
     class VersionAddedCls:
         pass

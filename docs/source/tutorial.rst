@@ -127,7 +127,7 @@ Controlling warnings
 --------------------
 
 .. _Python warning control: https://docs.python.org/3/library/warnings.html
-.. _-W: https://docs.python.org/3/using/cmdline.html#cmdoption-w
+.. _-W: https://docs.python.org/3/using/cmdline.html#cmdoption-W
 .. _PYTHONWARNINGS: https://docs.python.org/3/using/cmdline.html#envvar-PYTHONWARNINGS
 
 Warnings are emitted using the `Python warning control`_. By default, Python installs several warning filters,

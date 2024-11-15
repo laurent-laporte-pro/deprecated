@@ -129,62 +129,71 @@ Run it:
 Links
 `````
 
-* `Python package index (PyPi) <https://pypi.python.org/pypi/deprecated>`_
-* `GitHub website <https://github.com/tantale/deprecated>`_
+* `Python package index (PyPi) <https://pypi.org/project/Deprecated/>`_
+* `GitHub website <https://github.com/laurent-laporte-pro/deprecated>`_
 * `Read The Docs <https://readthedocs.org/projects/deprecated>`_
 * `EBook on Lulu.com <http://www.lulu.com/commerce/index.php?fBuyContent=21305117>`_
 * `StackOverFlow Q&A <https://stackoverflow.com/a/40301488/1513933>`_
 * `Development version
-  <https://github.com/tantale/deprecated/zipball/master#egg=Deprecated-dev>`_
+  <https://github.com/laurent-laporte-pro/deprecated/zipball/master#egg=Deprecated-dev>`_
 
 """
+
 from setuptools import setup
 
 setup(
-    name='Deprecated',
-    version='1.2.14',
-    url='https://github.com/tantale/deprecated',
+    name="Deprecated",
+    version="1.3.0",
+    url="https://github.com/laurent-laporte-pro/deprecated",
     project_urls={
         "Documentation": "https://deprecated.readthedocs.io/en/latest/",
-        "Source": "https://github.com/tantale/deprecated",
-        "Bug Tracker": "https://github.com/tantale/deprecated/issues",
+        "Source": "https://github.com/laurent-laporte-pro/deprecated",
+        "Bug Tracker": "https://github.com/laurent-laporte-pro/deprecated/issues",
     },
-    license='MIT',
-    author='Laurent LAPORTE',  # since v1.1.0
-    author_email='tantale.solutions@gmail.com',
-    description='Python @deprecated decorator to deprecate old python classes, functions or methods.',
+    license="MIT",
+    author="Laurent LAPORTE",  # since v1.1.0
+    author_email="laurent.laporte.pro@gmail.com",
+    description="Python @deprecated decorator to deprecate old python classes, functions or methods.",
     long_description=__doc__,
     long_description_content_type="text/x-rst",
-    keywords='deprecate,deprecated,deprecation,warning,warn,decorator',
-    packages=['deprecated'],
-    install_requires=['wrapt < 2, >= 1.10'],
+    keywords="deprecate,deprecated,deprecation,warning,warn,decorator",
+    packages=["deprecated"],
+    install_requires=["wrapt < 2, >= 1.10"],
     zip_safe=False,
     include_package_data=True,
-    platforms='any',
+    platforms="any",
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'Environment :: Web Environment',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
-        'Programming Language :: Python :: 3.10',
-        'Programming Language :: Python :: 3.11',
-        'Programming Language :: Python :: 3.12',
-        'Topic :: Software Development :: Libraries :: Python Modules',
+        "Development Status :: 5 - Production/Stable",
+        "Environment :: Web Environment",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     extras_require={
-        'dev': [
-            'tox',
-            'PyTest',
-            'PyTest-Cov',
-            'bump2version < 1',
-            'sphinx < 2',
+        "dev": [
+            "tox",
+            "PyTest",
+            "PyTest-Cov",
+            "bump2version < 1",
+            "sphinx < 2",
             # jinja2 3.0.3 was the last version to have contextfunction that sphinx 1.x needs
-            'jinja2~=3.0.3',
+            "jinja2~=3.0.3",
+            "setuptools; python_version>='3.12'",
         ]
     },
-    python_requires='>=3.8',
+    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*",
 )

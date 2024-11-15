@@ -1,4 +1,3 @@
-# coding: utf-8
 """ Liberty library is free """
 
 import pprint

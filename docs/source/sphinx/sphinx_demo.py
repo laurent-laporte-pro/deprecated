@@ -1,4 +1,3 @@
-# coding: utf-8
 from deprecated.sphinx import deprecated
 from deprecated.sphinx import versionadded
 from deprecated.sphinx import versionchanged

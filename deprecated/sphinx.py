@@ -1,4 +1,3 @@
-# coding: utf-8
 """
 Sphinx directive integration
 ============================
@@ -97,7 +96,7 @@ class SphinxAdapter(ClassicAdapter):
             raise ValueError("'version' argument is required in Sphinx directives")
         self.directive = directive
         self.line_length = line_length
-        super(SphinxAdapter, self).__init__(
+        super().__init__(
             reason=reason, version=version, action=action, category=category, extra_stacklevel=extra_stacklevel
         )
 
@@ -141,12 +140,12 @@ class SphinxAdapter(ClassicAdapter):
             docstring = "\n"
 
         # -- append the directive division to the docstring
-        docstring += "".join("{}\n".format(line) for line in div_lines)
+        docstring += "".join(f"{line}\n" for line in div_lines)
 
         wrapped.__doc__ = docstring
         if self.directive in {"versionadded", "versionchanged"}:
             return wrapped
-        return super(SphinxAdapter, self).__call__(wrapped)
+        return super().__call__(wrapped)
 
     def get_deprecated_msg(self, wrapped, instance):
         """
@@ -162,7 +161,7 @@ class SphinxAdapter(ClassicAdapter):
            Strip Sphinx cross-referencing syntax from warning message.
 
         """
-        msg = super(SphinxAdapter, self).get_deprecated_msg(wrapped, instance)
+        msg = super().get_deprecated_msg(wrapped, instance)
         # Strip Sphinx cross-reference syntax (like ":function:", ":py:func:" and ":py:meth:")
         # Possible values are ":role:`foo`", ":domain:role:`foo`"
         # where ``role`` and ``domain`` should match "[a-zA-Z]+"

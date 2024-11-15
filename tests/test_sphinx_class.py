@@ -1,6 +1,3 @@
-# coding: utf-8
-from __future__ import print_function
-
 import inspect
 import io
 import sys
@@ -22,14 +19,14 @@ def test_class_deprecation_using_a_simple_decorator():
         old_new = wrapped_cls.__new__
 
         def wrapped_new(unused, *args, **kwargs):
-            print(u"I am deprecated!", file=stream)
+            print("I am deprecated!", file=stream)
             return old_new(*args, **kwargs)
 
         wrapped_cls.__new__ = classmethod(wrapped_new)
         return wrapped_cls
 
     @simple_decorator
-    class MyBaseClass(object):
+    class MyBaseClass:
         pass
 
     class MySubClass(MyBaseClass):
@@ -38,7 +35,7 @@ def test_class_deprecation_using_a_simple_decorator():
     obj = MySubClass()
     assert isinstance(obj, MyBaseClass)
     assert inspect.isclass(MyBaseClass)
-    assert stream.getvalue().strip() == u"I am deprecated!"
+    assert stream.getvalue().strip() == "I am deprecated!"
 
 
 @pytest.mark.skipif(
@@ -46,7 +43,7 @@ def test_class_deprecation_using_a_simple_decorator():
 )
 def test_class_deprecation_using_deprecated_decorator():
     @deprecated.sphinx.deprecated(version="7.8.9")
-    class MyBaseClass(object):
+    class MyBaseClass:
         pass
 
     class MySubClass(MyBaseClass):
@@ -67,7 +64,7 @@ def test_class_deprecation_using_deprecated_decorator():
 )
 def test_subclass_deprecation_using_deprecated_decorator():
     @deprecated.sphinx.deprecated(version="7.8.9")
-    class MyBaseClass(object):
+    class MyBaseClass:
         pass
 
     @deprecated.sphinx.deprecated(version="7.8.9")

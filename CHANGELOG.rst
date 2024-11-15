@@ -24,6 +24,28 @@ v1.3.0 (unreleased)
 Minor release: Parameters deprecation
 
 
+v1.2.15 (2024-11-15)
+====================
+
+Bug fix release
+
+Fix
+---
+
+- Resolve Python 2.7 support issue introduced in v1.2.14 in ``sphinx.py``.
+
+- Fix #69: Add ``extra_stacklevel`` argument for interoperating with other wrapper functions (refer to #68 for a concrete use case).
+
+- Fix #73: Update class method deprecation warnings for Python 3.13.
+
+- Fix #75: Update GitHub workflows and fix development dependencies for Python 3.12.
+
+Other
+-----
+
+- Fix #66: discontinue TravisCI and AppVeyor due to end of free support.
+
+
 v1.2.14 (2023-05-27)
 ====================
 
@@ -71,7 +93,7 @@ Other
   + install ``typing`` when building on Python 3.4 (required by Pytest->Attrs).
   + run unit tests on Wrapt 1.13 (release candidate).
 
-- Migrating project to `travis-ci.com <https://travis-ci.com/github/tantale/deprecated>`_.
+- Migrating project to `travis-ci.com <https://www.travis-ci.com/github/tantale/deprecated>`_.
 
 
 v1.2.12 (2021-03-13)
@@ -153,7 +175,7 @@ Bug fix release
 Fix
 ---
 
-- Fix #20: Set the :func:`warnings.warn` stacklevel to 2 if the Python implementation is `PyPy <https://www.pypy.org/>`_.
+- Fix #20: Set the :func:`warnings.warn` stacklevel to 2 if the Python implementation is `PyPy <https://pypy.org/>`_.
 
 - Fix packit configuration: use ``dist-git-branch: fedora-all``.
 
@@ -456,7 +478,7 @@ Added
 Other
 -----
 
-- Improve `Travis <https://travis-ci.com/>`_ configuration file (compatibility from Python 2.6 to 3.7-dev, and PyPy).
+- Improve `Travis <https://www.travis-ci.com/>`_ configuration file (compatibility from Python 2.6 to 3.7-dev, and PyPy).
 - Add `AppVeyor <https://www.appveyor.com/docs/>`_ configuration file.
 - Add `Tox <https://tox.readthedocs.io/en/latest/>`_ configuration file.
 - Add `BumpVersion <https://github.com/peritus/bumpversion>`_ configuration file.

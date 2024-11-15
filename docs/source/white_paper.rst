@@ -13,7 +13,7 @@ The Python Standard Library
 ---------------------------
 
 :Library: Python_
-:GitHub: `python/cpython <https://github.com/python/cpython.git>`_.
+:GitHub: `python/cpython <https://github.com/python/cpython>`_.
 :Version: v3.8.dev
 
 An example of function deprecation can be found in the :mod:`urllib` module (:file:`Lib/urllib/parse.py`):
@@ -122,7 +122,7 @@ The Flask Library
 -----------------
 
 :Library: Flask_
-:GitHub: `pallets/flask <https://github.com/pallets/flask.git>`_.
+:GitHub: `pallets/flask <https://github.com/pallets/flask>`_.
 :Version: v1.1.dev
 
 In the source code of Flask, we find only few deprecations: in the :mod:`~flask.app` (:file:`flask/app.py`)
@@ -196,7 +196,7 @@ The Django Library
 ------------------
 
 :Library: Django
-:GitHub: `django/django <https://github.com/django/django.git>`_.
+:GitHub: `django/django <https://github.com/django/django>`_.
 :Version: v3.0.dev
 
 The `Django`_ Library defines several categories for deprecation in the module :mod:`django.utils.deprecation`:
@@ -283,7 +283,7 @@ The lxml Library
 ----------------
 
 :Library: lxml_
-:GitHub: `lxml/lxml <https://github.com/lxml/lxml.git>`_.
+:GitHub: `lxml/lxml <https://github.com/lxml/lxml>`_.
 :Version: v4.3.2.dev
 
 The lxml_ Library is developed in Cython, not Python. But, it is a similar language.

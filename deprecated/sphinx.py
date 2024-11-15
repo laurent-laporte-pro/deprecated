@@ -22,8 +22,6 @@ when the function/method is called or the class is constructed.
 import re
 import textwrap
 
-import wrapt
-
 from deprecated.classic import ClassicAdapter
 from deprecated.classic import deprecated as _classic_deprecated
 
@@ -48,6 +46,7 @@ class SphinxAdapter(ClassicAdapter):
         version="",
         action=None,
         category=DeprecationWarning,
+        extra_stacklevel=0,
         line_length=70,
     ):
         """
@@ -67,29 +66,40 @@ class SphinxAdapter(ClassicAdapter):
             If you follow the `Semantic Versioning <https://semver.org/>`_,
             the version number has the format "MAJOR.MINOR.PATCH".
 
-        :type  action: str
+        :type  action: Literal["default", "error", "ignore", "always", "module", "once"]
         :param action:
             A warning filter used to activate or not the deprecation warning.
             Can be one of "error", "ignore", "always", "default", "module", or "once".
-            If ``None`` or empty, the the global filtering mechanism is used.
+            If ``None`` or empty, the global filtering mechanism is used.
             See: `The Warnings Filter`_ in the Python documentation.
 
-        :type  category: type
+        :type  category: Type[Warning]
         :param category:
             The warning category to use for the deprecation warning.
             By default, the category class is :class:`~DeprecationWarning`,
             you can inherit this class to define your own deprecation warning category.
 
+        :type  extra_stacklevel: int
+        :param extra_stacklevel:
+            Number of additional stack levels to consider instrumentation rather than user code.
+            With the default value of 0, the warning refers to where the class was instantiated
+            or the function was called.
+
         :type  line_length: int
         :param line_length:
             Max line length of the directive text. If non nul, a long text is wrapped in several lines.
+
+        .. versionchanged:: 1.2.15
+            Add the *extra_stacklevel* parameter.
         """
         if not version:
-            # https://github.com/tantale/deprecated/issues/40
+            # https://github.com/laurent-laporte-pro/deprecated/issues/40
             raise ValueError("'version' argument is required in Sphinx directives")
         self.directive = directive
         self.line_length = line_length
-        super(SphinxAdapter, self).__init__(reason=reason, version=version, action=action, category=category)
+        super(SphinxAdapter, self).__init__(
+            reason=reason, version=version, action=action, category=category, extra_stacklevel=extra_stacklevel
+        )
 
     def __call__(self, wrapped):
         """
@@ -102,7 +112,7 @@ class SphinxAdapter(ClassicAdapter):
         # -- build the directive division
         fmt = ".. {directive}:: {version}" if self.version else ".. {directive}::"
         div_lines = [fmt.format(directive=self.directive, version=self.version)]
-        width = self.line_length - 3 if self.line_length > 3 else 2 ** 16
+        width = self.line_length - 3 if self.line_length > 3 else 2**16
         reason = textwrap.dedent(self.reason).strip()
         for paragraph in reason.splitlines():
             if paragraph:
@@ -120,7 +130,7 @@ class SphinxAdapter(ClassicAdapter):
         # -- get the docstring, normalize the trailing newlines
         # keep a consistent behaviour if the docstring starts with newline or directly on the first one
         docstring = wrapped.__doc__ or ""
-        lines = docstring.splitlines(keepends=True) or [""]
+        lines = docstring.splitlines(True) or [""]
         docstring = textwrap.dedent("".join(lines[1:])) if len(lines) > 1 else ""
         docstring = lines[0] + docstring
         if docstring:
@@ -153,7 +163,7 @@ class SphinxAdapter(ClassicAdapter):
 
         """
         msg = super(SphinxAdapter, self).get_deprecated_msg(wrapped, instance)
-        # Strip Sphinx cross reference syntax (like ":function:", ":py:func:" and ":py:meth:")
+        # Strip Sphinx cross-reference syntax (like ":function:", ":py:func:" and ":py:meth:")
         # Possible values are ":role:`foo`", ":domain:role:`foo`"
         # where ``role`` and ``domain`` should match "[a-zA-Z]+"
         msg = re.sub(r"(?: : [a-zA-Z]+ )? : [a-zA-Z]+ : (`[^`]*`)", r"\1", msg, flags=re.X)
@@ -163,7 +173,7 @@ class SphinxAdapter(ClassicAdapter):
 def versionadded(reason="", version="", line_length=70):
     """
     This decorator can be used to insert a "versionadded" directive
-    in your function/class docstring in order to documents the
+    in your function/class docstring in order to document the
     version of the project which adds this new functionality in your library.
 
     :param str reason:
@@ -193,7 +203,7 @@ def versionadded(reason="", version="", line_length=70):
 def versionchanged(reason="", version="", line_length=70):
     """
     This decorator can be used to insert a "versionchanged" directive
-    in your function/class docstring in order to documents the
+    in your function/class docstring in order to document the
     version of the project which modifies this functionality in your library.
 
     :param str reason:
@@ -222,7 +232,7 @@ def versionchanged(reason="", version="", line_length=70):
 def deprecated(reason="", version="", line_length=70, **kwargs):
     """
     This decorator can be used to insert a "deprecated" directive
-    in your function/class docstring in order to documents the
+    in your function/class docstring in order to document the
     version of the project which deprecates this functionality in your library.
 
     :param str reason:
@@ -242,17 +252,26 @@ def deprecated(reason="", version="", line_length=70, **kwargs):
     -   "action":
         A warning filter used to activate or not the deprecation warning.
         Can be one of "error", "ignore", "always", "default", "module", or "once".
-        If ``None``, empty or missing, the the global filtering mechanism is used.
+        If ``None``, empty or missing, the global filtering mechanism is used.
 
     -   "category":
         The warning category to use for the deprecation warning.
         By default, the category class is :class:`~DeprecationWarning`,
         you can inherit this class to define your own deprecation warning category.
 
+    -   "extra_stacklevel":
+        Number of additional stack levels to consider instrumentation rather than user code.
+        With the default value of 0, the warning refers to where the class was instantiated
+        or the function was called.
+
+
     :return: a decorator used to deprecate a function.
 
     .. versionchanged:: 1.2.13
        Change the signature of the decorator to reflect the valid use cases.
+
+    .. versionchanged:: 1.2.15
+        Add the *extra_stacklevel* parameter.
     """
     directive = kwargs.pop('directive', 'deprecated')
     adapter_cls = kwargs.pop('adapter_cls', SphinxAdapter)

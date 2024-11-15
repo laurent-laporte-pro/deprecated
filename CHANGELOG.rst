@@ -32,6 +32,8 @@ Fix
 
 - Fix #73: Update class method deprecation warnings for Python 3.13.
 
+- Fix #75: Update GitHub workflows and fix development dependencies for Python 3.12.
+
 Other
 -----
 

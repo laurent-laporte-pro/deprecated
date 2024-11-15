@@ -2,11 +2,11 @@
 %global pkgname deprecated
 
 Name:           python-%{pkgname}
-Version:        1.2.14
+Version:        1.2.15
 Release:        1%{?dist}
 Summary:        Python decorator to deprecate old python classes, functions or methods
 License:        MIT
-URL:            https://github.com/tantale/%{pkgname}
+URL:            https://github.com/laurent-laporte-pro/%{pkgname}
 Source0:        %{pypi_source}
 BuildArch:      noarch
 

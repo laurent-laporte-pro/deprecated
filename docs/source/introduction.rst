@@ -4,7 +4,7 @@ Introduction
 What "Deprecated" Means
 -----------------------
 
-.. _Deprecated Library: https://pypi.python.org/pypi/deprecated
+.. _Deprecated Library: https://pypi.org/project/Deprecated/
 
 A function or class is deprecated when it is considered as it is no longer important. It is so unimportant, in fact, that you should no longer use it, since it has been superseded and may cease to exist in the future.
 

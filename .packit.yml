@@ -1,4 +1,4 @@
-synced_files:
+files_to_sync:
   - python-deprecated.spec
   - .packit.yml
 upstream_package_name: Deprecated

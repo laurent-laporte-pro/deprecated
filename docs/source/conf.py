@@ -173,9 +173,9 @@ texinfo_documents = [
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
-    'https://docs.python.org/3/': None,
-    'https://wrapt.readthedocs.io/en/latest/': None,
-    'http://flask.pocoo.org/docs/1.0/': None,
+    'python': ('https://docs.python.org/3/', None),
+    'wrapt': ('https://wrapt.readthedocs.io/en/latest/', None),
+    'flask': ('http://flask.pocoo.org/docs/1.0/', None),
     'django': ('https://docs.djangoproject.com/en/2.1/', 'https://docs.djangoproject.com/en/2.1/_objects/'),
 }
 

@@ -190,9 +190,6 @@ setup(
             "PyTest",
             "PyTest-Cov",
             "bump2version < 1",
-            "sphinx < 2",
-            # jinja2 3.0.3 was the last version to have contextfunction that sphinx 1.x needs
-            "jinja2~=3.0.3",
             "setuptools; python_version>='3.12'",
         ]
     },

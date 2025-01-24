@@ -18,6 +18,25 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
       (only in comment or documentation).
 
 
+v1.2.16 (2025-11-24)
+====================
+
+Bug fix release
+
+Fix
+---
+
+- Fix #78: Fix configuration for Packit 1.0.0
+
+- Fix #79: Fix the configuration for the intersphinx mapping in the Sphinx documentation.
+  See `How to link to other documentation projects with Intersphinx <https://docs.readthedocs.io/en/stable/guides/intersphinx.html>`_.
+
+Other
+-----
+
+- Drop support for Python older than 3.7 in GitHub Actions.
+
+
 v1.2.15 (2024-11-15)
 ====================
 

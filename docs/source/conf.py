@@ -61,7 +61,7 @@ author = 'Marcos CARDOSO & Laurent LAPORTE'
 # built documents.
 #
 # The full version, including alpha/beta/rc tags.
-release = "1.2.16"
+release = "1.2.17"
 # The short X.Y version.
 version = release.rpartition('.')[0]
 
@@ -70,7 +70,7 @@ version = release.rpartition('.')[0]
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = 'en'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.

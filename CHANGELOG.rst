@@ -28,6 +28,11 @@ Fix
 
 - Fix #78: Fix configuration for Packit 1.0.0
 
+Other
+-----
+
+- Drop support for Python older than 3.7 in GitHub Actions.
+
 
 v1.2.15 (2024-11-15)
 ====================

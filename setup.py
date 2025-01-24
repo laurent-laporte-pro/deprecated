@@ -144,7 +144,7 @@ from setuptools import setup
 
 setup(
     name="Deprecated",
-    version="1.2.15",
+    version="1.2.16",
     url="https://github.com/laurent-laporte-pro/deprecated",
     project_urls={
         "Documentation": "https://deprecated.readthedocs.io/en/latest/",

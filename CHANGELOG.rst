@@ -18,6 +18,17 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
       (only in comment or documentation).
 
 
+v1.2.16 (2025-11-24)
+====================
+
+Bug fix release
+
+Fix
+---
+
+- Fix #78: Fix configuration for Packit 1.0.0
+
+
 v1.2.15 (2024-11-15)
 ====================
 

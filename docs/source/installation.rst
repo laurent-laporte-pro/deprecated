@@ -6,8 +6,8 @@ Installation
 Python Version
 --------------
 
-We recommend using the latest version of Python 3. Deprecated Library supports Python 3.4
-and newer, Python 2.7 and newer, and PyPy 2.7 and 3.6.
+Our project supports Python 2.7 (for historical reasons), Python 3.4 and newer versions, as well as PyPy 2.7 and
+PyPy 3.6 and newer. We recommend using the latest version of Python 3 whenever possible.
 
 Dependencies
 ------------

@@ -28,6 +28,9 @@ Fix
 
 - Fix #78: Fix configuration for Packit 1.0.0
 
+- Fix #79: Fix the configuration for the intersphinx mapping in the Sphinx documentation.
+  See `How to link to other documentation projects with Intersphinx <https://docs.readthedocs.io/en/stable/guides/intersphinx.html>`_.
+
 Other
 -----
 

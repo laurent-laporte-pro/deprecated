@@ -17,6 +17,13 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
     - I decided to keep the same version number because there is really no change in the source code
       (only in comment or documentation).
 
+v1.2.18 (2024-01-25)
+====================
+
+This version does not bring any change in the source code, but fixes the build anomaly on Fedora (Packit).
+
+The package must be published on PyPi using `twine <https://pypi.org/project/twine/>`_ to correctly deal with the license file.
+
 
 v1.2.17 (2024-01-25)
 ====================

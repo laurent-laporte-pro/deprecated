@@ -7,3 +7,10 @@ include = '\.pyi?$'
 [tool.isort]
 line_length = 120
 force_single_line = true
+
+[tool.mypy]
+
+[[tool.mypy.overrides]]
+module = ["wrapt.*"]
+ignore_missing_imports = true
+

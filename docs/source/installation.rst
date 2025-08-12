@@ -22,9 +22,10 @@ tested to date. Recent versions are listed first.
 
 .. list-table:: Compatibility matrix (tested versions)
    :header-rows: 1
-   :widths: 25 9 9 9 9 9 9 9 9
+   :widths: 25 9 9 9 9 9 9 9 9 9
 
    * - Python / wrapt
+     - 2.0
      - 1.17
      - 1.16
      - 1.15
@@ -34,6 +35,7 @@ tested to date. Recent versions are listed first.
      - 1.11
      - 1.10
    * - py3.13
+     - ✓
      - ✓
      - ✗
      - ✗
@@ -45,6 +47,7 @@ tested to date. Recent versions are listed first.
    * - py3.12
      - ✓
      - ✓
+     - ✓
      - ✗
      - ✗
      - ✗
@@ -52,6 +55,7 @@ tested to date. Recent versions are listed first.
      - ✗
      - ✗
    * - py3.11
+     - ✓
      - ✓
      - ✓
      - ✓
@@ -69,7 +73,9 @@ tested to date. Recent versions are listed first.
      - ✓
      - ✓
      - ✓
+     - ✓
    * - py3.9
+     - ✓
      - ✓
      - ✓
      - ✓
@@ -87,7 +93,9 @@ tested to date. Recent versions are listed first.
      - ✓
      - ✓
      - ✓
+     - ✓
    * - py3.7
+     - ✓
      - ✓
      - ✓
      - ✓

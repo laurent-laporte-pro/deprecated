@@ -32,6 +32,11 @@ Documentation
 
 - Update the Wrapt compatibility matrix to include Python 3.13 and 3.14. See #91
 
+Changed
+-------
+
+- Limit test coverage collection to the dedicated ``coverage`` tox environment to avoid collecting coverage across all test environments and reduce cross-environment coverage noise. See PR #92.
+
 
 v1.2.18 (2024-01-25)
 ====================

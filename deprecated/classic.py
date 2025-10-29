@@ -22,7 +22,7 @@ try:
 
     _routine_stacklevel = 2
     _class_stacklevel = 2
-except ImportError:
+except ImportError:  # pragma: no cover
     _routine_stacklevel = 3
     if platform.python_implementation() == "PyPy":
         _class_stacklevel = 2
@@ -200,7 +200,7 @@ class ClassicAdapter(wrapt.AdapterFactory):
 
             return wrapper_function(wrapped)
 
-        else:
+        else:  # pragma: no cover
             raise TypeError(repr(type(wrapped)))
 
         return wrapped

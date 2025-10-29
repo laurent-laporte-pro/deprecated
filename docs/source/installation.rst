@@ -17,6 +17,96 @@ function wrappers and decorator functions.
 
 .. _Wrapt: http://wrapt.readthedocs.io/en/latest/
 
+The table below shows the compatibility matrix between Python versions and the `wrapt` versions that have been
+tested to date. Recent versions are listed first.
+
+.. list-table:: Compatibility matrix (tested versions)
+   :header-rows: 1
+   :widths: 25 9 9 9 9 9 9 9 9 9
+
+   * - Python / wrapt
+     - 2.0
+     - 1.17
+     - 1.16
+     - 1.15
+     - 1.14
+     - 1.13
+     - 1.12
+     - 1.11
+     - 1.10
+   * - py3.13
+     - ✓
+     - ✓
+     - ✗
+     - ✗
+     - ✗
+     - ✗
+     - ✗
+     - ✗
+     - ✗
+   * - py3.12
+     - ✓
+     - ✓
+     - ✓
+     - ✗
+     - ✗
+     - ✗
+     - ✗
+     - ✗
+     - ✗
+   * - py3.11
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✗
+     - ✗
+     - ✗
+     - ✗
+   * - py3.10
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+   * - py3.9
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+   * - py3.8
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+   * - py3.7
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+
+Legend: ✓ = tested and compatible ; ✗ = incompatible.
+
 Development dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -22,6 +22,11 @@ v1.3.0 (unreleased)
 
 Minor release: Parameters deprecation
 
+Added
+-----
+
+- Add compatibility tests and adjustments for Wrapt v2.0. See PR #88 (musicinmybrain).
+
 
 v1.2.18 (2024-01-25)
 ====================

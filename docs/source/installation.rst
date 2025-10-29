@@ -34,6 +34,16 @@ tested to date. Recent versions are listed first.
      - 1.12
      - 1.11
      - 1.10
+   * - py3.14
+     - ✓
+     - ✓
+     - ✗
+     - ✗
+     - ✗
+     - ✗
+     - ✗
+     - ✗
+     - ✗
    * - py3.13
      - ✓
      - ✓
@@ -85,27 +95,28 @@ tested to date. Recent versions are listed first.
      - ✓
      - ✓
    * - py3.8
-     - ✓
-     - ✓
-     - ✓
-     - ✓
+     - ?
+     - ?
+     - ?
+     - ?
      - ✓
      - ✓
      - ✓
      - ✓
      - ✓
    * - py3.7
-     - ✓
-     - ✓
-     - ✓
-     - ✓
+     - ?
+     - ?
+     - ?
+     - ?
      - ✓
      - ✓
      - ✓
      - ✓
      - ✓
 
-Legend: ✓ = tested and compatible ; ✗ = incompatible.
+Legend: ✓ = tested and compatible ; ✗ = incompatible, ? = untested but expected to work
+
 
 Development dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~

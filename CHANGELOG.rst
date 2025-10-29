@@ -27,6 +27,11 @@ Added
 
 - Add compatibility tests and adjustments for Wrapt v2.0. See PR #88 (musicinmybrain).
 
+Documentation
+-------------
+
+- Update the Wrapt compatibility matrix to include Python 3.13 and 3.14. See #91
+
 
 v1.2.18 (2024-01-25)
 ====================

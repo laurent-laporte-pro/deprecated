@@ -13,3 +13,4 @@ __date__ = "unreleased"
 __credits__ = "(c) Laurent LAPORTE"
 
 from deprecated.classic import deprecated
+from deprecated.params import deprecated_params

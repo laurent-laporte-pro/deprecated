@@ -27,10 +27,12 @@ Added
 
 - Add compatibility tests and adjustments for Wrapt v2.0. See PR #88 (musicinmybrain).
 
+- Add experimental `@deprecated_params` decorator to mark function parameters as deprecated at call-time; emits warnings when deprecated parameters are used with optional messages and configurable warning categories. See PR #93.
+
 Documentation
 -------------
 
-- Update the Wrapt compatibility matrix to include Python 3.13 and 3.14. See #91
+- Update the Wrapt compatibility matrix to include Python 3.13 and 3.14. See PR #91
 
 Changed
 -------

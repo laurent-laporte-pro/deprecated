@@ -4,10 +4,8 @@
 name: Python package
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
-    branches: [ master ]
+    branches: ['master', 'main', 'develop', 'release/**', 'hotfix/**']
 
 jobs:
   pytest:
@@ -33,4 +31,3 @@ jobs:
       - name: Test with pytest
         run: |
           pytest tests/
-

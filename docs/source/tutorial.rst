@@ -123,6 +123,50 @@ the :func:`~deprecated.deprecated` decorator patches the ``__new__`` method in o
 emmit the warning message before instance creation.
 
 
+Deprecated parameters
+---------------------
+
+It is also possible to mark one or more parameters of a function as deprecated using the
+:func:`deprecated.params.deprecated_params` decorator.
+
+Example:
+
+.. code-block:: python
+
+    import warnings
+    from deprecated.params import deprecated_params
+
+    class V2DeprecationWarning(DeprecationWarning):
+        pass
+
+    # noinspection PyUnusedLocal
+    @deprecated_params(
+        {
+            "epsilon": "epsilon is deprecated in version v2",
+            "start": "start is removed in version v2",
+        },
+        category=V2DeprecationWarning,
+    )
+    @deprecated_params("epsilon", reason="epsilon is deprecated in version v1.1")
+    def integrate(f, a, b, n=0, epsilon=0.0, start=None):
+        epsilon = epsilon or (b - a) / n
+        n = n or int((b - a) / epsilon)
+        return sum((f(a + (i * epsilon)) + f(a + (i * epsilon) + epsilon)) * epsilon / 2 for i in range(n))
+
+When the function is called, parameters marked as deprecated will emit deprecation
+warnings (using the provided category and message). This allows you to inform users
+about alternatives or the versions in which parameters were changed or removed.
+
+.. code-block:: sh
+
+   $ python use_deprecated_params.py
+
+   use_deprecated_params.py:48: V2DeprecationWarning: epsilon is deprecated in version v2
+     integrate(lambda x: x**2, 0, 2, epsilon=0.0012, start=123)
+   use_deprecated_params.py:48: V2DeprecationWarning: start is removed in version v2
+     integrate(lambda x: x**2, 0, 2, epsilon=0.0012, start=123)
+
+
 Controlling warnings
 --------------------
 
@@ -193,7 +237,6 @@ When the user runs this script, the deprecation warnings for the 3.0 version are
     warning_classes_demo.py:30: DeprecatedIn26: Call to deprecated function (or staticmethod) foo. (deprecated function)
       foo()
 
-
 Filtering warnings locally
 --------------------------
 
@@ -242,7 +285,6 @@ function will raise an exception because the *action* is set to "error".
      File "path/to/deprecated/classic.py", line 274, in wrapper_function
        warnings.warn(msg, category=category, stacklevel=_stacklevel)
    DeprecationWarning: Call to deprecated function (or staticmethod) foo. (do not call it)
-
 
 Modifying the deprecated code reference
 ---------------------------------------

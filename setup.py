@@ -144,7 +144,7 @@ from setuptools import setup
 
 setup(
     name="Deprecated",
-    version="1.2.18",
+    version="1.3.0",
     url="https://github.com/laurent-laporte-pro/deprecated",
     project_urls={
         "Documentation": "https://deprecated.readthedocs.io/en/latest/",
@@ -159,7 +159,7 @@ setup(
     long_description_content_type="text/x-rst",
     keywords="deprecate,deprecated,deprecation,warning,warn,decorator",
     packages=["deprecated"],
-    install_requires=["wrapt < 2, >= 1.10"],
+    install_requires=["wrapt < 3, >= 1.10", "inspect2; python_version < '3'"],
     zip_safe=False,
     include_package_data=True,
     platforms="any",
@@ -182,6 +182,8 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     extras_require={

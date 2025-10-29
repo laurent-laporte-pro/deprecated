@@ -17,6 +17,29 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
     - I decided to keep the same version number because there is really no change in the source code
       (only in comment or documentation).
 
+v1.3.0 (unreleased)
+===================
+
+Minor release: Parameters deprecation
+
+Added
+-----
+
+- Add compatibility tests and adjustments for Wrapt v2.0. See PR #88 (musicinmybrain).
+
+- Add experimental `@deprecated_params` decorator to mark function parameters as deprecated at call-time; emits warnings when deprecated parameters are used with optional messages and configurable warning categories. See PR #93.
+
+Documentation
+-------------
+
+- Update the Wrapt compatibility matrix to include Python 3.13 and 3.14. See PR #91
+
+Changed
+-------
+
+- Limit test coverage collection to the dedicated ``coverage`` tox environment to avoid collecting coverage across all test environments and reduce cross-environment coverage noise. See PR #92.
+
+
 v1.2.18 (2024-01-25)
 ====================
 

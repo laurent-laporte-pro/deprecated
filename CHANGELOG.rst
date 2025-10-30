@@ -17,8 +17,14 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
     - I decided to keep the same version number because there is really no change in the source code
       (only in comment or documentation).
 
-v1.3.0 (unreleased)
+v1.3.0 (2025-10-29)
 ===================
+
+.. note::
+
+    This release was **yanked** on PyPI due to a missing source distribution (`.tar.gz`).
+    See issue #94: https://github.com/laurent-laporte-pro/deprecated/issues/94
+    It has been replaced by version 1.3.1.
 
 Minor release: Parameters deprecation
 

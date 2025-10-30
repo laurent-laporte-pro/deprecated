@@ -17,6 +17,18 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
     - I decided to keep the same version number because there is really no change in the source code
       (only in comment or documentation).
 
+v1.3.1 (2025-10-30)
+===================
+
+Patch release: Packaging fix
+
+Fixed
+-----
+
+- Restore missing source distribution (`.tar.gz`) that was not included in v1.3.0.
+- See issue #94: https://github.com/laurent-laporte-pro/deprecated/issues/94
+
+
 v1.3.0 (2025-10-29)
 ===================
 

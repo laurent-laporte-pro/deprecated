@@ -61,7 +61,7 @@ author = 'Marcos CARDOSO & Laurent LAPORTE'
 # built documents.
 #
 # The full version, including alpha/beta/rc tags.
-release = "1.3.0"
+release = "1.3.1"
 # The short X.Y version.
 version = release.rpartition('.')[0]
 

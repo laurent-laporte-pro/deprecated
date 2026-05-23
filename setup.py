@@ -191,6 +191,7 @@ setup(
             "tox",
             "PyTest",
             "PyTest-Cov",
+            "packaging",
             "bump2version < 1",
             "setuptools; python_version>='3.12'",
         ]

@@ -143,7 +143,8 @@ Deprecated provides a ``Makefile`` with various shortcuts, based on uv and Hatch
 - ``make fix`` fixes the lint errors and reformats the code
 - ``make docs`` builds the HTML documentation
 - ``make build`` builds the source distribution and the wheel
-- ``make bump-major``, ``make bump-minor``, ``make bump-patch`` bump the version
+- ``make version`` shows the current version, and ``make bump-major``, ``make bump-minor``,
+  ``make bump-patch`` bump it with ``hatch version`` (see :ref:`release`)
 - ``make clean`` removes the build artifacts and the caches
 
 Generating the documentation

@@ -52,15 +52,17 @@ docs: ## Build the HTML documentation
 build: ## Build the source distribution and the wheel
 	$(UV) build
 
-BUMP_VERSION = $(UV) tool run bump2version
+.PHONY: version
+version: ## Show the current version
+	$(HATCH) version
 
 .PHONY: bump-major bump-minor bump-patch
-bump-major: ## Bump the major version (see .bumpversion.cfg)
-	$(BUMP_VERSION) major
+bump-major: ## Bump the major version (see docs/source/release.rst)
+	$(HATCH) version major
 bump-minor: ## Bump the minor version
-	$(BUMP_VERSION) minor
+	$(HATCH) version minor
 bump-patch: ## Bump the patch version
-	$(BUMP_VERSION) patch
+	$(HATCH) version patch
 
 .PHONY: clean
 clean: ## Remove the build artifacts and the caches

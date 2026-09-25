@@ -50,3 +50,4 @@ Legal information and changelog are here for the interested.
    changelog
    license
    contributing
+   release

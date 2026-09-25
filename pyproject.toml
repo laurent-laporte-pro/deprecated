@@ -59,31 +59,12 @@ url = "https://test.pypi.org/simple/"
 publish-url = "https://test.pypi.org/legacy/"
 explicit = true
 
-# -- Hatch: build ---------------------------------------------------------------
+# -- Hatch: version -------------------------------------------------------------
 
 [tool.hatch.version]
+# Single source of the version: use `hatch version <major|minor|patch>`
+# (see docs/source/release.rst).
 path = "src/deprecated/__init__.py"
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/deprecated"]
-
-[tool.hatch.build.targets.sdist]
-include = [
-    "/src",
-    "/docs",
-    "/tests",
-    "/.github",
-    "/*.rst",
-    "/*.md",
-    "/.bumpversion.cfg",
-    "/.editorconfig",
-    "/.packit.yml",
-    "/.readthedocs.yaml",
-    "/Makefile",
-    "/uv.lock",
-]
-# `*.spec` files are git-ignored (PyInstaller template), but the RPM spec file is shipped.
-artifacts = ["/python-deprecated.spec"]
 
 # -- Hatch: quality checks ------------------------------------------------------
 #

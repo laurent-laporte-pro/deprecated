@@ -68,8 +68,9 @@ The quality checks and the test matrix are run with `Hatch`_ (installed with ``u
 *   ``hatch check types`` type-checks the code with mypy,
 *   ``hatch test --all`` runs the test suite on all supported Python and wrapt versions.
 
-`bump2version`_ is used to update all version strings in the source code (``make bump-patch``),
-and `sphinx`_ to build the documentation (see :file:`docs/requirements.txt`).
+The version is defined in :file:`src/deprecated/__init__.py` and updated with ``hatch version``
+(see :ref:`release`), and `sphinx`_ is used to build the documentation
+(see :file:`docs/requirements.txt`).
 
 .. _uv: https://docs.astral.sh/uv/
 .. _Hatch: https://hatch.pypa.io/latest/
@@ -77,7 +78,6 @@ and `sphinx`_ to build the documentation (see :file:`docs/requirements.txt`).
 .. _pytest-cov: http://pytest-cov.readthedocs.io/en/latest/
 .. _Ruff: https://docs.astral.sh/ruff/
 .. _mypy: https://mypy.readthedocs.io/en/stable/
-.. _bump2version: https://github.com/c4urself/bump2version
 .. _sphinx: http://www.sphinx-doc.org/en/stable/index.html
 
 

@@ -39,6 +39,10 @@ Changed
 - Manage the project with uv (``uv.lock``) and Hatch: tox is dropped and replaced
   by the ``hatch test`` matrix.
 - Modernize the ``Makefile`` (uv/Hatch based targets, run ``make help``).
+- Replace bump2version by ``hatch version <major|minor|patch>``: the version is only defined
+  in ``src/deprecated/__init__.py``, and the git tag is created by GitHub when the release
+  is published.
+- Remove the ``deprecated.__date__`` attribute (the release dates are in the changelog).
 - Update the Fedora RPM spec file to the ``%pyproject_*`` macros.
 
 Added
@@ -50,6 +54,7 @@ Added
   the decorators preserve the signature of the decorated functions and classes.
 - Add the ``hatch check code`` (Ruff lint), ``hatch check fmt`` (Ruff format)
   and ``hatch check types`` (mypy, strict mode) quality checks.
+- Document the release process (``docs/source/release.rst``).
 - Add non-regression tests for the behaviours which differ between Python 2 and Python 3.
 - Add ``__all__`` to the ``deprecated`` package: ``from deprecated import *`` only exports
   ``deprecated`` and ``deprecated_params``.

@@ -9,7 +9,7 @@ Python Version
 Our project supports Python 3.12 and newer versions.
 We recommend using the latest version of Python 3 whenever possible.
 
-.. versionchanged:: Unreleased
+.. versionchanged:: 3.0.0
    Support for Python 2.7 and Python 3 versions older than 3.12 has been dropped.
    Use Deprecated 1.3.x on these versions.
 
@@ -68,7 +68,7 @@ The quality checks and the test matrix are run with `Hatch`_ (installed with ``u
 *   ``hatch check types`` type-checks the code with mypy,
 *   ``hatch test --all`` runs the test suite on all supported Python and wrapt versions.
 
-`bump2version`_ is used to update all version strings in the source code (``uvx bump2version patch``),
+`bump2version`_ is used to update all version strings in the source code (``make bump-patch``),
 and `sphinx`_ to build the documentation (see :file:`docs/requirements.txt`).
 
 .. _uv: https://docs.astral.sh/uv/

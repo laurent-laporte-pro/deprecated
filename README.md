@@ -36,14 +36,14 @@ You can also decorate a class or a method:
 from deprecated import deprecated
 
 
-class SomeClass(object):
+class SomeClass:
     @deprecated
     def some_old_method(self, x, y):
         return x + y
 
 
 @deprecated
-class SomeOldClass(object):
+class SomeOldClass:
     pass
 ```
 

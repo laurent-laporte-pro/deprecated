@@ -1,4 +1,3 @@
-# coding: utf-8
 """
 Sphinx directive integration
 ============================
@@ -9,7 +8,8 @@ when they are created, modified or deprecated.
 To do that, `Sphinx <http://www.sphinx-doc.org>`_ has a set
 of `Paragraph-level markups <http://www.sphinx-doc.org/en/stable/markup/para.html>`_:
 
-- ``versionadded``: to document the version of the project which added the described feature to the library,
+- ``versionadded``: to document the version of the project which added the described feature
+  to the library,
 - ``versionchanged``: to document changes of a feature,
 - ``deprecated``: to document a deprecated feature.
 
@@ -19,11 +19,20 @@ to the docstring of your function and classes.
 Of course, the ``@deprecated`` decorator will emit a deprecation warning
 when the function/method is called or the class is constructed.
 """
+
 import re
 import textwrap
+from collections.abc import Callable
+from typing import Any
+from typing import Literal
 
 from deprecated.classic import ClassicAdapter
+from deprecated.classic import Deprecatable
+from deprecated.classic import WarningAction
 from deprecated.classic import deprecated as _classic_deprecated
+
+#: Sphinx paragraph-level markup inserted in the docstring.
+type SphinxDirective = Literal["versionadded", "versionchanged", "deprecated"]
 
 
 class SphinxAdapter(ClassicAdapter):
@@ -41,14 +50,14 @@ class SphinxAdapter(ClassicAdapter):
 
     def __init__(
         self,
-        directive,
-        reason="",
-        version="",
-        action=None,
-        category=DeprecationWarning,
-        extra_stacklevel=0,
-        line_length=70,
-    ):
+        directive: SphinxDirective,
+        reason: str | None = "",
+        version: str | None = "",
+        action: WarningAction | Literal[""] | None = None,
+        category: type[Warning] = DeprecationWarning,
+        extra_stacklevel: int = 0,
+        line_length: int = 70,
+    ) -> None:
         """
         Construct a wrapper adapter.
 
@@ -56,7 +65,7 @@ class SphinxAdapter(ClassicAdapter):
         :param directive:
             Sphinx directive: can be one of "versionadded", "versionchanged" or "deprecated".
 
-        :type  reason: str
+        :type  reason: str | None
         :param reason:
             Reason message which documents the deprecation in your library (can be omitted).
 
@@ -87,7 +96,8 @@ class SphinxAdapter(ClassicAdapter):
 
         :type  line_length: int
         :param line_length:
-            Max line length of the directive text. If non nul, a long text is wrapped in several lines.
+            Max line length of the directive text.
+            If non nul, a long text is wrapped in several lines.
 
         .. versionchanged:: 1.2.15
             Add the *extra_stacklevel* parameter.
@@ -97,11 +107,15 @@ class SphinxAdapter(ClassicAdapter):
             raise ValueError("'version' argument is required in Sphinx directives")
         self.directive = directive
         self.line_length = line_length
-        super(SphinxAdapter, self).__init__(
-            reason=reason, version=version, action=action, category=category, extra_stacklevel=extra_stacklevel
+        super().__init__(
+            reason=reason,
+            version=version,
+            action=action,
+            category=category,
+            extra_stacklevel=extra_stacklevel,
         )
 
-    def __call__(self, wrapped):
+    def __call__[T: Deprecatable](self, wrapped: T) -> T:
         """
         Add the Sphinx directive to your class or function.
 
@@ -128,7 +142,8 @@ class SphinxAdapter(ClassicAdapter):
                 div_lines.append("")
 
         # -- get the docstring, normalize the trailing newlines
-        # keep a consistent behaviour if the docstring starts with newline or directly on the first one
+        # keep a consistent behaviour if the docstring starts with newline
+        # or directly on the first one
         docstring = wrapped.__doc__ or ""
         lines = docstring.splitlines(True) or [""]
         docstring = textwrap.dedent("".join(lines[1:])) if len(lines) > 1 else ""
@@ -137,18 +152,19 @@ class SphinxAdapter(ClassicAdapter):
             # An empty line must separate the original docstring and the directive.
             docstring = re.sub(r"\n+$", "", docstring, flags=re.DOTALL) + "\n\n"
         else:
-            # Avoid "Explicit markup ends without a blank line" when the decorated function has no docstring
+            # Avoid "Explicit markup ends without a blank line"
+            # when the decorated function has no docstring
             docstring = "\n"
 
         # -- append the directive division to the docstring
-        docstring += "".join("{}\n".format(line) for line in div_lines)
+        docstring += "".join(f"{line}\n" for line in div_lines)
 
         wrapped.__doc__ = docstring
         if self.directive in {"versionadded", "versionchanged"}:
             return wrapped
-        return super(SphinxAdapter, self).__call__(wrapped)
+        return super().__call__(wrapped)
 
-    def get_deprecated_msg(self, wrapped, instance):
+    def get_deprecated_msg(self, wrapped: Deprecatable, instance: object | None) -> str:
         """
         Get the deprecation warning message (without Sphinx cross-referencing syntax) for the user.
 
@@ -162,7 +178,7 @@ class SphinxAdapter(ClassicAdapter):
            Strip Sphinx cross-referencing syntax from warning message.
 
         """
-        msg = super(SphinxAdapter, self).get_deprecated_msg(wrapped, instance)
+        msg = super().get_deprecated_msg(wrapped, instance)
         # Strip Sphinx cross-reference syntax (like ":function:", ":py:func:" and ":py:meth:")
         # Possible values are ":role:`foo`", ":domain:role:`foo`"
         # where ``role`` and ``domain`` should match "[a-zA-Z]+"
@@ -170,7 +186,9 @@ class SphinxAdapter(ClassicAdapter):
         return msg
 
 
-def versionadded(reason="", version="", line_length=70):
+def versionadded(
+    reason: str | None = "", version: str | None = "", line_length: int = 70
+) -> SphinxAdapter:
     """
     This decorator can be used to insert a "versionadded" directive
     in your function/class docstring in order to document the
@@ -192,7 +210,7 @@ def versionadded(reason="", version="", line_length=70):
     :return: the decorated function.
     """
     adapter = SphinxAdapter(
-        'versionadded',
+        "versionadded",
         reason=reason,
         version=version,
         line_length=line_length,
@@ -200,7 +218,9 @@ def versionadded(reason="", version="", line_length=70):
     return adapter
 
 
-def versionchanged(reason="", version="", line_length=70):
+def versionchanged(
+    reason: str | None = "", version: str | None = "", line_length: int = 70
+) -> SphinxAdapter:
     """
     This decorator can be used to insert a "versionchanged" directive
     in your function/class docstring in order to document the
@@ -221,7 +241,7 @@ def versionchanged(reason="", version="", line_length=70):
     :return: the decorated function.
     """
     adapter = SphinxAdapter(
-        'versionchanged',
+        "versionchanged",
         reason=reason,
         version=version,
         line_length=line_length,
@@ -229,7 +249,12 @@ def versionchanged(reason="", version="", line_length=70):
     return adapter
 
 
-def deprecated(reason="", version="", line_length=70, **kwargs):
+def deprecated[T: Deprecatable](
+    reason: str | None = "",
+    version: str | None = "",
+    line_length: int = 70,
+    **kwargs: Any,
+) -> Callable[[T], T]:
     """
     This decorator can be used to insert a "deprecated" directive
     in your function/class docstring in order to document the
@@ -273,8 +298,8 @@ def deprecated(reason="", version="", line_length=70, **kwargs):
     .. versionchanged:: 1.2.15
         Add the *extra_stacklevel* parameter.
     """
-    directive = kwargs.pop('directive', 'deprecated')
-    adapter_cls = kwargs.pop('adapter_cls', SphinxAdapter)
+    directive = kwargs.pop("directive", "deprecated")
+    adapter_cls = kwargs.pop("adapter_cls", SphinxAdapter)
     kwargs["reason"] = reason
     kwargs["version"] = version
     kwargs["line_length"] = line_length

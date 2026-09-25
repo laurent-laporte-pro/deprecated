@@ -1,9 +1,8 @@
-# coding: utf-8
-from __future__ import print_function
-
 import inspect
 import io
 import warnings
+
+import pytest
 
 import deprecated.classic
 
@@ -14,10 +13,10 @@ def test_simple_class_deprecation():
 
     # To deprecate a class, it is better to emit a message when ``__new__`` is called.
     # The simplest way is to override the ``__new__``method.
-    class MyBaseClass(object):
+    class MyBaseClass:
         def __new__(cls, *args, **kwargs):
-            print(u"I am deprecated!", file=stream)
-            return super(MyBaseClass, cls).__new__(cls, *args, **kwargs)
+            print("I am deprecated!", file=stream)
+            return super().__new__(cls, *args, **kwargs)
 
     # Of course, the subclass will be deprecated too
     class MySubClass(MyBaseClass):
@@ -26,14 +25,14 @@ def test_simple_class_deprecation():
     obj = MySubClass()
     assert isinstance(obj, MyBaseClass)
     assert inspect.isclass(MyBaseClass)
-    assert stream.getvalue().strip() == u"I am deprecated!"
+    assert stream.getvalue().strip() == "I am deprecated!"
 
 
 def test_class_deprecation_using_wrapper():
     # stream is used to store the deprecation message for testing
     stream = io.StringIO()
 
-    class MyBaseClass(object):
+    class MyBaseClass:
         pass
 
     # To deprecated the class, we use a wrapper function which emits
@@ -42,12 +41,12 @@ def test_class_deprecation_using_wrapper():
     original_new = MyBaseClass.__new__
 
     def wrapped_new(unused, *args, **kwargs):
-        print(u"I am deprecated!", file=stream)
+        print("I am deprecated!", file=stream)
         return original_new(*args, **kwargs)
 
     # Like ``__new__``, this wrapper is a class method.
     # It is used to patch the original ``__new__``method.
-    MyBaseClass.__new__ = classmethod(wrapped_new)
+    setattr(MyBaseClass, "__new__", classmethod(wrapped_new))  # noqa: B010
 
     class MySubClass(MyBaseClass):
         pass
@@ -55,7 +54,7 @@ def test_class_deprecation_using_wrapper():
     obj = MySubClass()
     assert isinstance(obj, MyBaseClass)
     assert inspect.isclass(MyBaseClass)
-    assert stream.getvalue().strip() == u"I am deprecated!"
+    assert stream.getvalue().strip() == "I am deprecated!"
 
 
 def test_class_deprecation_using_a_simple_decorator():
@@ -69,14 +68,14 @@ def test_class_deprecation_using_a_simple_decorator():
         old_new = wrapped_cls.__new__
 
         def wrapped_new(unused, *args, **kwargs):
-            print(u"I am deprecated!", file=stream)
+            print("I am deprecated!", file=stream)
             return old_new(*args, **kwargs)
 
         wrapped_cls.__new__ = classmethod(wrapped_new)
         return wrapped_cls
 
     @simple_decorator
-    class MyBaseClass(object):
+    class MyBaseClass:
         pass
 
     class MySubClass(MyBaseClass):
@@ -85,12 +84,12 @@ def test_class_deprecation_using_a_simple_decorator():
     obj = MySubClass()
     assert isinstance(obj, MyBaseClass)
     assert inspect.isclass(MyBaseClass)
-    assert stream.getvalue().strip() == u"I am deprecated!"
+    assert stream.getvalue().strip() == "I am deprecated!"
 
 
 def test_class_deprecation_using_deprecated_decorator():
     @deprecated.classic.deprecated
-    class MyBaseClass(object):
+    class MyBaseClass:
         pass
 
     class MySubClass(MyBaseClass):
@@ -108,20 +107,20 @@ def test_class_deprecation_using_deprecated_decorator():
 
 def test_class_respect_global_filter():
     @deprecated.classic.deprecated
-    class MyBaseClass(object):
+    class MyBaseClass:
         pass
 
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("once")
-        obj = MyBaseClass()
-        obj = MyBaseClass()
+        MyBaseClass()
+        MyBaseClass()
 
     assert len(warns) == 1
 
 
 def test_subclass_deprecation_using_deprecated_decorator():
     @deprecated.classic.deprecated
-    class MyBaseClass(object):
+    class MyBaseClass:
         pass
 
     @deprecated.classic.deprecated
@@ -139,13 +138,14 @@ def test_subclass_deprecation_using_deprecated_decorator():
 
 
 def test_simple_class_deprecation_with_args():
-    @deprecated.classic.deprecated('kwargs class')
-    class MyClass(object):
+    @deprecated.classic.deprecated("kwargs class")
+    class MyClass:
         def __init__(self, arg):
-            super(MyClass, self).__init__()
+            super().__init__()
             self.args = arg
 
-    MyClass(5)
+    with pytest.warns(DeprecationWarning, match="kwargs class"):
+        MyClass(5)
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
         obj = MyClass(5)

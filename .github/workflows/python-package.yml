@@ -1,33 +1,107 @@
-# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+# Run the test suite and the quality checks with uv and Hatch.
+# See: https://docs.astral.sh/uv/guides/integration/github/ and https://hatch.pypa.io/latest/
 
 name: Python package
 
 on:
+  push:
+    branches: ['master', 'main', 'develop']
   pull_request:
     branches: ['master', 'main', 'develop', 'release/**', 'hotfix/**']
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  UV_VERSION: "0.12.19"
+  HATCH_VERSION: "1.18.1"
+
 jobs:
+  quality:
+    name: Quality checks (hatch check)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10.2.0
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+
+      - name: Check the lockfile is up to date
+        run: uv lock --check
+
+      - name: Install Hatch
+        run: uv tool install "hatch==${HATCH_VERSION}"
+
+      - name: Lint (hatch check code)
+        run: hatch check code
+
+      - name: Formatting (hatch check fmt)
+        run: hatch check fmt
+
+      - name: Typing (hatch check types)
+        run: hatch check types
+
   pytest:
+    name: Tests (Python ${{ matrix.python-version }}, ${{ matrix.platform }})
     strategy:
       fail-fast: false
       matrix:
-        platform: [ ubuntu-latest, macos-latest, windows-latest ]
-        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14" ]
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.12", "3.13", "3.14"]
 
     runs-on: ${{ matrix.platform }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
+
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10.2.0
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install pytest setuptools
-          python -m pip install -e .
+        run: uv sync --locked --python ${{ matrix.python-version }}
+
       - name: Test with pytest
-        run: |
-          pytest tests/
+        run: uv run --locked --python ${{ matrix.python-version }} pytest --cov --cov-report=term-missing
+
+  wrapt-compat:
+    name: Tests (wrapt compatibility matrix)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10.2.0
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+
+      - name: Install Hatch
+        run: uv tool install "hatch==${HATCH_VERSION}"
+
+      - name: Test all Python / wrapt combinations (hatch test --all)
+        run: hatch test --all
+
+      - name: Test with the pure Python implementation of wrapt
+        env:
+          WRAPT_DISABLE_EXTENSIONS: "1"
+        run: uv run --locked pytest

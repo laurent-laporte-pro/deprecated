@@ -46,7 +46,7 @@ You are strongly recommended to use the ``@deprecated`` decorator with appropria
         return x + y
 
 
-    class SomeClass(object):
+    class SomeClass:
         @deprecated(version='1.3.0', reason="This method is deprecated")
         def some_old_method(self, x, y):
             return x + y

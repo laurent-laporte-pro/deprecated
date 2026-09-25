@@ -1,38 +1,22 @@
-# -*- coding: utf-8 -*-
 """
 This example shows a function with an unused optional parameter. A warning
 message should be emitted if `z` is used (as a positional or keyword parameter).
 """
 
-import sys
 import warnings
 
 import pytest
 
 from deprecated.params import deprecated_params
 
-PY38 = sys.version_info[0:2] >= (3, 8)
 
-if PY38:
-    # Positional-Only Arguments are only available for Python >= 3
-    # On other version, this code raises a SyntaxError exception.
-    exec (
-        """
 @deprecated_params("z")
 def pow2(x, y, z=None, /):
-    return x ** y
-        """
-    )
-
-else:
-
-    @deprecated_params("z")
-    def pow2(x, y, z=None):
-        return x ** y
+    return x**y
 
 
 @pytest.mark.parametrize(
-    "args, kwargs, expected",
+    ("args", "kwargs", "expected"),
     [
         pytest.param((5, 6), {}, [], id="'z' not used: no warnings"),
         pytest.param(
@@ -44,9 +28,9 @@ else:
         pytest.param(
             (5, 6),
             {"z": 8},
-            ["'z' parameter is deprecated"],
-            id="'z' used in keyword params",
-            marks=pytest.mark.skipif(PY38, reason="'z' parameter is positional only"),
+            [],
+            id="'z' is positional only: keyword usage is rejected",
+            marks=pytest.mark.xfail(raises=TypeError, strict=True),
         ),
     ],
 )

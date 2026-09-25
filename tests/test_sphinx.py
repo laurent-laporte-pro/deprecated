@@ -1,10 +1,9 @@
-# coding: utf-8
-from __future__ import print_function
-
 import re
 import sys
 import textwrap
 import warnings
+from typing import Any
+from typing import cast
 
 import pytest
 
@@ -36,18 +35,18 @@ def docstring(request):
     return request.param
 
 
-@pytest.fixture(scope="module", params=['versionadded', 'versionchanged', 'deprecated'])
+@pytest.fixture(scope="module", params=["versionadded", "versionchanged", "deprecated"])
 def directive(request):
     return request.param
 
 
 # noinspection PyShadowingNames
 @pytest.mark.parametrize(
-    "reason, version, expected",
+    ("reason", "version", "expected"),
     [
         (
-            'A good reason',
-            '1.2.0',
+            "A good reason",
+            "1.2.0",
             textwrap.dedent(
                 """\
                 .. {directive}:: {version}
@@ -57,7 +56,7 @@ def directive(request):
         ),
         (
             None,
-            '1.2.0',
+            "1.2.0",
             textwrap.dedent(
                 """\
                 .. {directive}:: {version}
@@ -83,21 +82,23 @@ def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
     # The function must contains this Sphinx docstring:
     expected = expected.format(directive=directive, version=version, reason=reason)
 
+    assert foo.__doc__ is not None
     current = textwrap.dedent(foo.__doc__)
     assert current.endswith(expected)
 
-    current = current.replace(expected, '')
+    current = current.replace(expected, "")
     if docstring:
         # An empty line must separate the original docstring and the directive.
         assert re.search("\n[ ]*\n$", current, flags=re.DOTALL)
     else:
-        # Avoid "Explicit markup ends without a blank line" when the decorated function has no docstring
+        # Avoid "Explicit markup ends without a blank line"
+        # when the decorated function has no docstring
         assert current == "\n"
 
     with warnings.catch_warnings(record=True) as warns:
         foo(1, 2)
 
-    if directive in {'versionadded', 'versionchanged'}:
+    if directive in {"versionadded", "versionchanged"}:
         # don't emit DeprecationWarning
         assert len(warns) == 0
     else:
@@ -106,15 +107,12 @@ def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
 
 
 # noinspection PyShadowingNames
-@pytest.mark.skipif(
-    sys.version_info < (3, 3), reason="Classes should have mutable docstrings -- resolved in python 3.3"
-)
 @pytest.mark.parametrize(
-    "reason, version, expected",
+    ("reason", "version", "expected"),
     [
         (
-            'A good reason',
-            '1.2.0',
+            "A good reason",
+            "1.2.0",
             textwrap.dedent(
                 """\
                 .. {directive}:: {version}
@@ -124,7 +122,7 @@ def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
         ),
         (
             None,
-            '1.2.0',
+            "1.2.0",
             textwrap.dedent(
                 """\
                 .. {directive}:: {version}
@@ -136,7 +134,7 @@ def test_has_sphinx_docstring(docstring, directive, reason, version, expected):
 )
 def test_cls_has_sphinx_docstring(docstring, directive, reason, version, expected):
     # The class:
-    class Foo(object):
+    class Foo:
         pass
 
     # with docstring:
@@ -145,26 +143,28 @@ def test_cls_has_sphinx_docstring(docstring, directive, reason, version, expecte
     # is decorated with:
     decorator_factory = getattr(deprecated.sphinx, directive)
     decorator = decorator_factory(reason=reason, version=version)
-    Foo = decorator(Foo)
+    decorated_cls = decorator(Foo)
 
     # The class must contain this Sphinx docstring:
     expected = expected.format(directive=directive, version=version, reason=reason)
 
-    current = textwrap.dedent(Foo.__doc__)
+    assert decorated_cls.__doc__ is not None
+    current = textwrap.dedent(decorated_cls.__doc__)
     assert current.endswith(expected)
 
-    current = current.replace(expected, '')
+    current = current.replace(expected, "")
     if docstring:
         # An empty line must separate the original docstring and the directive.
         assert re.search("\n[ ]*\n$", current, flags=re.DOTALL)
     else:
-        # Avoid "Explicit markup ends without a blank line" when the decorated function has no docstring
+        # Avoid "Explicit markup ends without a blank line"
+        # when the decorated function has no docstring
         assert current == "\n"
 
     with warnings.catch_warnings(record=True) as warns:
-        Foo()
+        decorated_cls()
 
-    if directive in {'versionadded', 'versionchanged'}:
+    if directive in {"versionadded", "versionchanged"}:
         # don't emit DeprecationWarning
         assert len(warns) == 0
     else:
@@ -177,10 +177,10 @@ class MyDeprecationWarning(DeprecationWarning):
 
 
 _PARAMS = [
-    {'version': '1.2.3'},
-    {'version': '1.2.3', 'reason': 'Good reason'},
-    {'version': '1.2.3', 'action': 'once'},
-    {'version': '1.2.3', 'category': MyDeprecationWarning},
+    {"version": "1.2.3"},
+    {"version": "1.2.3", "reason": "Good reason"},
+    {"version": "1.2.3", "action": "once"},
+    {"version": "1.2.3", "category": MyDeprecationWarning},
 ]
 
 
@@ -200,7 +200,7 @@ def sphinx_deprecated_class(request):
     kwargs = request.param
 
     @deprecated.sphinx.deprecated(**kwargs)
-    class Foo2(object):
+    class Foo2:
         pass
 
     return Foo2
@@ -210,7 +210,7 @@ def sphinx_deprecated_class(request):
 def sphinx_deprecated_method(request):
     kwargs = request.param
 
-    class Foo3(object):
+    class Foo3:
         @deprecated.sphinx.deprecated(**kwargs)
         def foo3(self):
             pass
@@ -222,7 +222,7 @@ def sphinx_deprecated_method(request):
 def sphinx_deprecated_static_method(request):
     kwargs = request.param
 
-    class Foo4(object):
+    class Foo4:
         @staticmethod
         @deprecated.sphinx.deprecated(**kwargs)
         def foo4():
@@ -235,7 +235,7 @@ def sphinx_deprecated_static_method(request):
 def sphinx_deprecated_class_method(request):
     kwargs = request.param
 
-    class Foo5(object):
+    class Foo5:
         @classmethod
         @deprecated.sphinx.deprecated(**kwargs)
         def foo5(cls):
@@ -256,9 +256,6 @@ def test_sphinx_deprecated_function__warns(sphinx_deprecated_function):
 
 
 # noinspection PyShadowingNames
-@pytest.mark.skipif(
-    sys.version_info < (3, 3), reason="Classes should have mutable docstrings -- resolved in python 3.3"
-)
 def test_sphinx_deprecated_class__warns(sphinx_deprecated_class):
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
@@ -301,21 +298,18 @@ def test_sphinx_deprecated_class_method__warns(sphinx_deprecated_class_method):
     assert len(warns) == 1
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
-    if (3, 9) <= sys.version_info < (3, 13):
+    if sys.version_info < (3, 13):
         assert "deprecated class method" in str(warn.message)
     else:
         assert "deprecated function (or staticmethod)" in str(warn.message)
 
 
 def test_should_raise_type_error():
-    try:
-        @deprecated.sphinx.deprecated(version="4.5.6", reason=5)
+    with pytest.raises(TypeError):
+
+        @deprecated.sphinx.deprecated(version="4.5.6", reason=cast(Any, 5))
         def foo():
             pass
-
-        assert False, "TypeError not raised"
-    except TypeError:
-        pass
 
 
 def test_warning_msg_has_reason():
@@ -345,7 +339,7 @@ def test_warning_msg_has_version():
 
 
 def test_warning_is_ignored():
-    @deprecated.sphinx.deprecated(version="4.5.6", action='ignore')
+    @deprecated.sphinx.deprecated(version="4.5.6", action="ignore")
     def foo():
         pass
 
@@ -373,7 +367,7 @@ def test_can_catch_warnings():
 
 
 @pytest.mark.parametrize(
-    ["reason", "expected"],
+    ("reason", "expected"),
     [
         ("Use :function:`bar` instead", "Use `bar` instead"),
         ("Use :py:func:`bar` instead", "Use `bar` instead"),
@@ -392,7 +386,7 @@ def test_sphinx_syntax_trimming(reason, expected):
 
 # noinspection SpellCheckingInspection
 @pytest.mark.parametrize(
-    "reason, expected",
+    ("reason", "expected"),
     [
         # classic examples using the default domain (Python)
         ("Use :func:`bar` instead", "Use `bar` instead"),

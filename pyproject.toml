@@ -1,15 +1,208 @@
-[tool.black]
-line-length = 120
-skip-string-normalization = true
-target-version = ['py37', 'py38', 'py39', 'py310', 'py311', 'py312', "py313", "py314"]
-include = '\.pyi?$'
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
 
-[tool.isort]
-line_length = 120
-force_single_line = true
+[project]
+name = "Deprecated"
+dynamic = ["version"]
+description = "Python @deprecated decorator to deprecate old python classes, functions or methods."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE.rst"]
+authors = [{ name = "Laurent LAPORTE", email = "laurent.laporte.pro@gmail.com" }]
+keywords = ["deprecate", "deprecated", "deprecation", "warning", "warn", "decorator"]
+requires-python = ">=3.12"
+dependencies = [
+    # wrapt 1.16 is the first release supporting Python 3.12.
+    "wrapt >= 1.16, < 3",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://github.com/laurent-laporte-pro/deprecated"
+Documentation = "https://deprecated.readthedocs.io/en/latest/"
+Source = "https://github.com/laurent-laporte-pro/deprecated"
+"Bug Tracker" = "https://github.com/laurent-laporte-pro/deprecated/issues"
+Changelog = "https://github.com/laurent-laporte-pro/deprecated/blob/master/CHANGELOG.rst"
+
+[dependency-groups]
+dev = [
+    "coverage[toml] == 7.16.1",
+    "mypy == 2.3.1",
+    "packaging == 26.3",
+    "pytest == 9.1.1",
+    "pytest-cov == 7.1.0",
+    "ruff == 0.16.9",
+]
+
+# -- uv -----------------------------------------------------------------------
+
+[tool.uv]
+default-groups = ["dev"]
 
 [[tool.uv.index]]
 name = "testpypi"
 url = "https://test.pypi.org/simple/"
 publish-url = "https://test.pypi.org/legacy/"
 explicit = true
+
+# -- Hatch: version -------------------------------------------------------------
+
+[tool.hatch.version]
+# Single source of the version: use `hatch version <major|minor|patch>`
+# (see docs/source/release.rst).
+path = "src/deprecated/__init__.py"
+
+# -- Hatch: quality checks ------------------------------------------------------
+#
+# - `hatch check code`: static analysis (Ruff lint rules configured in `[tool.ruff.lint]`).
+# - `hatch check fmt`: formatting (Ruff formatter configured in `[tool.ruff.format]`).
+# - `hatch check types`: static typing (mypy configured in `[tool.mypy]`).
+#
+# The scripts are overridden so that the project's Ruff configuration is used as-is
+# (Hatch would otherwise extend it with its own default rule set), and so that the
+# tool versions are the ones pinned in the `dev` dependency group (see `uv.lock`).
+
+[tool.hatch.envs.hatch-check-code]
+python = "3.12"
+dependencies = ["ruff == 0.16.9"]
+
+[tool.hatch.envs.hatch-check-code.scripts]
+lint-check = "ruff check {args:.}"
+lint-fix = "ruff check --fix {args:.}"
+
+[tool.hatch.envs.hatch-check-fmt]
+python = "3.12"
+dependencies = ["ruff == 0.16.9"]
+
+[tool.hatch.envs.hatch-check-fmt.scripts]
+format-check = "ruff format --check --diff {args:.}"
+format-fix = "ruff format {args:.}"
+
+[tool.hatch.envs.hatch-check-types]
+python = "3.12"
+dependencies = ["mypy == 2.3.1", "packaging == 26.3", "pytest == 9.1.1"]
+
+[tool.hatch.envs.hatch-check-types.scripts]
+check = "mypy {args}"
+
+# -- Hatch: test matrix (Python x wrapt compatibility) --------------------------
+
+[tool.hatch.envs.hatch-test]
+extra-dependencies = ["packaging == 26.3"]
+
+[[tool.hatch.envs.hatch-test.matrix]]
+python = ["3.12"]
+wrapt = ["1.16", "1.17", "2.x"]
+
+[[tool.hatch.envs.hatch-test.matrix]]
+python = ["3.13", "3.14"]
+wrapt = ["1.17", "2.x"]
+
+[tool.hatch.envs.hatch-test.overrides]
+matrix.wrapt.extra-dependencies = [
+    { value = "wrapt ~= 1.16.0", if = ["1.16"] },
+    { value = "wrapt ~= 1.17.0", if = ["1.17"] },
+    { value = "wrapt >= 2, < 3", if = ["2.x"] },
+]
+
+# -- Ruff -----------------------------------------------------------------------
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["docs/source/conf.py"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # Pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade (Python 2 / legacy constructs)
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+    "PT",  # flake8-pytest-style
+    "PGH", # pygrep-hooks
+    "RUF", # Ruff-specific rules
+    "ANN", # flake8-annotations
+    "TID", # flake8-tidy-imports
+    "T20", # flake8-print
+]
+
+ignore = [
+    "SIM108", # if/else blocks are kept when each branch carries its own explanation
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests don't need full annotations, and some of them print to a stream on purpose.
+"tests/**" = ["ANN", "T20"]
+# Expected docstrings contain long lines on purpose (``line_length=0`` disables wrapping).
+"tests/test_sphinx_adapter.py" = ["E501"]
+# Documentation examples are meant to be run as scripts and print their result.
+"docs/**" = ["ANN", "T20"]
+
+[tool.ruff.lint.flake8-annotations]
+# `*args: Any, **kwargs: Any` is the only honest annotation for pass-through wrappers.
+allow-star-arg-any = true
+
+[tool.ruff.lint.isort]
+force-single-line = true
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"__future__.annotations".msg = "Python 3.12+ typing is used natively: don't postpone annotations."
+
+[tool.ruff.format]
+quote-style = "double"
+docstring-code-format = true
+
+# -- mypy -----------------------------------------------------------------------
+
+[tool.mypy]
+python_version = "3.12"
+files = ["src", "tests"]
+mypy_path = "src"
+strict = true
+warn_unreachable = true
+enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
+
+[[tool.mypy.overrides]]
+# The test suite exercises the decorators dynamically: only type-check the bodies.
+module = ["tests.*"]
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+disallow_untyped_decorators = false
+disallow_any_generics = false
+# Untyped test helpers, re-defined fixtures classes and ad hoc containers are fine here.
+disable_error_code = ["no-untyped-call", "no-redef", "var-annotated"]
+
+# -- pytest / coverage ----------------------------------------------------------
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+python_files = ["test*.py"]
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+
+[tool.coverage.run]
+source = ["deprecated"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+exclude_also = ["if TYPE_CHECKING:", "@overload"]

@@ -1,5 +1,6 @@
-# coding: utf-8
-import pkg_resources
+import importlib.metadata
+
+from packaging.version import Version
 
 import deprecated
 
@@ -11,17 +12,14 @@ def test_deprecated_has_docstring():
 
 
 def test_deprecated_has_version():
-    # The deprecated package must have a valid version number
+    # The deprecated package must have a valid (PEP 440) version number:
+    # `packaging.version.Version` raises `InvalidVersion` otherwise.
     assert deprecated.__version__ is not None
-    version = pkg_resources.parse_version(deprecated.__version__)
+    version = Version(deprecated.__version__)
+    assert str(version) == deprecated.__version__
 
-    # .. note::
-    #
-    #    The classes ``SetuptoolsVersion`` and ``SetuptoolsLegacyVersion``
-    #    are removed since setuptools >= 39.
-    #    They are replaced by ``Version`` and ``LegacyVersion`` respectively.
-    #
-    #    To check if the version is good, we now use the solution explained here:
-    #    https://github.com/pypa/setuptools/issues/1299
 
-    assert 'Legacy' not in version.__class__.__name__
+def test_deprecated_version_matches_distribution_metadata():
+    # The version is read by Hatch from `src/deprecated/__init__.py`:
+    # the installed distribution metadata must be consistent.
+    assert importlib.metadata.version("Deprecated") == deprecated.__version__

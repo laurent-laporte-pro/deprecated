@@ -1,4 +1,5 @@
 import warnings
+
 from deprecated import deprecated
 
 
@@ -7,6 +8,6 @@ def foo():
     print("foo")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     warnings.simplefilter("ignore")
     foo()

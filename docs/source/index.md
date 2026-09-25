@@ -22,6 +22,7 @@ installation
 introduction
 tutorial
 sphinx_deco
+google_deco
 white_paper
 ```
 

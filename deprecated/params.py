@@ -34,14 +34,14 @@ class DeprecatedParams:
     def __init__(
         self,
         param: str | dict[str, str],
-        reason: str = "",
+        reason: str | None = "",
         category: type[Warning] = DeprecationWarning,
     ) -> None:
         self.messages: dict[str, str] = {}
         self.category = category
         self.populate_messages(param, reason=reason)
 
-    def populate_messages(self, param: str | dict[str, str], reason: str = "") -> None:
+    def populate_messages(self, param: str | dict[str, str], reason: str | None = "") -> None:
         if isinstance(param, dict):
             self.messages.update(param)
         elif isinstance(param, str):

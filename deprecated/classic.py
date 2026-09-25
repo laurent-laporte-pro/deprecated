@@ -23,7 +23,7 @@ try:
     # If the C extension for wrapt was compiled and wrapt/_wrappers.pyd exists, then the
     # stack level that should be passed to warnings.warn should be 2. However, if using
     # a pure python wrapt, an extra stacklevel is required.
-    import wrapt._wrappers
+    import wrapt._wrappers  # ty: ignore[unresolved-import]
 
     _ROUTINE_STACKLEVEL = 2
     _CLASS_STACKLEVEL = 2
@@ -91,8 +91,8 @@ class ClassicAdapter(wrapt.AdapterFactory):
 
     def __init__(
         self,
-        reason: str = "",
-        version: str = "",
+        reason: str | None = "",
+        version: str | None = "",
         action: WarningAction | Literal[""] | None = None,
         category: type[Warning] = DeprecationWarning,
         extra_stacklevel: int = 0,
@@ -100,7 +100,7 @@ class ClassicAdapter(wrapt.AdapterFactory):
         """
         Construct a wrapper adapter.
 
-        :type  reason: str
+        :type  reason: str | None
         :param reason:
             Reason message which documents the deprecation in your library (can be omitted).
 
@@ -163,9 +163,9 @@ class ClassicAdapter(wrapt.AdapterFactory):
             fmt += " ({reason})"
         if self.version:
             fmt += " -- Deprecated since version {version}."
-        return fmt.format(
-            name=wrapped.__name__, reason=self.reason or "", version=self.version or ""
-        )
+        # Only classes and routines are decorated: they always have a `__name__`.
+        name = wrapped.__name__  # ty: ignore[unresolved-attribute]
+        return fmt.format(name=name, reason=self.reason or "", version=self.version or "")
 
     def __call__[T: Deprecatable](self, wrapped: T) -> T:
         """
@@ -198,7 +198,8 @@ class ClassicAdapter(wrapt.AdapterFactory):
                 # actually, we don't know the real signature of *old_new1*
                 return old_new1(cls, *args, **kwargs)
 
-            wrapped.__new__ = staticmethod(wrapped_cls)  # type: ignore[method-assign, assignment]
+            # `__new__` is patched on purpose: `setattr` avoids a type checker error.
+            setattr(wrapped, "__new__", staticmethod(wrapped_cls))  # noqa: B010
 
         elif inspect.isroutine(wrapped):
 
@@ -234,10 +235,10 @@ def deprecated[T: Deprecatable](wrapped: T, /) -> T: ...
 
 @overload
 def deprecated[T: Deprecatable](
-    reason: str = "",
+    reason: str | None = "",
     /,
     *,
-    version: str = "",
+    version: str | None = "",
     action: WarningAction | Literal[""] | None = None,
     category: type[Warning] = DeprecationWarning,
     extra_stacklevel: int = 0,

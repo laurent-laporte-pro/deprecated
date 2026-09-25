@@ -2,6 +2,8 @@ import re
 import sys
 import textwrap
 import warnings
+from typing import Any
+from typing import cast
 
 import pytest
 
@@ -305,7 +307,7 @@ def test_sphinx_deprecated_class_method__warns(sphinx_deprecated_class_method):
 def test_should_raise_type_error():
     with pytest.raises(TypeError):
 
-        @deprecated.sphinx.deprecated(version="4.5.6", reason=5)  # type: ignore[arg-type]
+        @deprecated.sphinx.deprecated(version="4.5.6", reason=cast(Any, 5))
         def foo():
             pass
 

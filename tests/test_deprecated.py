@@ -1,6 +1,8 @@
 import inspect
 import sys
 import warnings
+from typing import Any
+from typing import cast
 
 import pytest
 
@@ -209,7 +211,8 @@ def test_classic_deprecated_class_method__warns(classic_deprecated_class_method)
 
 def test_should_raise_type_error():
     with pytest.raises(TypeError):
-        deprecated.classic.deprecated(5)  # type: ignore[call-overload]
+        # A non-callable argument (deliberately ill-typed) is rejected at runtime.
+        deprecated.classic.deprecated(cast(Any, 5))
 
 
 def test_warning_msg_has_reason():

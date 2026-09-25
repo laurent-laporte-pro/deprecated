@@ -44,7 +44,7 @@ def test_class_deprecation_using_wrapper():
 
     # Like ``__new__``, this wrapper is a class method.
     # It is used to patch the original ``__new__``method.
-    MyBaseClass.__new__ = classmethod(wrapped_new)  # type: ignore[method-assign, assignment]
+    setattr(MyBaseClass, "__new__", classmethod(wrapped_new))  # noqa: B010
 
     class MySubClass(MyBaseClass):
         pass

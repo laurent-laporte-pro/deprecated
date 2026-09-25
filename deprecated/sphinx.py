@@ -51,8 +51,8 @@ class SphinxAdapter(ClassicAdapter):
     def __init__(
         self,
         directive: SphinxDirective,
-        reason: str = "",
-        version: str = "",
+        reason: str | None = "",
+        version: str | None = "",
         action: WarningAction | Literal[""] | None = None,
         category: type[Warning] = DeprecationWarning,
         extra_stacklevel: int = 0,
@@ -65,7 +65,7 @@ class SphinxAdapter(ClassicAdapter):
         :param directive:
             Sphinx directive: can be one of "versionadded", "versionchanged" or "deprecated".
 
-        :type  reason: str
+        :type  reason: str | None
         :param reason:
             Reason message which documents the deprecation in your library (can be omitted).
 
@@ -186,7 +186,9 @@ class SphinxAdapter(ClassicAdapter):
         return msg
 
 
-def versionadded(reason: str = "", version: str = "", line_length: int = 70) -> SphinxAdapter:
+def versionadded(
+    reason: str | None = "", version: str | None = "", line_length: int = 70
+) -> SphinxAdapter:
     """
     This decorator can be used to insert a "versionadded" directive
     in your function/class docstring in order to document the
@@ -216,7 +218,9 @@ def versionadded(reason: str = "", version: str = "", line_length: int = 70) -> 
     return adapter
 
 
-def versionchanged(reason: str = "", version: str = "", line_length: int = 70) -> SphinxAdapter:
+def versionchanged(
+    reason: str | None = "", version: str | None = "", line_length: int = 70
+) -> SphinxAdapter:
     """
     This decorator can be used to insert a "versionchanged" directive
     in your function/class docstring in order to document the
@@ -246,8 +250,8 @@ def versionchanged(reason: str = "", version: str = "", line_length: int = 70) -
 
 
 def deprecated[T: Deprecatable](
-    reason: str = "",
-    version: str = "",
+    reason: str | None = "",
+    version: str | None = "",
     line_length: int = 70,
     **kwargs: Any,
 ) -> Callable[[T], T]:

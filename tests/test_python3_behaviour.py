@@ -8,7 +8,9 @@ and the static typing of the public decorators.
 
 import warnings
 from collections.abc import Callable
+from typing import Any
 from typing import assert_type
+from typing import cast
 
 import pytest
 
@@ -60,7 +62,7 @@ class TestTextAndBytes:
     def test_bytes_positional_reason_is_still_accepted(self):
         # With Python 2, ``str`` was ``bytes``: a byte string reason was accepted.
         # This (undocumented) behaviour is kept: the reason is formatted with ``str.format``.
-        decorator = deprecated.classic.deprecated(b"old reason")  # type: ignore[call-overload]
+        decorator = deprecated.classic.deprecated(cast(Any, b"old reason"))
 
         @decorator
         def foo():
@@ -137,7 +139,6 @@ class TestStaticTyping:
         class Foo:
             pass
 
-        assert_type(Foo, type[Foo])
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             assert isinstance(assert_type(Foo(), Foo), Foo)

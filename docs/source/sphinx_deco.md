@@ -11,6 +11,12 @@ It's very simple: instead of using the "classic" decorator, you can use one of t
 The "Sphinx" decorators have the same function as the "classic" decorator but also allow you to add
 [Sphinx directives] in your functions or classes documentation (inside the [docstring]).
 
+:::{tip}
+If your docstrings are written with the Google or NumPy format, use the {ref}`google_deco`
+or the {ref}`numpy_deco` instead: they add native sections to your docstrings
+(like `Deprecated:` or `Version added`) rather than reStructuredText directives.
+:::
+
 ## What is a Sphinx directive?
 
 [Sphinx] is a tool that makes it easy to create intelligent and beautiful documentation.

@@ -152,12 +152,6 @@ To generate the HTML documentation, run:
 uv run --group docs sphinx-build -b html -d dist/docs/doctrees docs/source/ dist/docs/html/
 ```
 
-To generate the epub v2 documentation, run:
-
-```
-uv run --group docs sphinx-build -b epub -d dist/docs/doctrees docs/source/ dist/docs/epub/
-```
-
 [clone]: https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork
 [committing as you go]: http://dont-be-afraid-to-commit.readthedocs.io/en/latest/git/commandlinegit.html#commit-your-changes
 [create a pull request]: https://help.github.com/articles/creating-a-pull-request/

@@ -191,7 +191,8 @@ fun
 
 ## Deprecation warning classes
 
-The {func}`deprecated.classic.deprecated` and {func}`deprecated.sphinx.deprecated` functions
+The {func}`deprecated.classic.deprecated`, {func}`deprecated.sphinx.deprecated`,
+{func}`deprecated.google.deprecated` and {func}`deprecated.numpy.deprecated` functions
 are using the {exc}`DeprecationWarning` category but you can customize them by using your own category
 (or hierarchy of categories).
 
@@ -223,7 +224,8 @@ $ python warning_classes_demo.py
 
 ## Filtering warnings locally
 
-The {func}`deprecated.classic.deprecated` and {func}`deprecated.sphinx.deprecated` functions
+The {func}`deprecated.classic.deprecated`, {func}`deprecated.sphinx.deprecated`,
+{func}`deprecated.google.deprecated` and {func}`deprecated.numpy.deprecated` functions
 can change the warning filtering locally (at function calls).
 
 - *action* is one of the following strings:

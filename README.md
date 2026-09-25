@@ -58,6 +58,45 @@ def some_old_function(x, y):
     return x + y
 ```
 
+## Documenting the life cycle
+
+The Deprecated library can also document the life cycle of your functions and classes:
+the `@deprecated`, `@versionadded` and `@versionchanged` decorators update the docstring,
+according to your docstring format:
+
+- `deprecated.sphinx`: reStructuredText directives (`.. deprecated:: 1.2.0`),
+- `deprecated.google`: Google style sections (`Deprecated:`),
+- `deprecated.numpy`: NumPy style sections (`Deprecated` underlined with hyphens).
+
+```python
+from deprecated.google import deprecated
+from deprecated.google import versionadded
+
+
+@deprecated(reason="use another function", version="1.2.0")
+@versionadded(version="1.0.0")
+def some_old_function(x, y):
+    """Add two numbers.
+
+    Args:
+        x: first number.
+        y: second number.
+    """
+    return x + y
+```
+
+The docstring of `some_old_function` ends with:
+
+```text
+Version added:
+    1.0.0
+
+Deprecated:
+    1.2.0: use another function
+```
+
+See the [documentation](https://deprecated.readthedocs.io/en/latest/) for more details.
+
 ## Authors
 
 The authors of this library are:

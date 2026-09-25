@@ -22,5 +22,8 @@ This part of the documentation covers all the interfaces of the Deprecated Libra
 .. automodule:: deprecated.sphinx
    :members:
 
+.. automodule:: deprecated.google
+   :members:
+
 .. automodule:: deprecated.numpy
    :members:

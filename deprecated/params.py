@@ -1,4 +1,3 @@
-# coding: utf-8
 """
 Parameters deprecation
 ======================
@@ -16,57 +15,59 @@ As with the :func:`~deprecated.classic.deprecated` decorator, the user can speci
 a version number (using the *version* parameter) and also define the warning message category
 (a subclass of :class:`Warning`) and when to display the messages (using the *action* parameter).
 
-The complete study concerning the implementation of this decorator is available on the `Tantale's blog`_,
-on the `Deprecated Parameters`_ page.
+The complete study concerning the implementation of this decorator is available
+on the `Tantale's blog`_, on the `Deprecated Parameters`_ page.
 """
-import collections
+
 import functools
+import inspect
 import warnings
-
-try:
-    # noinspection PyPackageRequirements
-    import inspect2 as inspect
-except ImportError:
-    import inspect
+from collections.abc import Callable
 
 
-class DeprecatedParams(object):
+class DeprecatedParams:
     """
     Decorator used to decorate a function which at least one
     of the parameters is deprecated.
     """
 
-    def __init__(self, param, reason="", category=DeprecationWarning):
-        self.messages = {}  # type: dict[str, str]
+    def __init__(
+        self,
+        param: str | dict[str, str],
+        reason: str = "",
+        category: type[Warning] = DeprecationWarning,
+    ) -> None:
+        self.messages: dict[str, str] = {}
         self.category = category
         self.populate_messages(param, reason=reason)
 
-    def populate_messages(self, param, reason=""):
+    def populate_messages(self, param: str | dict[str, str], reason: str = "") -> None:
         if isinstance(param, dict):
             self.messages.update(param)
         elif isinstance(param, str):
-            fmt = "'{param}' parameter is deprecated"
-            reason = reason or fmt.format(param=param)
-            self.messages[param] = reason
+            self.messages[param] = reason or f"'{param}' parameter is deprecated"
         else:
             raise TypeError(param)
 
-    def check_params(self, signature, *args, **kwargs):
+    def check_params(
+        self,
+        signature: inspect.Signature,
+        *args: object,
+        **kwargs: object,
+    ) -> list[str]:
         binding = signature.bind(*args, **kwargs)
-        bound = collections.OrderedDict(binding.arguments, **binding.kwargs)
+        bound = {**binding.arguments, **binding.kwargs}
         return [param for param in bound if param in self.messages]
 
-    def warn_messages(self, messages):
-        # type: (list[str]) -> None
+    def warn_messages(self, messages: list[str]) -> None:
         for message in messages:
             warnings.warn(message, category=self.category, stacklevel=3)
 
-    def __call__(self, f):
-        # type: (callable) -> callable
+    def __call__[**P, R](self, f: Callable[P, R]) -> Callable[P, R]:
         signature = inspect.signature(f)
 
         @functools.wraps(f)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             invalid_params = self.check_params(signature, *args, **kwargs)
             self.warn_messages([self.messages[param] for param in invalid_params])
             return f(*args, **kwargs)

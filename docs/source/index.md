@@ -23,6 +23,7 @@ introduction
 tutorial
 sphinx_deco
 google_deco
+numpy_deco
 white_paper
 ```
 

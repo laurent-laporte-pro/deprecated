@@ -24,3 +24,6 @@ This part of the documentation covers all the interfaces of the Deprecated Libra
 
 .. automodule:: deprecated.google
    :members:
+
+.. automodule:: deprecated.numpy
+   :members:

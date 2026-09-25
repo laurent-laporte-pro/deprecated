@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import inspect
 import sys
 import warnings
@@ -19,12 +18,12 @@ class WrongStackLevelWarning(DeprecationWarning):
 _PARAMS = [
     None,
     ((), {}),
-    (('Good reason',), {}),
-    ((), {'reason': 'Good reason'}),
-    ((), {'version': '1.2.3'}),
-    ((), {'action': 'once'}),
-    ((), {'category': MyDeprecationWarning}),
-    ((), {'extra_stacklevel': 1, 'category': WrongStackLevelWarning}),
+    (("Good reason",), {}),
+    ((), {"reason": "Good reason"}),
+    ((), {"version": "1.2.3"}),
+    ((), {"action": "once"}),
+    ((), {"category": MyDeprecationWarning}),
+    ((), {"extra_stacklevel": 1, "category": WrongStackLevelWarning}),
 ]
 
 
@@ -52,7 +51,7 @@ def classic_deprecated_class(request):
     if request.param is None:
 
         @deprecated.classic.deprecated
-        class Foo2(object):
+        class Foo2:
             pass
 
         return Foo2
@@ -60,7 +59,7 @@ def classic_deprecated_class(request):
         args, kwargs = request.param
 
         @deprecated.classic.deprecated(*args, **kwargs)
-        class Foo2(object):
+        class Foo2:
             pass
 
         return Foo2
@@ -70,7 +69,7 @@ def classic_deprecated_class(request):
 def classic_deprecated_method(request):
     if request.param is None:
 
-        class Foo3(object):
+        class Foo3:
             @deprecated.classic.deprecated
             def foo3(self):
                 pass
@@ -79,7 +78,7 @@ def classic_deprecated_method(request):
     else:
         args, kwargs = request.param
 
-        class Foo3(object):
+        class Foo3:
             @deprecated.classic.deprecated(*args, **kwargs)
             def foo3(self):
                 pass
@@ -91,7 +90,7 @@ def classic_deprecated_method(request):
 def classic_deprecated_static_method(request):
     if request.param is None:
 
-        class Foo4(object):
+        class Foo4:
             @staticmethod
             @deprecated.classic.deprecated
             def foo4():
@@ -101,7 +100,7 @@ def classic_deprecated_static_method(request):
     else:
         args, kwargs = request.param
 
-        class Foo4(object):
+        class Foo4:
             @staticmethod
             @deprecated.classic.deprecated(*args, **kwargs)
             def foo4():
@@ -114,7 +113,7 @@ def classic_deprecated_static_method(request):
 def classic_deprecated_class_method(request):
     if request.param is None:
 
-        class Foo5(object):
+        class Foo5:
             @classmethod
             @deprecated.classic.deprecated
             def foo5(cls):
@@ -124,7 +123,7 @@ def classic_deprecated_class_method(request):
     else:
         args, kwargs = request.param
 
-        class Foo5(object):
+        class Foo5:
             @classmethod
             @deprecated.classic.deprecated(*args, **kwargs)
             def foo5(cls):
@@ -142,7 +141,9 @@ def test_classic_deprecated_function__warns(classic_deprecated_function):
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
     assert "deprecated function (or staticmethod)" in str(warn.message)
-    assert warn.filename == __file__ or warn.category is WrongStackLevelWarning, 'Incorrect warning stackLevel'
+    assert warn.filename == __file__ or warn.category is WrongStackLevelWarning, (
+        "Incorrect warning stackLevel"
+    )
 
 
 # noinspection PyShadowingNames
@@ -154,7 +155,9 @@ def test_classic_deprecated_class__warns(classic_deprecated_class):
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
     assert "deprecated class" in str(warn.message)
-    assert warn.filename == __file__ or warn.category is WrongStackLevelWarning, 'Incorrect warning stackLevel'
+    assert warn.filename == __file__ or warn.category is WrongStackLevelWarning, (
+        "Incorrect warning stackLevel"
+    )
 
 
 # noinspection PyShadowingNames
@@ -167,7 +170,9 @@ def test_classic_deprecated_method__warns(classic_deprecated_method):
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
     assert "deprecated method" in str(warn.message)
-    assert warn.filename == __file__ or warn.category is WrongStackLevelWarning, 'Incorrect warning stackLevel'
+    assert warn.filename == __file__ or warn.category is WrongStackLevelWarning, (
+        "Incorrect warning stackLevel"
+    )
 
 
 # noinspection PyShadowingNames
@@ -179,7 +184,9 @@ def test_classic_deprecated_static_method__warns(classic_deprecated_static_metho
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
     assert "deprecated function (or staticmethod)" in str(warn.message)
-    assert warn.filename == __file__ or warn.category is WrongStackLevelWarning, 'Incorrect warning stackLevel'
+    assert warn.filename == __file__ or warn.category is WrongStackLevelWarning, (
+        "Incorrect warning stackLevel"
+    )
 
 
 # noinspection PyShadowingNames
@@ -191,19 +198,18 @@ def test_classic_deprecated_class_method__warns(classic_deprecated_class_method)
     assert len(warns) == 1
     warn = warns[0]
     assert issubclass(warn.category, DeprecationWarning)
-    if (3, 9) <= sys.version_info < (3, 13):
+    if sys.version_info < (3, 13):
         assert "deprecated class method" in str(warn.message)
     else:
         assert "deprecated function (or staticmethod)" in str(warn.message)
-    assert warn.filename == __file__ or warn.category is WrongStackLevelWarning, 'Incorrect warning stackLevel'
+    assert warn.filename == __file__ or warn.category is WrongStackLevelWarning, (
+        "Incorrect warning stackLevel"
+    )
 
 
 def test_should_raise_type_error():
-    try:
-        deprecated.classic.deprecated(5)
-        assert False, "TypeError not raised"
-    except TypeError:
-        pass
+    with pytest.raises(TypeError):
+        deprecated.classic.deprecated(5)  # type: ignore[call-overload]
 
 
 def test_warning_msg_has_reason():
@@ -233,7 +239,7 @@ def test_warning_msg_has_version():
 
 
 def test_warning_is_ignored():
-    @deprecated.classic.deprecated(action='ignore')
+    @deprecated.classic.deprecated(action="ignore")
     def foo():
         pass
 
@@ -254,7 +260,7 @@ def test_specific_warning_cls_is_used():
 
 
 def test_respect_global_filter():
-    @deprecated.classic.deprecated(version='1.2.1', reason="deprecated function")
+    @deprecated.classic.deprecated(version="1.2.1", reason="deprecated function")
     def fun():
         print("fun")
 

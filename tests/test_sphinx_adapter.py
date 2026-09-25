@@ -1,4 +1,3 @@
-# coding: utf-8
 import textwrap
 
 import pytest
@@ -10,7 +9,7 @@ from deprecated.sphinx import versionchanged
 
 
 @pytest.mark.parametrize(
-    "line_length, expected",
+    ("line_length", "expected"),
     [
         (
             50,
@@ -100,7 +99,7 @@ def test_sphinx_adapter__empty_docstring(directive):
 
 
 @pytest.mark.parametrize(
-    "decorator_factory, directive",
+    ("decorator_factory", "directive"),
     [
         (versionadded, "versionadded"),
         (versionchanged, "versionchanged"),

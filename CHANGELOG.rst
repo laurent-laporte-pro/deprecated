@@ -33,7 +33,9 @@ Changed
   A ``bytes`` positional *reason* is still accepted by ``@deprecated``, as before.
 - Migrate the packaging from setuptools (``setup.py``/``setup.cfg``/``MANIFEST.in``) to
   ``pyproject.toml`` with the Hatchling build backend; the version is read from
-  ``deprecated/__init__.py``.
+  ``src/deprecated/__init__.py``.
+- Adopt the ``src`` layout: the package moves to ``src/deprecated``
+  (the tests stay in ``tests`` and the documentation in ``docs``).
 - Manage the project with uv (``uv.lock``) and Hatch: tox is dropped and replaced
   by the ``hatch test`` matrix.
 - Modernize the ``Makefile`` (uv/Hatch based targets, run ``make help``).

@@ -62,14 +62,14 @@ explicit = true
 # -- Hatch: build ---------------------------------------------------------------
 
 [tool.hatch.version]
-path = "deprecated/__init__.py"
+path = "src/deprecated/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["deprecated"]
+packages = ["src/deprecated"]
 
 [tool.hatch.build.targets.sdist]
 include = [
-    "/deprecated",
+    "/src",
     "/docs",
     "/tests",
     "/.github",
@@ -194,7 +194,8 @@ docstring-code-format = true
 
 [tool.mypy]
 python_version = "3.12"
-files = ["deprecated", "tests"]
+files = ["src", "tests"]
+mypy_path = "src"
 strict = true
 warn_unreachable = true
 enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]

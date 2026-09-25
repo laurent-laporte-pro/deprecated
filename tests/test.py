@@ -20,6 +20,6 @@ def test_deprecated_has_version():
 
 
 def test_deprecated_version_matches_distribution_metadata():
-    # The version is read by Hatch from `deprecated/__init__.py`:
+    # The version is read by Hatch from `src/deprecated/__init__.py`:
     # the installed distribution metadata must be consistent.
     assert importlib.metadata.version("Deprecated") == deprecated.__version__

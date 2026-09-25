@@ -3,7 +3,7 @@
 Python ``@deprecated`` decorator to deprecate old python classes, functions or methods.
 
 
-[![license](https://img.shields.io/badge/license-MIT-blue?logo=opensourceinitiative&logoColor=white)](https://raw.githubusercontent.com/laurent-laporte-pro/deprecated/master/LICENSE.rst)
+[![license](https://img.shields.io/badge/license-MIT-blue?logo=opensourceinitiative&logoColor=white)](https://raw.githubusercontent.com/laurent-laporte-pro/deprecated/master/LICENSE.md)
 [![GitHub release](https://img.shields.io/github/v/release/laurent-laporte-pro/deprecated?logo=github&logoColor=white)](https://github.com/laurent-laporte-pro/deprecated/releases/latest)
 [![PyPI](https://img.shields.io/pypi/v/deprecated?logo=pypi&logoColor=white)](https://pypi.org/project/Deprecated/)
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/laurent-laporte-pro/deprecated/python-package.yml?logo=github&logoColor=white)](https://github.com/laurent-laporte-pro/deprecated/actions/workflows/python-package.yml)

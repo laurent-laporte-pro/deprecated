@@ -83,6 +83,21 @@ jobs:
       - name: Test with pytest
         run: uv run --locked --python ${{ matrix.python-version }} pytest --cov --cov-report=term-missing
 
+  docs:
+    name: Documentation (Sphinx + MyST)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10.2.0
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+
+      - name: Build the documentation (warnings are errors)
+        run: make docs-check
+
   wrapt-compat:
     name: Tests (wrapt compatibility matrix)
     runs-on: ubuntu-latest

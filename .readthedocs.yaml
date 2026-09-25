@@ -1,31 +1,27 @@
 # Read the Docs configuration file for Sphinx projects
 # See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
 
-# Required
 version: 2
 
-# Set the OS, Python version and other tools you might need
 build:
-  os: ubuntu-22.04
+  os: ubuntu-24.04
   tools:
     python: "3.12"
+  # The documentation dependencies are installed with uv, from the `docs` dependency group
+  # of `pyproject.toml` (locked in `uv.lock`).
+  # See https://docs.readthedocs.io/en/stable/build-customization.html#install-dependencies-with-uv
+  jobs:
+    pre_create_environment:
+      - asdf plugin add uv
+      - asdf install uv 0.12.19
+      - asdf global uv 0.12.19
+    create_environment:
+      - uv venv "${READTHEDOCS_VIRTUALENV_PATH}"
+    install:
+      - UV_PROJECT_ENVIRONMENT="${READTHEDOCS_VIRTUALENV_PATH}" uv sync --locked --no-default-groups --group docs
 
-# Build documentation in the "docs/" directory with Sphinx
 sphinx:
   configuration: docs/source/conf.py
-  # You can configure Sphinx to use a different builder, for instance use the dirhtml builder for simpler URLs
-  # builder: "dirhtml"
-  # Fail on all warnings to avoid broken references
+  # The warnings are checked by the CI (`make docs-check`): an unreachable intersphinx
+  # inventory must not prevent the publication of the documentation.
   # fail_on_warning: true
-
-# Optionally build your docs in additional formats such as PDF and ePub
-# formats:
-#   - pdf
-#   - epub
-
-# Optional but recommended, declare the Python requirements required
-# to build your documentation
-# See https://docs.readthedocs.io/en/stable/guides/reproducible-builds.html
-python:
-  install:
-    - requirements: docs/requirements.txt

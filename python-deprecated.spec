@@ -39,7 +39,7 @@ functions or methods.
 %pyproject_check_import
 
 %files -n python3-%{pkgname} -f %{pyproject_files}
-%license LICENSE.rst
+%license LICENSE.md
 %doc README.md
 
 

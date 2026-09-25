@@ -1,38 +1,38 @@
-.PHONY: all install-dev test coverage cov test-all tox release-minor release-patch upload-minor upload-patch clean-pyc
+.PHONY: all install-dev test coverage cov test-all check fmt release-minor release-patch build clean-pyc
 
 all: test
 
 install-dev:
-	pip install -q -e .[dev]
+	uv sync --locked
 
 test: clean-pyc install-dev
-	pytest tests/
+	uv run pytest
 
 coverage: clean-pyc install-dev
-	pytest --cov-report term-missing --cov-report html --cov=deprecated tests/
+	uv run pytest --cov --cov-report term-missing --cov-report html
 
 cov: coverage
 
-test-all: install-dev
-	tox
+test-all:
+	hatch test --all
 
-tox: test-all
+check:
+	hatch check code
+	hatch check fmt
+	hatch check types
+
+fmt:
+	hatch check code --fix
+	hatch check fmt --fix
 
 release-minor:
-	bumpversion minor
-	python setup.py release
+	uvx bump2version minor
 
 release-patch:
-	bumpversion patch
-	python setup.py release
+	uvx bump2version patch
 
-upload-minor: release-minor
-	python setup.py upload
-	git push origin --tags
-
-upload-patch: release-patch
-	python setup.py upload
-	git push origin --tags
+build:
+	uv build
 
 clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +

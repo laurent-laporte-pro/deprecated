@@ -20,11 +20,6 @@ It's very simple: instead of using the "classic" decorator, you can use one of t
 The "Sphinx" decorators have the same function as the "classic" decorator but also allow you to add
 `Sphinx directives`_ in your functions or classes documentation (inside the docstring_).
 
-.. attention::
-
-   In Python 3.3 and previous versions, the docstring of a class is immutable [#f1]_, this means that you cannot
-   use the "Sphinx" decorators. Naturally, this limitation does not exist in Python 3.4 and above.
-
 What is a Sphinx directive?
 ---------------------------
 
@@ -155,7 +150,3 @@ For instance, you can configure a documentation building task in your ``tox.ini`
 
    You can see a sample implementation of Sphinx directives in the demo project
    `Deprecated-Demo.Sphinx <https://github.com/tantale/deprecated-demo.sphinx>`_.
-
-.. rubric:: Footnotes
-
-.. [#f1] See Issue 12773: `classes should have mutable docstrings <https://bugs.python.org/issue12773>`_.

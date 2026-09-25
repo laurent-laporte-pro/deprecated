@@ -6,8 +6,12 @@ Installation
 Python Version
 --------------
 
-Our project supports Python 2.7 (for historical reasons), Python 3.4 and newer versions, as well as PyPy 2.7 and
-PyPy 3.6 and newer. We recommend using the latest version of Python 3 whenever possible.
+Our project supports Python 3.12 and newer versions.
+We recommend using the latest version of Python 3 whenever possible.
+
+.. versionchanged:: Unreleased
+   Support for Python 2.7 and Python 3 versions older than 3.12 has been dropped.
+   Use Deprecated 1.3.x on these versions.
 
 Dependencies
 ------------
@@ -22,95 +26,21 @@ tested to date. Recent versions are listed first.
 
 .. list-table:: Compatibility matrix (tested versions)
    :header-rows: 1
-   :widths: 25 9 9 9 9 9 9 9 9 9
+   :widths: 25 9 9 9
 
    * - Python / wrapt
-     - 2.0
+     - 2.x
      - 1.17
      - 1.16
-     - 1.15
-     - 1.14
-     - 1.13
-     - 1.12
-     - 1.11
-     - 1.10
    * - py3.14
      - ✓
      - ✓
-     - ✗
-     - ✗
-     - ✗
-     - ✗
-     - ✗
-     - ✗
      - ✗
    * - py3.13
      - ✓
      - ✓
      - ✗
-     - ✗
-     - ✗
-     - ✗
-     - ✗
-     - ✗
-     - ✗
    * - py3.12
-     - ✓
-     - ✓
-     - ✓
-     - ✗
-     - ✗
-     - ✗
-     - ✗
-     - ✗
-     - ✗
-   * - py3.11
-     - ✓
-     - ✓
-     - ✓
-     - ✓
-     - ✓
-     - ✗
-     - ✗
-     - ✗
-     - ✗
-   * - py3.10
-     - ✓
-     - ✓
-     - ✓
-     - ✓
-     - ✓
-     - ✓
-     - ✓
-     - ✓
-     - ✓
-   * - py3.9
-     - ✓
-     - ✓
-     - ✓
-     - ✓
-     - ✓
-     - ✓
-     - ✓
-     - ✓
-     - ✓
-   * - py3.8
-     - ?
-     - ?
-     - ?
-     - ?
-     - ✓
-     - ✓
-     - ✓
-     - ✓
-     - ✓
-   * - py3.7
-     - ?
-     - ?
-     - ?
-     - ?
-     - ✓
-     - ✓
      - ✓
      - ✓
      - ✓
@@ -121,22 +51,32 @@ Legend: ✓ = tested and compatible ; ✗ = incompatible, ? = untested but expec
 Development dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-These distributions will not be installed automatically.
-You need to install them explicitly with `pip install -e .[dev]`.
+The project is managed with `uv`_: the development dependencies are declared in the ``dev``
+dependency group of the :file:`pyproject.toml` file, and locked in the :file:`uv.lock` file.
+They are installed with ``uv sync``.
 
 *   `pytest`_ is a framework which makes it easy to write small tests,
     yet scales to support complex functional testing for applications and libraries…
 *   `pytest-cov`_ is a `pytest`_ plugin used to produce coverage reports.
-*   `tox`_ aims to automate and standardize testing in Python.
-    It is part of a larger vision of easing the packaging, testing and release process of Python software…
-*   `bump2version`_ is a small command line tool to simplify releasing software
-    by updating all version strings in your source code by the correct increment.
-    Also creates commits and tags…
-*   `sphinx`_ is a tool that makes it easy to create intelligent and beautiful documentation.
+*   `Ruff`_ is used to lint and format the source code.
+*   `mypy`_ is used to type-check the source code.
 
+The quality checks and the test matrix are run with `Hatch`_ (installed with ``uv tool install hatch``):
+
+*   ``hatch check code`` lints the code with Ruff,
+*   ``hatch check fmt`` verifies the formatting with Ruff,
+*   ``hatch check types`` type-checks the code with mypy,
+*   ``hatch test --all`` runs the test suite on all supported Python and wrapt versions.
+
+`bump2version`_ is used to update all version strings in the source code (``uvx bump2version patch``),
+and `sphinx`_ to build the documentation (see :file:`docs/requirements.txt`).
+
+.. _uv: https://docs.astral.sh/uv/
+.. _Hatch: https://hatch.pypa.io/latest/
 .. _pytest: https://docs.pytest.org/en/latest/
 .. _pytest-cov: http://pytest-cov.readthedocs.io/en/latest/
-.. _tox: https://tox.readthedocs.io/en/latest/
+.. _Ruff: https://docs.astral.sh/ruff/
+.. _mypy: https://mypy.readthedocs.io/en/stable/
 .. _bump2version: https://github.com/c4urself/bump2version
 .. _sphinx: http://www.sphinx-doc.org/en/stable/index.html
 
@@ -157,10 +97,7 @@ project. Packages installed for one project will not affect other projects or
 the operating system's packages.
 
 Python 3 comes bundled with the :mod:`venv` module to create virtual
-environments. If you're using a modern version of Python, you can continue on
-to the next section.
-
-If you're using Python 2, see :ref:`install-install-virtualenv` first.
+environments.
 
 .. _install-create-env:
 
@@ -180,19 +117,6 @@ On Windows:
 .. code-block:: bat
 
     py -3 -m venv venv
-
-If you needed to install virtualenv because you are on an older version of
-Python, use the following command instead:
-
-.. code-block:: sh
-
-    virtualenv venv
-
-On Windows:
-
-.. code-block:: bat
-
-    \Python27\Scripts\virtualenv.exe venv
 
 Activate the environment
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -229,43 +153,3 @@ update the code from the master branch:
 .. code-block:: sh
 
     pip install -U https://github.com/laurent-laporte-pro/deprecated/archive/master.tar.gz
-
-.. _install-install-virtualenv:
-
-Install virtualenv
-------------------
-
-If you are using Python 2, the venv module is not available. Instead,
-install `virtualenv`_.
-
-On Linux, virtualenv is provided by your package manager:
-
-.. code-block:: sh
-
-    # Debian, Ubuntu
-    sudo apt-get install python-virtualenv
-
-    # CentOS, Fedora
-    sudo yum install python-virtualenv
-
-    # Arch
-    sudo pacman -S python-virtualenv
-
-If you are on Mac OS X or Windows, download `get-pip.py`_, then:
-
-.. code-block:: sh
-
-    sudo python2 Downloads/get-pip.py
-    sudo python2 -m pip install virtualenv
-
-On Windows, as an administrator:
-
-.. code-block:: bat
-
-    \Python27\python.exe Downloads\get-pip.py
-    \Python27\python.exe -m pip install virtualenv
-
-Now you can continue to :ref:`install-create-env`.
-
-.. _virtualenv: https://virtualenv.pypa.io/
-.. _get-pip.py: https://bootstrap.pypa.io/get-pip.py

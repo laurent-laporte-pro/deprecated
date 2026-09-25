@@ -34,8 +34,7 @@ Submitting patches
 - Include tests if your patch is supposed to solve a bug, and explain
   clearly under which circumstances the bug happens. Make sure the test fails
   without your patch.
-- Try to follow `PEP8`_, but you may ignore the line length limit if following
-  it would make the code uglier.
+- Follow `PEP8`_: the code is linted and formatted with Ruff (line length: 100).
 
 First time setup
 ~~~~~~~~~~~~~~~~
@@ -58,16 +57,18 @@ First time setup
         git remote add upstream https://github.com/laurent-laporte-pro/deprecated.git
         git fetch upstream
 
-- Create a virtualenv::
+- Install `uv`_ and `Hatch`_ (Python 3.12 or newer is required)::
 
-        python3 -m venv env
-        . env/bin/activate
-        # or "env\Scripts\activate" on Windows
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        uv tool install hatch
 
-- Install Deprecated in editable mode with development dependencies::
+- Create the virtual environment and install Deprecated in editable mode
+  with the development dependencies (locked in ``uv.lock``)::
 
-        pip install -e ".[dev]"
+        uv sync
 
+.. _uv: https://docs.astral.sh/uv/
+.. _Hatch: https://hatch.pypa.io/latest/
 .. _GitHub account: https://github.com/join
 .. _latest version of git: https://git-scm.com/downloads
 .. _username: https://help.github.com/articles/setting-your-username-in-git/
@@ -81,8 +82,7 @@ Start coding
 - Create a branch to identify the issue you would like to work on (e.g.
   ``2287-dry-test-suite``)
 - Using your favorite editor, make your changes, `committing as you go`_.
-- Try to follow `PEP8`_, but you may ignore the line length limit if following
-  it would make the code uglier.
+- Follow `PEP8`_: the code is linted and formatted with Ruff (line length: 100).
 - Include tests that cover any code changes you make. Make sure the test fails
   without your patch. `Running the tests`_.
 - Push your commits to GitHub and `create a pull request`_.
@@ -97,18 +97,25 @@ Running the tests
 
 Run the basic test suite with::
 
-    pytest tests/
+    uv run pytest
 
 This only runs the tests for the current environment. Whether this is relevant
-depends on which part of Deprecated you're working on. Travis-CI will run the full
+depends on which part of Deprecated you're working on. GitHub Actions will run the full
 suite when you submit your pull request.
 
-The full test suite takes a long time to run because it tests multiple
-combinations of Python and dependencies. You need to have Python 2.7,
-3.4, 3.5, 3.6, PyPy 2.7 and 3.6 installed to run all of the environments (notice
-that Python **2.6** and **3.3** are no more supported). Then run::
+The full test suite tests multiple combinations of Python (3.12 and newer)
+and wrapt versions. Hatch downloads the missing Python interpreters with uv. Run::
 
-    tox
+    hatch test --all
+
+Running the quality checks
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following checks are run by the CI and must pass before merging::
+
+    hatch check code    # lint with Ruff
+    hatch check fmt     # verify the formatting with Ruff (use --fix to reformat)
+    hatch check types   # type-check with mypy (strict mode)
 
 Running test coverage
 ~~~~~~~~~~~~~~~~~~~~~
@@ -117,13 +124,10 @@ Generating a report of lines that do not have test coverage can indicate
 where to start contributing. Run ``pytest`` using ``coverage`` and generate a
 report on the terminal and as an interactive HTML document::
 
-    pytest --cov-report term-missing --cov-report html --cov=deprecated tests/
+    uv run pytest --cov --cov-report term-missing --cov-report html
     # then open htmlcov/index.html
 
 Read more about `coverage <https://coverage.readthedocs.io>`_.
-
-Running the full test suite with ``tox`` will combine the coverage reports
-from all runs.
 
 ``make`` targets
 ~~~~~~~~~~~~~~~~
@@ -133,7 +137,8 @@ all dependencies are installed.
 
 - ``make test`` runs the basic test suite with ``pytest``
 - ``make cov`` runs the basic test suite with ``coverage``
-- ``make test-all`` runs the full test suite with ``tox``
+- ``make test-all`` runs the full test suite with ``hatch test --all``
+- ``make check`` runs the quality checks with ``hatch check``
 
 Generating the documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -143,9 +148,9 @@ You can also generate it manually using Sphinx.
 
 To generate the HTML documentation, run::
 
-    sphinx-build -b html -d dist/docs/doctrees docs/source/ dist/docs/html/
+    uv run --with-requirements docs/requirements.txt sphinx-build -b html -d dist/docs/doctrees docs/source/ dist/docs/html/
 
 
 To generate the epub v2 documentation, run::
 
-    sphinx-build -b epub -d dist/docs/doctrees docs/source/ dist/docs/epub/
+    uv run --with-requirements docs/requirements.txt sphinx-build -b epub -d dist/docs/doctrees docs/source/ dist/docs/epub/

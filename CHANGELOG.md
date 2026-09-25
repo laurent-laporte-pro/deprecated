@@ -40,6 +40,10 @@ Major release: Python 3.12+ modernization
 
 ### Added
 
+- Add the `deprecated.numpy` module: the `@deprecated`, `@versionadded` and `@versionchanged`
+  decorators insert a `Deprecated`, `Version added` or `Version changed` section
+  in [NumPy style](https://numpydoc.readthedocs.io/en/latest/format.html)
+  docstrings (see the "NumPy decorators" page of the documentation).
 - Add the `ClassicAdapter.warn()` method used to emit the deprecation warning
   (can be overridden by custom adapters).
 - Add Python 3.12 type annotations to the public API and ship the `py.typed` marker (PEP 561):

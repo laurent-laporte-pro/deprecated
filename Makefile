@@ -1,40 +1,68 @@
-.PHONY: all install-dev test coverage cov test-all check fmt release-minor release-patch build clean-pyc
+# Development shortcuts: every target relies on uv (environment, dependencies)
+# and Hatch (quality checks, test matrix). Run `make help` to list the targets.
 
-all: test
+UV ?= uv
+HATCH ?= hatch
+DOCS_BUILD_DIR ?= dist/docs
+SPHINX_BUILD = $(UV) run --with-requirements docs/requirements.txt sphinx-build
 
-install-dev:
-	uv sync --locked
+.DEFAULT_GOAL := help
 
-test: clean-pyc install-dev
-	uv run pytest
+.PHONY: help
+help: ## Show this help
+	@awk 'BEGIN {FS = ":.*## "} /^[a-zA-Z_-]+:.*## / {printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-coverage: clean-pyc install-dev
-	uv run pytest --cov --cov-report term-missing --cov-report html
+.PHONY: install
+install: ## Create the virtual environment with the locked dependencies
+	$(UV) sync --locked
 
-cov: coverage
+.PHONY: lock
+lock: ## Update the lockfile (uv.lock)
+	$(UV) lock
 
-test-all:
-	hatch test --all
+.PHONY: test
+test: install ## Run the test suite (current Python version)
+	$(UV) run pytest
 
-check:
-	hatch check code
-	hatch check fmt
-	hatch check types
+.PHONY: cov
+cov: install ## Run the test suite with coverage (terminal and HTML reports)
+	$(UV) run pytest --cov --cov-report=term-missing --cov-report=html
 
-fmt:
-	hatch check code --fix
-	hatch check fmt --fix
+.PHONY: test-all
+test-all: ## Run the test suite on all Python and wrapt versions
+	$(HATCH) test --all
 
-release-minor:
-	uvx bump2version minor
+.PHONY: check
+check: ## Run the quality checks (lint, format, types) and verify the lockfile
+	$(UV) lock --check
+	$(HATCH) check code
+	$(HATCH) check fmt
+	$(HATCH) check types
 
-release-patch:
-	uvx bump2version patch
+.PHONY: fix
+fix: ## Fix the lint errors and reformat the code
+	$(HATCH) check code --fix
+	$(HATCH) check fmt --fix
 
-build:
-	uv build
+.PHONY: docs
+docs: ## Build the HTML documentation
+	$(SPHINX_BUILD) -b html -d $(DOCS_BUILD_DIR)/doctrees docs/source/ $(DOCS_BUILD_DIR)/html
 
-clean-pyc:
-	find . -name '*.pyc' -exec rm -f {} +
-	find . -name '*.pyo' -exec rm -f {} +
-	find . -name '*~' -exec rm -f {} +
+.PHONY: build
+build: ## Build the source distribution and the wheel
+	$(UV) build
+
+BUMP_VERSION = $(UV) tool run bump2version
+
+.PHONY: bump-major bump-minor bump-patch
+bump-major: ## Bump the major version (see .bumpversion.cfg)
+	$(BUMP_VERSION) major
+bump-minor: ## Bump the minor version
+	$(BUMP_VERSION) minor
+bump-patch: ## Bump the patch version
+	$(BUMP_VERSION) patch
+
+.PHONY: clean
+clean: ## Remove the build artifacts and the caches
+	rm -rf dist/ build/ htmlcov/ .coverage .coverage.* .pytest_cache/ .mypy_cache/ .ruff_cache/
+	find . -type d -name __pycache__ -not -path "./.venv/*" -prune -exec rm -rf {} +

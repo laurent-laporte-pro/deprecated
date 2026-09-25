@@ -132,13 +132,19 @@ Read more about `coverage <https://coverage.readthedocs.io>`_.
 ``make`` targets
 ~~~~~~~~~~~~~~~~
 
-Deprecated provides a ``Makefile`` with various shortcuts. They will ensure that
-all dependencies are installed.
+Deprecated provides a ``Makefile`` with various shortcuts, based on uv and Hatch
+(run ``make help`` to list them):
 
+- ``make install`` creates the virtual environment with the locked dependencies
 - ``make test`` runs the basic test suite with ``pytest``
 - ``make cov`` runs the basic test suite with ``coverage``
 - ``make test-all`` runs the full test suite with ``hatch test --all``
-- ``make check`` runs the quality checks with ``hatch check``
+- ``make check`` verifies the lockfile and runs the quality checks with ``hatch check``
+- ``make fix`` fixes the lint errors and reformats the code
+- ``make docs`` builds the HTML documentation
+- ``make build`` builds the source distribution and the wheel
+- ``make bump-major``, ``make bump-minor``, ``make bump-patch`` bump the version
+- ``make clean`` removes the build artifacts and the caches
 
 Generating the documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

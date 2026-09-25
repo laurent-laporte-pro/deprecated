@@ -135,16 +135,18 @@ So, to build the API documentation of your project with Sphinx_ you need to setu
 and install Sphinx, external themes and/or plugins and also your project.
 Nowadays, this is the right way to do it.
 
-For instance, you can configure a documentation building task in your ``tox.ini`` file, for instance:
+For instance, you can configure a documentation environment with Hatch_
+in your :file:`pyproject.toml` file, and build the documentation with ``hatch run docs:build``:
 
-.. code-block:: ini
+.. code-block:: toml
 
-   [testenv:docs]
-   basepython = python
-   deps =
-       sphinx
-   commands =
-       sphinx-build -b html -d {envtmpdir}/doctrees docs/source/ {envtmpdir}/html
+   [tool.hatch.envs.docs]
+   dependencies = ["sphinx"]
+
+   [tool.hatch.envs.docs.scripts]
+   build = "sphinx-build -b html -d dist/docs/doctrees docs/source/ dist/docs/html"
+
+.. _Hatch: https://hatch.pypa.io/latest/
 
 .. hint::
 

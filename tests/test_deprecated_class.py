@@ -2,6 +2,8 @@ import inspect
 import io
 import warnings
 
+import pytest
+
 import deprecated.classic
 
 
@@ -142,7 +144,8 @@ def test_simple_class_deprecation_with_args():
             super().__init__()
             self.args = arg
 
-    MyClass(5)
+    with pytest.warns(DeprecationWarning, match="kwargs class"):
+        MyClass(5)
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
         obj = MyClass(5)

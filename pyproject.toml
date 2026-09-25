@@ -13,7 +13,7 @@ authors = [{ name = "Laurent LAPORTE", email = "laurent.laporte.pro@gmail.com" }
 keywords = ["deprecate", "deprecated", "deprecation", "warning", "warn", "decorator"]
 requires-python = ">=3.12"
 dependencies = [
-    # wrapt 1.16 is the first release supporting Python 3.12 (see the former tox matrix).
+    # wrapt 1.16 is the first release supporting Python 3.12.
     "wrapt >= 1.16, < 3",
 ]
 classifiers = [
@@ -118,7 +118,7 @@ dependencies = ["mypy == 2.3.1", "packaging == 26.3", "pytest == 9.1.1"]
 [tool.hatch.envs.hatch-check-types.scripts]
 check = "mypy {args}"
 
-# -- Hatch: test matrix (replaces the former tox configuration) -----------------
+# -- Hatch: test matrix (Python x wrapt compatibility) --------------------------
 
 [tool.hatch.envs.hatch-test]
 extra-dependencies = ["packaging == 26.3"]
@@ -198,11 +198,6 @@ files = ["deprecated", "tests"]
 strict = true
 warn_unreachable = true
 enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
-
-[[tool.mypy.overrides]]
-# Compiled extension of wrapt, only imported to detect the pure-Python implementation.
-module = ["wrapt._wrappers"]
-ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 # The test suite exercises the decorators dynamically: only type-check the bodies.

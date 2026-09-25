@@ -282,8 +282,10 @@ function will raise an exception because the *action* is set to "error".
    Traceback (most recent call last):
      File "filter_action_demo.py", line 13, in <module>
        foo()
-     File "path/to/deprecated/classic.py", line 274, in wrapper_function
-       warnings.warn(msg, category=category, stacklevel=_stacklevel)
+     File "path/to/deprecated/classic.py", line 230, in wrapper_function
+       self.warn(self.get_deprecated_msg(wrapped_, instance_))
+     File "path/to/deprecated/classic.py", line 180, in warn
+       warnings.warn(
    DeprecationWarning: Call to deprecated function (or staticmethod) foo. (do not call it)
 
 Modifying the deprecated code reference

@@ -110,9 +110,19 @@ def test_isinstance_deprecated():
     class DeprecatedChildCls(DeprecatedCls):
         pass
 
-    instance = DeprecatedChildCls()
+    with warnings.catch_warnings(record=True) as warns:
+        warnings.simplefilter("always")
+        instance = DeprecatedChildCls()
     assert isinstance(instance, DeprecatedChildCls)
     assert isinstance(instance, DeprecatedCls)
+
+    # Both warnings refer to the user code, not to the library.
+    assert [str(w.message) for w in warns] == [
+        "Call to deprecated class DeprecatedChildCls. (some reason)"
+        " -- Deprecated since version Y.Z.",
+        "Call to deprecated class DeprecatedCls. (some reason) -- Deprecated since version X.Y.",
+    ]
+    assert [w.filename for w in warns] == [__file__, __file__]
 
 
 def test_isinstance_versionadded_versionchanged():

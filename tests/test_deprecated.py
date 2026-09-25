@@ -331,3 +331,51 @@ def test_extra_stacklevel():
     # Check that the line number points to the first line inside 'demo'
     demo_lineno = inspect.getsourcelines(demo)[1]
     assert warn.lineno == demo_lineno + 1
+
+
+def test_nested_deprecated_classes_refer_to_the_caller():
+    """
+    When a deprecated class inherits from a deprecated class, both warnings
+    must refer to the line where the subclass is instantiated (not to the library).
+    """
+
+    @deprecated.classic.deprecated(reason="base")
+    class Base:
+        pass
+
+    @deprecated.classic.deprecated(reason="child")
+    class Child(Base):
+        pass
+
+    def use_child():
+        return Child()
+
+    with warnings.catch_warnings(record=True) as warns:
+        warnings.simplefilter("always")
+        use_child()
+
+    use_child_lineno = inspect.getsourcelines(use_child)[1]
+    assert [(w.filename, w.lineno) for w in warns] == [(__file__, use_child_lineno + 1)] * 2
+
+
+def test_extra_stacklevel_with_nested_deprecated_classes():
+    @deprecated.classic.deprecated(reason="base", extra_stacklevel=1)
+    class Base:
+        pass
+
+    @deprecated.classic.deprecated(reason="child", extra_stacklevel=1)
+    class Child(Base):
+        pass
+
+    def factory():
+        return Child()
+
+    def demo():
+        factory()
+
+    with warnings.catch_warnings(record=True) as warns:
+        warnings.simplefilter("always")
+        demo()
+
+    demo_lineno = inspect.getsourcelines(demo)[1]
+    assert [(w.filename, w.lineno) for w in warns] == [(__file__, demo_lineno + 1)] * 2

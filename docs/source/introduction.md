@@ -6,7 +6,7 @@ A function or class is deprecated when it is considered as it is no longer impor
 
 As a module, a class or function evolves, its API (Application Programming Interface) inevitably changes: functions are renamed for consistency, new and better methods are added, and attributes change. But such changes introduce a problem. You need to keep the old API around until developers make the transition to the new one, but you don't want them to continue programming to the old API.
 
-The ability to deprecate a class or a function solves the problem. Python Standard Library does not provide a way to express deprecation easily. The Python [Deprecated Library] is here to fulfill this lack.
+The ability to deprecate a class or a function solves the problem. Since Python 3.13, the Python Standard Library provides the {func}`warnings.deprecated` decorator ([PEP 702](https://peps.python.org/pep-0702/)), which emits a runtime warning and lets the type checkers report the use of deprecated objects. The Python [Deprecated Library] complements it: deprecation messages built from a reason and a version, Sphinx directives in the docstrings, local warning filters and deprecated parameters. See the {ref}`white_paper` for a comparison and for a way to combine both.
 
 ## When to Deprecate
 

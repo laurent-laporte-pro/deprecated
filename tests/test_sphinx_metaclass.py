@@ -1,11 +1,11 @@
 import warnings
 from typing import ClassVar
 
-import deprecated.classic
+import deprecated.sphinx
 
 
 def test_with_init():
-    @deprecated.classic.deprecated
+    @deprecated.sphinx.deprecated(version="1.2.3")
     class MyClass:
         def __init__(self, a, b=5):
             self.a = a
@@ -22,7 +22,7 @@ def test_with_init():
 
 
 def test_with_new():
-    @deprecated.classic.deprecated
+    @deprecated.sphinx.deprecated(version="1.2.3")
     class MyClass:
         c: float
 
@@ -53,7 +53,7 @@ def test_with_metaclass():
             obj.c = 3.14
             return obj
 
-    @deprecated.classic.deprecated
+    @deprecated.sphinx.deprecated(version="1.2.3")
     class MyClass(metaclass=Meta):
         c: float
 
@@ -81,7 +81,7 @@ def test_with_singleton_metaclass():
                 cls._instances[cls] = super().__call__(*args, **kwargs)
             return cls._instances[cls]
 
-    @deprecated.classic.deprecated
+    @deprecated.sphinx.deprecated(version="1.2.3")
     class MyClass(metaclass=Singleton):
         def __init__(self, a, b=5):
             self.a = a
@@ -100,3 +100,20 @@ def test_with_singleton_metaclass():
     assert obj1.a == "five"
     assert obj1.b == 5
     assert obj2 is obj1
+
+
+def test_docstring_with_metaclass():
+    class Meta(type):
+        pass
+
+    @deprecated.sphinx.deprecated(version="1.2.3", reason="use another class")
+    class MyClass(metaclass=Meta):
+        """My class."""
+
+    assert MyClass.__doc__ == "My class.\n\n.. deprecated:: 1.2.3\n   use another class\n"
+    with warnings.catch_warnings(record=True) as warns:
+        warnings.simplefilter("always")
+        MyClass()
+    assert [str(w.message) for w in warns] == [
+        "Call to deprecated class MyClass. (use another class) -- Deprecated since version 1.2.3."
+    ]

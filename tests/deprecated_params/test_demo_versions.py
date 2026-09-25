@@ -3,6 +3,7 @@ This example shows a function with an unused optional parameter. A warning
 message should be emitted if `z` is used (as a positional or keyword parameter).
 """
 
+import functools
 import warnings
 
 from deprecated.params import deprecated_params
@@ -31,10 +32,8 @@ def integrate(f, a, b, n=0, epsilon=0.0, start=None):
 
 def test_only_one_warning_for_each_parameter():
     """
-    This unit test checks that only one warning message is emitted for each deprecated parameter.
-
-    However, we notice that the current implementation generates two warning messages
-    for the `epsilon` parameter. We should therefore improve the implementation to avoid this.
+    This unit test checks that only one warning message is emitted for each deprecated parameter:
+    the message of the outermost decorator wins (here, the `epsilon` message of version v2).
     """
     with warnings.catch_warnings(record=True) as warns:
         warnings.simplefilter("always")
@@ -43,5 +42,55 @@ def test_only_one_warning_for_each_parameter():
     assert actual == [
         {"category": V2DeprecationWarning, "message": "epsilon is deprecated in version v2"},
         {"category": V2DeprecationWarning, "message": "start is removed in version v2"},
-        {"category": DeprecationWarning, "message": "epsilon is deprecated in version v1.1"},
     ]
+    # The warnings refer to the caller, not to the library.
+    assert {w.filename for w in warns} == {__file__}
+
+
+def test_inner_decorator_messages_are_kept():
+    # A parameter only deprecated by the inner decorator is still reported.
+    with warnings.catch_warnings(record=True) as warns:
+        warnings.simplefilter("always")
+        integrate(lambda x: x**2, 0, 2, n=10)
+    assert warns == []
+
+
+@deprecated_params("b", reason="outer b", category=V2DeprecationWarning)
+@deprecated_params({"a": "inner a", "b": "inner b"})
+def combine(a=None, b=None, c=None):
+    return a, b, c
+
+
+def test_stacked_decorators_are_merged():
+    with warnings.catch_warnings(record=True) as warns:
+        warnings.simplefilter("always")
+        assert combine(a=1, b=2, c=3) == (1, 2, 3)
+    assert [(str(w.message), w.category) for w in warns] == [
+        ("outer b", V2DeprecationWarning),
+        ("inner a", DeprecationWarning),
+    ]
+    assert combine.__name__ == "combine"
+
+
+def test_other_decorator_between_deprecated_params_is_called():
+    calls = []
+
+    def spy(func):
+        @functools.wraps(func)  # copies the marker attribute of the inner wrapper
+        def spy_wrapper(*args, **kwargs):
+            calls.append(kwargs)
+            return func(*args, **kwargs)
+
+        return spy_wrapper
+
+    @deprecated_params("b", reason="outer b")
+    @spy
+    @deprecated_params("a", reason="inner a")
+    def foo(a=None, b=None):
+        return a, b
+
+    with warnings.catch_warnings(record=True) as warns:
+        warnings.simplefilter("always")
+        assert foo(a=1, b=2) == (1, 2)
+    assert calls == [{"a": 1, "b": 2}]
+    assert [str(w.message) for w in warns] == ["outer b", "inner a"]

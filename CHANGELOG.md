@@ -61,6 +61,11 @@ Major release: Python 3.12+ modernization
 
 ### Fixed
 
+- Deprecated functions and methods can now be pickled (by reference, like regular functions),
+  so they can be used with `multiprocessing` and the *spawn* start method (the default one on
+  Windows and macOS), for instance as a `Process` target or with `Pool.map()`.
+  Previously, pickling failed with `NotImplementedError: object proxy must define __reduce_ex__()`
+  ([#16](https://github.com/laurent-laporte-pro/deprecated/issues/16)).
 - When a deprecated class inherits from a deprecated class, all the deprecation warnings now refer
   to the user code (previously, the warning of the parent class referred to `classic.py`).
   The warnings are emitted with `skip_file_prefixes` (Python 3.12+): the frames of this library

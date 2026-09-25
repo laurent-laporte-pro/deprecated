@@ -127,87 +127,8 @@ html_sidebars = {
     ]
 }
 
-# -- Options for HTMLHelp output ------------------------------------------
-
-# Output file base name for HTML help builder.
-htmlhelp_basename = 'Deprecated-Doc'
-
-# -- Options for LaTeX output ---------------------------------------------
-
-latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    #
-    # 'papersize': 'letterpaper',
-
-    # The font size ('10pt', '11pt' or '12pt').
-    #
-    # 'pointsize': '10pt',
-
-    # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
-
-    # Latex figure (float) alignment
-    #
-    # 'figure_align': 'htbp',
-}
-
-# Grouping the document tree into LaTeX files. List of tuples
-# (source start file, target name, title,
-#  author, documentclass [howto, manual, or own class]).
-latex_documents = [
-    (master_doc, 'Deprecated.tex', 'Deprecated Documentation', 'Marcos CARDOSO and Laurent LAPORTE', 'manual')
-]
-
-# -- Options for manual page output ---------------------------------------
-
-# One entry per manual page. List of tuples
-# (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, 'deprecated', 'Deprecated Documentation', [author], 1)]
-
-# -- Options for Texinfo output -------------------------------------------
-
-# Grouping the document tree into Texinfo files. List of tuples
-# (source start file, target name, title, author,
-#  dir menu entry, description, category)
-texinfo_documents = [
-    (
-        master_doc,
-        'Deprecated',
-        'Deprecated Documentation',
-        author,
-        'Deprecated',
-        'Python @deprecated decorator to deprecate old python classes, functions or methods.',
-        'Miscellaneous',
-    )
-]
-
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
     'wrapt': ('https://wrapt.readthedocs.io/en/latest/', None),
-    'flask': ('http://flask.pocoo.org/docs/1.0/', None),
-    'django': ('https://docs.djangoproject.com/en/2.1/', 'https://docs.djangoproject.com/en/2.1/_objects/'),
 }
-
-# -- Options for EPub output -------------------------------------------
-
-epub_basename = project
-epub_theme = 'epub'
-epub_theme_options = {
-    # relbar1: If this is true, the relbar1 block is inserted in the epub output, otherwise it is omitted.
-    'relbar1': False,
-    # footer: If this is true, the footer block is inserted in the epub output, otherwise it is omitted.
-    'footer': False,
-}
-epub_title = f"Python Deprecated Library v{version} Documentation"
-epub_description = "Python @deprecated decorator to deprecate old python classes, functions or methods."
-epub_author = author
-epub_contributor = "Original idea from Leandro REGUEIRO, Patrizio BERTONI, Eric WIESER"
-epub_language = language or 'en'
-epub_publisher = "www.lulu.com"
-epub_copyright = copyright
-epub_identifier = "9780244627768"
-epub_scheme = 'ISBN'
-epub_uid = "BookId"  # dacd6b24-3909-4358-8527-359be2e25777
-epub_cover = ('_static/title-page.jpg', '')

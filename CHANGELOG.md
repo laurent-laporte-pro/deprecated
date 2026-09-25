@@ -80,6 +80,11 @@ Major release: Python 3.12+ modernization
 - Declare the documentation dependencies in the `docs` dependency group of `pyproject.toml`
   (`docs/requirements.txt` is removed); ReadTheDocs installs them with uv.
 - Check the documentation build in the CI (`make docs-check`: warnings are errors).
+- Rewrite the white paper: state of the art of deprecation in Python (warning categories and
+  stack level, PEP 702 and the type checkers, the CPython policy, practices of major Open Source
+  projects, best practices), and how to combine `warnings.deprecated` with this library.
+- Remove the ebook, LaTeX, manual page and Texinfo configuration of the documentation (HTML only),
+  with the files used by the ebook (cover, title page and blurb).
 
 ### Other
 

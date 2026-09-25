@@ -4,7 +4,7 @@
 UV ?= uv
 HATCH ?= hatch
 DOCS_BUILD_DIR ?= dist/docs
-SPHINX_BUILD = $(UV) run --with-requirements docs/requirements.txt sphinx-build
+SPHINX_BUILD = $(UV) run --group docs sphinx-build
 
 .DEFAULT_GOAL := help
 
@@ -48,6 +48,14 @@ fix: ## Fix the lint errors and reformat the code
 docs: ## Build the HTML documentation
 	$(SPHINX_BUILD) -b html -d $(DOCS_BUILD_DIR)/doctrees docs/source/ $(DOCS_BUILD_DIR)/html
 
+.PHONY: docs-check
+docs-check: ## Build the HTML documentation, warnings are errors (used by the CI)
+	$(SPHINX_BUILD) -W --keep-going -E -b html -d $(DOCS_BUILD_DIR)/doctrees docs/source/ $(DOCS_BUILD_DIR)/html
+
+.PHONY: docs-linkcheck
+docs-linkcheck: ## Check the external links of the documentation
+	$(SPHINX_BUILD) -b linkcheck -d $(DOCS_BUILD_DIR)/doctrees docs/source/ $(DOCS_BUILD_DIR)/linkcheck
+
 .PHONY: build
 build: ## Build the source distribution and the wheel
 	$(UV) build
@@ -57,7 +65,7 @@ version: ## Show the current version
 	$(HATCH) version
 
 .PHONY: bump-major bump-minor bump-patch
-bump-major: ## Bump the major version (see docs/source/release.rst)
+bump-major: ## Bump the major version (see docs/source/release.md)
 	$(HATCH) version major
 bump-minor: ## Bump the minor version
 	$(HATCH) version minor

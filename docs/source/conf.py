@@ -39,7 +39,16 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.coverage',
     'sphinx.ext.githubpages',
+    'myst_parser',
 ]
+
+# -- MyST (Markdown) configuration -----------------------------------------
+# The pages are written in Markdown (MyST); the docstrings remain in reStructuredText.
+# https://myst-parser.readthedocs.io/en/latest/configuration.html
+# `alert`: GitHub alerts (`> [!NOTE]`) used in the root files (CHANGELOG, CONTRIBUTING...).
+# `smartquotes`: typographic quotes and dashes, like docutils does for reStructuredText.
+myst_enable_extensions = ['alert', 'colon_fence', 'deflist', 'fieldlist', 'smartquotes']
+myst_heading_anchors = 3
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -47,8 +56,8 @@ templates_path = ['_templates']
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
-# source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+# The pages are written in Markdown, except `api.rst` (autodoc, see the comment in this file).
+source_suffix = {'.md': 'markdown', '.rst': 'restructuredtext'}
 
 # The master toctree document.
 master_doc = 'index'
@@ -191,7 +200,7 @@ epub_theme_options = {
     # footer: If this is true, the footer block is inserted in the epub output, otherwise it is omitted.
     'footer': False,
 }
-epub_title = "Python Deprecated Library v1.2 Documentation"
+epub_title = f"Python Deprecated Library v{version} Documentation"
 epub_description = "Python @deprecated decorator to deprecate old python classes, functions or methods."
 epub_author = author
 epub_contributor = "Original idea from Leandro REGUEIRO, Patrizio BERTONI, Eric WIESER"

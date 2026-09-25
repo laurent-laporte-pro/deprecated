@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "Python @deprecated decorator to deprecate old python classes, functions or methods."
 readme = "README.md"
 license = "MIT"
-license-files = ["LICENSE.rst"]
+license-files = ["LICENSE.md"]
 authors = [{ name = "Laurent LAPORTE", email = "laurent.laporte.pro@gmail.com" }]
 keywords = ["deprecate", "deprecated", "deprecation", "warning", "warn", "decorator"]
 requires-python = ">=3.12"
@@ -36,7 +36,7 @@ Homepage = "https://github.com/laurent-laporte-pro/deprecated"
 Documentation = "https://deprecated.readthedocs.io/en/latest/"
 Source = "https://github.com/laurent-laporte-pro/deprecated"
 "Bug Tracker" = "https://github.com/laurent-laporte-pro/deprecated/issues"
-Changelog = "https://github.com/laurent-laporte-pro/deprecated/blob/master/CHANGELOG.rst"
+Changelog = "https://github.com/laurent-laporte-pro/deprecated/blob/master/CHANGELOG.md"
 
 [dependency-groups]
 dev = [
@@ -46,6 +46,11 @@ dev = [
     "pytest == 9.1.1",
     "pytest-cov == 7.1.0",
     "ruff == 0.16.9",
+]
+# Documentation (Sphinx + MyST): `uv sync --group docs`, also used by ReadTheDocs.
+docs = [
+    "myst-parser ~= 5.1",
+    "sphinx ~= 9.1",
 ]
 
 # -- uv -----------------------------------------------------------------------
@@ -63,7 +68,7 @@ explicit = true
 
 [tool.hatch.version]
 # Single source of the version: use `hatch version <major|minor|patch>`
-# (see docs/source/release.rst).
+# (see docs/source/release.md).
 path = "src/deprecated/__init__.py"
 
 # -- Hatch: quality checks ------------------------------------------------------
@@ -170,6 +175,9 @@ force-single-line = true
 [tool.ruff.format]
 quote-style = "double"
 docstring-code-format = true
+# The code examples of the documentation are not reformatted: the tutorial quotes their
+# output, including the line numbers of the warnings.
+exclude = ["*.md"]
 
 # -- mypy -----------------------------------------------------------------------
 

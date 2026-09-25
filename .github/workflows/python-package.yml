@@ -100,3 +100,8 @@ jobs:
 
       - name: Test all Python / wrapt combinations (hatch test --all)
         run: hatch test --all
+
+      - name: Test with the pure Python implementation of wrapt
+        env:
+          WRAPT_DISABLE_EXTENSIONS: "1"
+        run: uv run --locked pytest

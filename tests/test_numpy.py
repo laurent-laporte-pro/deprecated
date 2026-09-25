@@ -1,3 +1,4 @@
+import sys
 import textwrap
 import warnings
 
@@ -312,9 +313,14 @@ def test_method_and_classmethod():
         warnings.simplefilter("always")
         Foo().foo()
         Foo.baz()
+    if sys.version_info < (3, 13):
+        baz_kind = "class method"
+    else:
+        # Since Python 3.13, ``classmethod`` no longer wraps the descriptor of the function.
+        baz_kind = "function (or staticmethod)"
     assert [str(w.message) for w in warns] == [
         "Call to deprecated method foo. (Use bar()) -- Deprecated since version 1.0.0.",
-        "Call to deprecated class method baz. -- Deprecated since version 1.0.0.",
+        f"Call to deprecated {baz_kind} baz. -- Deprecated since version 1.0.0.",
     ]
 
 

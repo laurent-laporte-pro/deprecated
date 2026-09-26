@@ -215,5 +215,7 @@ source = ["deprecated"]
 branch = true
 
 [tool.coverage.report]
+# The CI fails if the total coverage drops below this threshold (currently 99%).
+fail_under = 95
 show_missing = true
 exclude_also = ["if TYPE_CHECKING:", "@overload"]

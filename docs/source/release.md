@@ -64,7 +64,8 @@ Update the files which quote the version and cannot read it from the package met
 - {file}`python-deprecated.spec`: the `Version:` field (Packit updates the Fedora packages
   from the release, but the spec file of this repository must stay consistent);
 - {file}`docs/source/_static/logo.svg`: the `vX.Y.Z` text (element `id="deprecated-version"`)
-  of the logo, shown in the README and on the home page of the documentation.
+  of the logo, shown in the README and on the home page of the documentation. The text is
+  right-aligned and fits up to 10 characters (e.g. `v10.10.100`).
 
 Add a new section at the top of {file}`CHANGELOG.md` for the new version, marked as unreleased:
 

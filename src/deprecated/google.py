@@ -63,7 +63,7 @@ class GoogleAdapter(ClassicAdapter):
     """
     Google docstring adapter -- *for advanced usage only*
 
-    This adapter override the :class:`~deprecated.classic.ClassicAdapter`
+    This adapter overrides the :class:`~deprecated.classic.ClassicAdapter`
     in order to add a life-cycle section to the function/class docstring,
     using the `Google Python Style Guide`_ format.
 
@@ -122,7 +122,7 @@ class GoogleAdapter(ClassicAdapter):
         :type  line_length: int
         :param line_length:
             Max line length of the section item (including its indentation).
-            If non nul, a long text is wrapped in several lines.
+            If non-zero, a long text is wrapped in several lines.
         """
         if not version:
             raise ValueError("'version' argument is required in Google docstring sections")
@@ -255,7 +255,7 @@ def versionadded(
 
     :type  line_length: int
     :param line_length:
-        Max line length of the section item. If non nul, a long text is wrapped in several lines.
+        Max line length of the section item. If non-zero, a long text is wrapped in several lines.
 
     :return: the decorated function.
     """
@@ -285,7 +285,7 @@ def versionchanged(
 
     :type  line_length: int
     :param line_length:
-        Max line length of the section item. If non nul, a long text is wrapped in several lines.
+        Max line length of the section item. If non-zero, a long text is wrapped in several lines.
 
     :return: the decorated function.
     """
@@ -318,7 +318,7 @@ def deprecated[T: Deprecatable](
 
     :type  line_length: int
     :param line_length:
-        Max line length of the section item. If non nul, a long text is wrapped in several lines.
+        Max line length of the section item. If non-zero, a long text is wrapped in several lines.
 
     Keyword arguments can be:
 

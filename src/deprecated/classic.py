@@ -130,6 +130,7 @@ class ClassicAdapter(wrapt.AdapterFactory):
        import inspect
 
        from deprecated.classic import ClassicAdapter
+       from deprecated.classic import Deprecatable
        from deprecated.classic import deprecated
 
 

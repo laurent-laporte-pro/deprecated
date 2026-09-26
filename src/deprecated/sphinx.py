@@ -5,16 +5,16 @@ Sphinx directive integration
 We usually need to document the life-cycle of functions and classes:
 when they are created, modified or deprecated.
 
-To do that, `Sphinx <http://www.sphinx-doc.org>`_ has a set
-of `Paragraph-level markups <http://www.sphinx-doc.org/en/stable/markup/para.html>`_:
+To do that, `Sphinx <https://www.sphinx-doc.org>`_ has a set
+of `Paragraph-level markups <https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#paragraph-level-markup>`_:
 
 - ``versionadded``: to document the version of the project which added the described feature
   to the library,
 - ``versionchanged``: to document changes of a feature,
 - ``deprecated``: to document a deprecated feature.
 
-The purpose of this module is to defined decorators which adds this Sphinx directives
-to the docstring of your function and classes.
+The purpose of this module is to define decorators which add these Sphinx directives
+to the docstring of your functions and classes.
 
 Of course, the ``@deprecated`` decorator will emit a deprecation warning
 when the function/method is called or the class is constructed.
@@ -39,9 +39,9 @@ class SphinxAdapter(ClassicAdapter):
     """
     Sphinx adapter -- *for advanced usage only*
 
-    This adapter override the :class:`~deprecated.classic.ClassicAdapter`
+    This adapter overrides the :class:`~deprecated.classic.ClassicAdapter`
     in order to add the Sphinx directives to the end of the function/class docstring.
-    Such a directive is a `Paragraph-level markup <http://www.sphinx-doc.org/en/stable/markup/para.html>`_
+    Such a directive is a `Paragraph-level markup <https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#paragraph-level-markup>`_
 
     - The directive can be one of "versionadded", "versionchanged" or "deprecated".
     - The version number is added if provided.
@@ -97,7 +97,7 @@ class SphinxAdapter(ClassicAdapter):
         :type  line_length: int
         :param line_length:
             Max line length of the directive text.
-            If non nul, a long text is wrapped in several lines.
+            If non-zero, a long text is wrapped in several lines.
 
         .. versionchanged:: 1.2.15
             Add the *extra_stacklevel* parameter.
@@ -205,7 +205,7 @@ def versionadded(
 
     :type  line_length: int
     :param line_length:
-        Max line length of the directive text. If non nul, a long text is wrapped in several lines.
+        Max line length of the directive text. If non-zero, a long text is wrapped in several lines.
 
     :return: the decorated function.
     """
@@ -236,7 +236,7 @@ def versionchanged(
 
     :type  line_length: int
     :param line_length:
-        Max line length of the directive text. If non nul, a long text is wrapped in several lines.
+        Max line length of the directive text. If non-zero, a long text is wrapped in several lines.
 
     :return: the decorated function.
     """
@@ -270,7 +270,7 @@ def deprecated[T: Deprecatable](
 
     :type  line_length: int
     :param line_length:
-        Max line length of the directive text. If non nul, a long text is wrapped in several lines.
+        Max line length of the directive text. If non-zero, a long text is wrapped in several lines.
 
     Keyword arguments can be:
 

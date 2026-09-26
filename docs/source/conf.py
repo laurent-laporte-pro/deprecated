@@ -64,8 +64,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Deprecated'
-copyright = '2017, Marcos CARDOSO & Laurent LAPORTE'
-author = 'Marcos CARDOSO & Laurent LAPORTE'
+copyright = '2017, Laurent LAPORTE'
+author = 'Laurent LAPORTE'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

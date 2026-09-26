@@ -10,6 +10,7 @@ readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE.md"]
 authors = [{ name = "Laurent LAPORTE", email = "laurent.laporte.pro@gmail.com" }]
+maintainers = [{ name = "Laurent LAPORTE", email = "laurent.laporte.pro@gmail.com" }]
 keywords = ["deprecate", "deprecated", "deprecation", "warning", "warn", "decorator"]
 requires-python = ">=3.12"
 dependencies = [

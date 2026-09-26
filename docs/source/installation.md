@@ -31,18 +31,18 @@ tested to date. Recent versions are listed first.
 * - py3.14
   - ✓
   - ✓
-  - ✗
+  - ✓
 * - py3.13
   - ✓
   - ✓
-  - ✗
+  - ✓
 * - py3.12
   - ✓
   - ✓
   - ✓
 ```
 
-Legend: ✓ = tested and compatible ; ✗ = incompatible, ? = untested but expected to work
+Legend: ✓ = tested and compatible.
 
 ### Development dependencies
 

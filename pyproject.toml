@@ -117,12 +117,8 @@ check = "mypy {args}"
 extra-dependencies = ["packaging == 26.3"]
 
 [[tool.hatch.envs.hatch-test.matrix]]
-python = ["3.12"]
+python = ["3.12", "3.13", "3.14"]
 wrapt = ["1.16", "1.17", "2.x"]
-
-[[tool.hatch.envs.hatch-test.matrix]]
-python = ["3.13", "3.14"]
-wrapt = ["1.17", "2.x"]
 
 [tool.hatch.envs.hatch-test.overrides]
 matrix.wrapt.extra-dependencies = [

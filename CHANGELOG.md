@@ -90,6 +90,8 @@ Major release: Python 3.12+ modernization
   projects, best practices), and how to combine `warnings.deprecated` with this library.
 - Remove the ebook, LaTeX, manual page and Texinfo configuration of the documentation (HTML only),
   with the files used by the ebook (cover, title page and blurb).
+- Rework the README: a short presentation, the warning emitted, the options of `@deprecated`,
+  `@deprecated_params`, and how the library complements `warnings.deprecated` (PEP 702).
 
 ### Other
 

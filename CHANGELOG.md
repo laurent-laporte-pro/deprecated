@@ -95,6 +95,12 @@ Major release: Python 3.12+ modernization
   The "Authors" section now tells who started the library and who maintains it.
 - New logo (a "best before: next major" price tag), shown in the README and on the home page
   of the documentation; it replaces the rusty tools image.
+- Switch the documentation to the [Furo](https://pradyunsg.me/furo/) theme, with light, dark
+  and automatic (system preference) modes, and the red of the logo as accent color.
+  The code is highlighted with the Lovelace (light) and Gruvbox dark (dark) Pygments styles,
+  tuned for contrast (WCAG AA).
+- Add `make docs-live` to preview the documentation while editing it: the pages are rebuilt
+  and the browser is reloaded on each change (sphinx-autobuild, `docs-live` dependency group).
 
 ### Other
 

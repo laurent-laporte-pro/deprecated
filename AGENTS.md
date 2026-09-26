@@ -24,6 +24,7 @@ WRAPT_DISABLE_EXTENSIONS=1 uv run pytest   # tests with the pure Python wrapt (r
 make check                  # uv lock --check + hatch check code / fmt / types (what CI runs)
 make fix                    # ruff --fix and ruff format
 make docs-check             # Sphinx build, warnings are errors (what CI runs)
+make docs-live              # docs preview with auto-rebuild (sphinx-autobuild)
 make build                  # sdist + wheel
 ```
 

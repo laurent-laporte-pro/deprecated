@@ -1,0 +1,25 @@
+# Dependabot version updates: GitHub Actions and the uv lockfile (development tools).
+# See: https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "develop"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "ci"
+    groups:
+      github-actions:
+        patterns: ["*"]
+
+  - package-ecosystem: "uv"
+    directory: "/"
+    target-branch: "develop"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    groups:
+      dev-dependencies:
+        patterns: ["*"]

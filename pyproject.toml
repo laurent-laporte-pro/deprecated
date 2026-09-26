@@ -117,12 +117,8 @@ check = "mypy {args}"
 extra-dependencies = ["packaging == 26.3"]
 
 [[tool.hatch.envs.hatch-test.matrix]]
-python = ["3.12"]
+python = ["3.12", "3.13", "3.14"]
 wrapt = ["1.16", "1.17", "2.x"]
-
-[[tool.hatch.envs.hatch-test.matrix]]
-python = ["3.13", "3.14"]
-wrapt = ["1.17", "2.x"]
 
 [tool.hatch.envs.hatch-test.overrides]
 matrix.wrapt.extra-dependencies = [
@@ -219,5 +215,7 @@ source = ["deprecated"]
 branch = true
 
 [tool.coverage.report]
+# The CI fails if the total coverage drops below this threshold (currently 99%).
+fail_under = 95
 show_missing = true
 exclude_also = ["if TYPE_CHECKING:", "@overload"]

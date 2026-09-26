@@ -2,18 +2,18 @@
 
 ## What "Deprecated" Means
 
-A function or class is deprecated when it is considered as it is no longer important. It is so unimportant, in fact, that you should no longer use it, since it has been superseded and may cease to exist in the future.
+A function or class is deprecated when it has been superseded: you should no longer use it, since it may cease to exist in the future.
 
 As a module, a class or function evolves, its API (Application Programming Interface) inevitably changes: functions are renamed for consistency, new and better methods are added, and attributes change. But such changes introduce a problem. You need to keep the old API around until developers make the transition to the new one, but you don't want them to continue programming to the old API.
 
-The ability to deprecate a class or a function solves the problem. Since Python 3.13, the Python Standard Library provides the {func}`warnings.deprecated` decorator ([PEP 702](https://peps.python.org/pep-0702/)), which emits a runtime warning and lets the type checkers report the use of deprecated objects. The Python [Deprecated Library] complements it: deprecation messages built from a reason and a version, Sphinx directives in the docstrings, local warning filters and deprecated parameters. See the {ref}`white_paper` for a comparison and for a way to combine both.
+The ability to deprecate a class or a function solves the problem. Since Python 3.13, the Python Standard Library provides the {func}`warnings.deprecated` decorator ([PEP 702](https://peps.python.org/pep-0702/)), which emits a runtime warning and lets the type checkers report the use of deprecated objects. The Python [Deprecated Library] complements it: deprecation messages built from a reason and a version, docstring updates (Sphinx, Google or NumPy formats), local warning filters and deprecated parameters. See the {ref}`white_paper` for a comparison and for a way to combine both.
 
 ## When to Deprecate
 
 When you design an API, carefully consider whether it supersedes an old API. If it does, and you wish to encourage developers (users of the API) to migrate to the new API, then deprecate the old API. Valid reasons to deprecate an API include:
 
 - It is insecure, buggy, or highly inefficient;
-- It is going away in a future release,
+- It is going away in a future release;
 - It encourages bad coding practices.
 
 Deprecation is a reasonable choice in all these cases because it preserves "backward compatibility" while encouraging developers to change to the new API. Also, the deprecation comments help developers decide when to move to the new API, and so should briefly mention the technical reasons for deprecation.
@@ -22,7 +22,7 @@ Deprecation is a reasonable choice in all these cases because it preserves "back
 
 The Python Deprecated Library provides a `@deprecated` decorator to deprecate a class, method or function.
 
-Using the decorator causes the Python interpreter to emit a warning at runtime, when an class instance is constructed, or a function is called. The warning is emitted using the [Python warning control]. Warning messages are normally written to `sys.stderr`, but their disposition can be changed flexibly, from ignoring all warnings to turning them into exceptions.
+Using the decorator causes the Python interpreter to emit a warning at runtime, when a class instance is constructed, or a function is called. The warning is emitted using the [Python warning control]. Warning messages are normally written to `sys.stderr`, but their disposition can be changed flexibly, from ignoring all warnings to turning them into exceptions.
 
 You are strongly recommended to use the `@deprecated` decorator with appropriate comments explaining how to use the new API. This ensures developers will have a workable migration path from the old API to the new API.
 

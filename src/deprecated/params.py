@@ -7,13 +7,12 @@ Parameters deprecation
 
 This module introduces a :class:`deprecated_params` decorator to specify that one (or more)
 parameter(s) are deprecated: when the user executes a function with a deprecated parameter,
-he will see a warning message in the console.
+they will see a warning message in the console.
 
 The decorator is customizable, the user can specify the deprecated parameter names
 and associate to each of them a message providing the reason of the deprecation.
 As with the :func:`~deprecated.classic.deprecated` decorator, the user can specify
-a version number (using the *version* parameter) and also define the warning message category
-(a subclass of :class:`Warning`) and when to display the messages (using the *action* parameter).
+the warning message category (a subclass of :class:`Warning`).
 
 The complete study concerning the implementation of this decorator is available
 on the `Tantale's blog`_, on the `Deprecated Parameters`_ page.

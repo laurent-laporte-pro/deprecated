@@ -81,7 +81,16 @@ jobs:
         run: uv sync --locked --python ${{ matrix.python-version }}
 
       - name: Test with pytest
-        run: uv run --locked --python ${{ matrix.python-version }} pytest --cov --cov-report=term-missing
+        run: uv run --locked --python ${{ matrix.python-version }} pytest --cov --cov-report=term-missing --cov-report=lcov
+
+      # The coverage badge of the README is published by Coveralls (one upload is enough).
+      - name: Upload the coverage to Coveralls
+        if: matrix.platform == 'ubuntu-latest' && matrix.python-version == '3.12'
+        uses: coverallsapp/github-action@v2
+        with:
+          file: coverage.lcov
+          format: lcov
+          fail-on-error: false
 
   docs:
     name: Documentation (Sphinx + MyST)

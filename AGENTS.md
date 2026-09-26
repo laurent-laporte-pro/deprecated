@@ -34,7 +34,7 @@ same results from the project venv. Never edit `uv.lock` by hand: use `uv lock` 
 
 ## Architecture
 
-Four modules in `src/deprecated/` (src layout, `py.typed` shipped):
+Six modules in `src/deprecated/` (src layout, `py.typed` shipped):
 
 - `classic.py` — `ClassicAdapter` (a `wrapt.AdapterFactory`) and the `deprecated()` decorator.
   `deprecated` accepts three call forms (`@deprecated`, `@deprecated("reason")`,
@@ -50,6 +50,10 @@ Four modules in `src/deprecated/` (src layout, `py.typed` shipped):
   `deprecated`. It rewrites the docstring by appending a `.. directive:: version` block (text
   wrapped at `line_length`); only `deprecated` also emits a warning (via the parent adapter),
   and `get_deprecated_msg` strips Sphinx roles (`:func:` ...) from the message.
+- `google.py` / `numpy.py` — `GoogleAdapter` / `NumpyAdapter(ClassicAdapter)` plus
+  `versionadded`, `versionchanged` and `deprecated`, built like `sphinx.py`: they add (or
+  extend) a `Version added` / `Version changed` / `Deprecated` section to Google-style
+  (`Header:`) or NumPy-style (hyphen-underlined header) docstrings.
 - `params.py` — `deprecated_params` (alias of the `DeprecatedParams` class) warns when
   deprecated *parameters* are passed. Stacked `@deprecated_params` decorators are merged
   through the `__deprecated_params__` attribute (`_DecoratorStack`) so each parameter warns
@@ -59,8 +63,8 @@ Four modules in `src/deprecated/` (src layout, `py.typed` shipped):
 
 Tests live in `tests/` (`test*.py`, pytest); `tests/deprecated_params/` holds the demo
 scenarios of `deprecated_params`. Documentation is Sphinx + MyST Markdown in `docs/source/`;
-the scripts in `docs/source/sphinx/` are executed examples whose output (including warning
-line numbers) is quoted in the tutorial, which is why Ruff does not reformat `*.md`.
+the scripts in `docs/source/` (`tutorial/`, `sphinx/`, `google/`, `numpydoc/`) are executed
+examples whose output (including warning line numbers) is quoted in the pages, which is why Ruff does not reformat `*.md`.
 
 ## Python conventions
 
@@ -103,7 +107,7 @@ Enforced by `pyproject.toml` (Ruff + mypy strict); CI fails on any violation.
   wrapt matrix, docs) must be green before merging.
 - Never force-push `develop` or `master`; never rewrite someone else's branch.
 - Releases: bump with `hatch version <major|minor|patch>` (never edit the version elsewhere
-  except `python-deprecated.spec` and the docs title SVG, as listed in the release guide).
+  except `python-deprecated.spec` and the logo (`docs/source/_static/logo.svg`), as listed in the release guide).
   Tags use the **`vX.Y.Z`** form and are created by GitHub when the release is published,
   not locally.
 

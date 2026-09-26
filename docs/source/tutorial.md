@@ -2,8 +2,8 @@
 
 # Tutorial
 
-In this tutorial, we will use the Deprecated Library to mark pieces of codes as deprecated.
-We will also see what's happened when a user tries to call deprecated codes.
+In this tutorial, we will use the Deprecated Library to mark pieces of code as deprecated.
+We will also see what happens when a user calls deprecated code.
 
 ## Deprecated function
 
@@ -14,9 +14,9 @@ First, we have this little library composed of a single module: `liberty.py`:
 
 You decided to write a more powerful function called `better_print()`
 which will become a replacement of `print_value()`.
-And you decided that the later function is deprecated.
+And you decided that the latter function is deprecated.
 
-To mark the `print_value()` as deprecated, you can use the {meth}`~deprecated` decorator:
+To mark the `print_value()` as deprecated, you can use the {func}`~deprecated.deprecated` decorator:
 
 ```{literalinclude} tutorial/v1/liberty.py
 ```
@@ -27,7 +27,7 @@ If the user tries to use the deprecated functions, he will have a warning for ea
 ```
 
 ```sh
-$ python use_liberty.py
+$ python using_liberty.py
 
 using_liberty.py:3: DeprecationWarning: Call to deprecated function (or staticmethod) print_value.
   liberty.print_value("hello")
@@ -41,7 +41,7 @@ using_liberty.py:4: DeprecationWarning: Call to deprecated function (or staticme
 As you can see, the deprecation warning is displayed like a stack trace.
 You have the source code path, the line number and the called function.
 This is very useful for debugging.
-But, this doesn't help the developer to choose a alternative: which function could he use instead?
+But, this doesn't help the developer to choose an alternative: which function could he use instead?
 
 To help the developer, you can add a "reason" message. For instance:
 
@@ -51,7 +51,7 @@ To help the developer, you can add a "reason" message. For instance:
 When the user calls the deprecated functions, he will have a more useful message:
 
 ```sh
-$ python use_liberty.py
+$ python using_liberty.py
 
 using_liberty.py:3: DeprecationWarning: Call to deprecated function (or staticmethod) print_value. (This function is rotten, use 'better_print' instead)
   liberty.print_value("hello")
@@ -77,7 +77,7 @@ When the user calls the deprecated methods, like this:
 He will have:
 
 ```sh
-$ python use_liberty.py
+$ python using_liberty.py
 
 using_liberty.py:4: DeprecationWarning: Call to deprecated method print_value. (This method is rotten, use 'better_print' instead)
   obj.print_value()
@@ -101,16 +101,16 @@ For instance:
 ```{literalinclude} tutorial/v4/liberty.py
 ```
 
-When the user use the deprecated class like this:
+When the user uses the deprecated class like this:
 
 ```{literalinclude} tutorial/v4/using_liberty.py
 ```
 
 He will have a warning at object instantiation.
-Once the object is initialised, no more warning are emitted.
+Once the object is initialised, no more warnings are emitted.
 
 ```sh
-$ python use_liberty.py
+$ python using_liberty.py
 
 using_liberty.py:3: DeprecationWarning: Call to deprecated class Liberty. (This class is not perfect)
   obj = liberty.Liberty("Salutation")
@@ -119,12 +119,12 @@ using_liberty.py:3: DeprecationWarning: Call to deprecated class Liberty. (This 
 ```
 
 If a deprecated class is used, then a warning message is emitted during class instantiation.
-In other word, deprecating a class is the same as deprecating it's `__new__` class method.
+In other words, deprecating a class is the same as deprecating its `__new__` method.
 
 As a reminder, the magic method `__new__` will be called when instance is being created.
 Using this method you can customize the instance creation.
-the {func}`~deprecated.deprecated` decorator patches the `__new__` method in order to
-emmit the warning message before instance creation.
+The {func}`~deprecated.deprecated` decorator patches the `__new__` method in order to
+emit the warning message before instance creation.
 
 ## Deprecated parameters
 
@@ -134,13 +134,13 @@ It is also possible to mark one or more parameters of a function as deprecated u
 Example:
 
 ```python
-import warnings
 from deprecated.params import deprecated_params
+
 
 class V2DeprecationWarning(DeprecationWarning):
     pass
 
-# noinspection PyUnusedLocal
+
 @deprecated_params(
     {
         "epsilon": "epsilon is deprecated in version v2",
@@ -153,6 +153,9 @@ def integrate(f, a, b, n=0, epsilon=0.0, start=None):
     epsilon = epsilon or (b - a) / n
     n = n or int((b - a) / epsilon)
     return sum((f(a + (i * epsilon)) + f(a + (i * epsilon) + epsilon)) * epsilon / 2 for i in range(n))
+
+
+integrate(lambda x: x**2, 0, 2, epsilon=0.0012, start=123)
 ```
 
 When the function is called, parameters marked as deprecated will emit deprecation
@@ -162,9 +165,9 @@ about alternatives or the versions in which parameters were changed or removed.
 ```sh
 $ python use_deprecated_params.py
 
-use_deprecated_params.py:48: V2DeprecationWarning: epsilon is deprecated in version v2
+use_deprecated_params.py:22: V2DeprecationWarning: epsilon is deprecated in version v2
   integrate(lambda x: x**2, 0, 2, epsilon=0.0012, start=123)
-use_deprecated_params.py:48: V2DeprecationWarning: start is removed in version v2
+use_deprecated_params.py:22: V2DeprecationWarning: start is removed in version v2
   integrate(lambda x: x**2, 0, 2, epsilon=0.0012, start=123)
 ```
 
@@ -181,7 +184,7 @@ For instance:
 ```
 
 When the user runs this script, the deprecation warnings are ignored in the main program,
-so no warning message are emitted:
+so no warning message is emitted:
 
 ```sh
 $ python filter_warnings_demo.py
@@ -193,10 +196,10 @@ fun
 
 The {func}`deprecated.classic.deprecated`, {func}`deprecated.sphinx.deprecated`,
 {func}`deprecated.google.deprecated` and {func}`deprecated.numpy.deprecated` functions
-are using the {exc}`DeprecationWarning` category but you can customize them by using your own category
+use the {exc}`DeprecationWarning` category but you can customize them by using your own category
 (or hierarchy of categories).
 
-- *category* classes which you can use (among other) are:
+- *category* classes which you can use (among others) are:
 
   | Class                            | Description                                                                                                                                                                     |
   | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -216,10 +219,10 @@ When the user runs this script, the deprecation warnings for the 3.0 version are
 ```sh
 $ python warning_classes_demo.py
 
- foo
- bar
- warning_classes_demo.py:30: DeprecatedIn26: Call to deprecated function (or staticmethod) foo. (deprecated function)
-   foo()
+warning_classes_demo.py:30: DeprecatedIn26: Call to deprecated function (or staticmethod) foo. (deprecated function)
+  foo()
+foo
+bar
 ```
 
 ## Filtering warnings locally
@@ -255,9 +258,9 @@ $ python filter_action_demo.py
 Traceback (most recent call last):
   File "filter_action_demo.py", line 13, in <module>
     foo()
-  File "path/to/deprecated/classic.py", line 230, in wrapper_function
+  File "path/to/deprecated/classic.py", line 313, in wrapper_function
     self.warn(self.get_deprecated_msg(wrapped_, instance_))
-  File "path/to/deprecated/classic.py", line 180, in warn
+  File "path/to/deprecated/classic.py", line 259, in warn
     warnings.warn(
 DeprecationWarning: Call to deprecated function (or staticmethod) foo. (do not call it)
 ```

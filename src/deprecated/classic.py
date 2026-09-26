@@ -50,7 +50,11 @@ def _resolve_wrapper(module_name: str, qualname: str) -> object:
     obj: object = importlib.import_module(module_name)
     for name in qualname.split("."):
         obj = inspect.getattr_static(obj, name)
-        if isinstance(obj, (staticmethod, classmethod)):
+        # A wrapt proxy of a static/class method passes `isinstance`: check the real type.
+        if isinstance(obj, (staticmethod, classmethod)) and type(obj) in (
+            staticmethod,
+            classmethod,
+        ):
             obj = obj.__func__
     return obj
 
@@ -126,6 +130,7 @@ class ClassicAdapter(wrapt.AdapterFactory):
        import inspect
 
        from deprecated.classic import ClassicAdapter
+       from deprecated.classic import Deprecatable
        from deprecated.classic import deprecated
 
 

@@ -59,6 +59,9 @@ hatch version minor      # updates src/deprecated/__init__.py, e.g.: 3.0.0 => 3.
 The `make bump-major`, `make bump-minor` and `make bump-patch` targets are shortcuts
 for these commands; `make version` shows the current version.
 
+Then run `uv sync --reinstall-package deprecated`: the documentation reads the version
+from the installed package metadata, which is not refreshed by `hatch version`.
+
 Update the files which quote the version and cannot read it from the package metadata:
 
 - {file}`python-deprecated.spec`: the `Version:` field (Packit updates the Fedora packages
@@ -84,7 +87,7 @@ Commit these changes:
 ```sh
 git add src/deprecated/__init__.py python-deprecated.spec CHANGELOG.md \
     docs/source/_static/logo.svg
-git commit -m "Prepare next version X.Y.Z (unreleased)"
+git commit -m "chore: prepare release X.Y.Z"
 ```
 
 ## 2. Update the changelog from the pull requests
@@ -141,14 +144,14 @@ Run the checks and build the documentation and the distributions:
 ```sh
 make check        # uv lock --check + hatch check code/fmt/types
 make test-all     # all Python and wrapt versions
-make docs         # verify that the documentation builds without errors
+make docs-check   # warnings are errors, like the CI
 make build        # dist/deprecated-X.Y.Z.tar.gz and dist/deprecated-X.Y.Z-py3-none-any.whl
 ```
 
 Commit, push the branch and open a pull request to `master`:
 
 ```sh
-git commit -am "Release X.Y.Z"
+git commit -am "chore: release X.Y.Z"
 git push -u origin release/X.Y.Z
 ```
 

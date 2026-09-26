@@ -18,7 +18,7 @@ resources for questions about your own code:
   own code.
 - Describe what actually happened. Include the full traceback if there was an
   exception.
-- List your Python, Deprecated versions. If possible, check if this
+- List your Python, Deprecated and wrapt versions. If possible, check if this
   issue is already fixed in the repository.
 
 ## Submitting patches
@@ -161,7 +161,7 @@ of the documentation or of the docstrings (`src/deprecated/`).
 [committing as you go]: http://dont-be-afraid-to-commit.readthedocs.io/en/latest/git/commandlinegit.html#commit-your-changes
 [create a pull request]: https://help.github.com/articles/creating-a-pull-request/
 [email]: https://help.github.com/articles/setting-your-commit-email-address-in-git/
-[fork]: https://github.com/laurent-laporte-pro/deprecated#fork-destination-box
+[fork]: https://github.com/laurent-laporte-pro/deprecated/fork
 [github account]: https://github.com/join
 [hatch]: https://hatch.pypa.io/latest/
 [latest version of git]: https://git-scm.com/downloads

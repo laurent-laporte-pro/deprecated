@@ -196,8 +196,8 @@ The backward compatibility policy of CPython is defined by [PEP 387]:
 Internally, CPython uses a `warnings._deprecated(name, remove=(3, 14))` helper: it formats the
 message with the removal version, and it **raises an error** once the removal version is reached,
 so that a forgotten deprecation breaks the build of the next release instead of lasting forever.
-For instance, the AST node classes `ast.Num`, `ast.Str`… were deprecated in Python 3.8 with this
-helper (`remove=(3, 14)`), and removed in Python 3.14.
+For instance, the AST node classes `ast.Num`, `ast.Str`… are deprecated since Python 3.8, emit a
+warning with this helper since Python 3.12 (`remove=(3, 14)`), and were removed in Python 3.14.
 
 ## Practices of major Open Source projects
 
@@ -286,11 +286,11 @@ The Deprecated Library predates PEP 702 and is complementary to {func}`warnings.
 * - Message built from a *reason* and a *version*
   - No (free message)
   - Yes
-* - Sphinx directives in the docstring (`deprecated`, `versionadded`, `versionchanged`)
+* - Docstring update (Sphinx directives, Google or NumPy sections)
   - No
-  - Yes ({mod}`deprecated.sphinx`)
+  - Yes ({mod}`deprecated.sphinx`, {mod}`deprecated.google`, {mod}`deprecated.numpy`)
 * - Local warning filter (*action*) and *extra_stacklevel*
-  - No
+  - No (only *stacklevel*)
   - Yes
 * - Deprecation of parameters
   - Only through overloads (static only)

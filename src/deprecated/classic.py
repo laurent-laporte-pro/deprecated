@@ -8,12 +8,15 @@ Classic ``@deprecated`` decorator to deprecate old python classes, functions or 
 """
 
 import functools
+import importlib
 import inspect
 import os
+import pickle
 import warnings
 from collections.abc import Callable
 from typing import Any
 from typing import Literal
+from typing import SupportsIndex
 from typing import cast
 from typing import overload
 
@@ -31,6 +34,77 @@ type WarningAction = Literal["default", "error", "ignore", "always", "module", "
 
 #: Object which can be decorated: a class, a function or a method.
 type Deprecatable = Callable[..., Any]
+
+
+def _resolve_wrapper(module_name: str, qualname: str) -> object:
+    """
+    Find a deprecated routine by its qualified name in its module (used to unpickle it).
+
+    The attributes are read with :func:`inspect.getattr_static`, so that the wrapper
+    stored in a class is returned as is, instead of a new wrapper bound at each access.
+
+    :param module_name: Name of the module which defines the routine.
+    :param qualname: Qualified name of the routine in its module.
+    :return: The wrapper of the deprecated routine.
+    """
+    obj: object = importlib.import_module(module_name)
+    for name in qualname.split("."):
+        obj = inspect.getattr_static(obj, name)
+        if isinstance(obj, (staticmethod, classmethod)):
+            obj = obj.__func__
+    return obj
+
+
+# The wrapt classes are only generic in the type stubs (they can't be subscripted at runtime).
+class _DeprecatedBoundFunctionWrapper(wrapt.BoundFunctionWrapper):  # type: ignore[type-arg]
+    """
+    Bound wrapper of a deprecated method, which can be pickled like a bound method.
+
+    wrapt proxies refuse to be pickled: a deprecated method bound to an instance
+    (or a class method bound to its class) is pickled by reference,
+    as ``getattr(instance, name)``, like a regular bound method.
+    A method accessed from its class (not bound) is pickled as its parent wrapper.
+    """
+
+    def __reduce_ex__(self, protocol: SupportsIndex) -> tuple[Any, ...]:
+        instance = self._self_instance
+        if instance is None:
+            return cast(tuple[Any, ...], self._self_parent.__reduce_ex__(protocol))
+        return getattr, (instance, self.__name__)
+
+    def __reduce__(self) -> tuple[Any, ...]:
+        return self.__reduce_ex__(pickle.DEFAULT_PROTOCOL)
+
+
+class _DeprecatedFunctionWrapper(wrapt.FunctionWrapper):  # type: ignore[type-arg]
+    """
+    Wrapper of a deprecated routine, which can be pickled like the routine itself.
+
+    wrapt proxies refuse to be pickled, so a deprecated function could not be sent to a
+    child process by :mod:`multiprocessing` (the default *spawn* start method on Windows
+    and macOS). The wrapper is pickled by reference, like a regular function:
+    it is found again by its qualified name in its module when it is unpickled.
+    """
+
+    __bound_function_wrapper__ = _DeprecatedBoundFunctionWrapper
+
+    def __reduce_ex__(self, protocol: SupportsIndex) -> tuple[Any, ...]:
+        module_name = str(self.__module__)
+        qualname = str(self.__qualname__)
+        # Like a regular function, fail early if the routine can't be found by its name
+        # (a local function, or a wrapper which is not stored under its own name).
+        try:
+            found = _resolve_wrapper(module_name, qualname)
+        except (ImportError, AttributeError) as exc:
+            msg = f"Can't pickle {self!r}: it's not found as {module_name}.{qualname}"
+            raise pickle.PicklingError(msg) from exc
+        if found is not self:
+            msg = f"Can't pickle {self!r}: it's not the same object as {module_name}.{qualname}"
+            raise pickle.PicklingError(msg)
+        return _resolve_wrapper, (module_name, qualname)
+
+    def __reduce__(self) -> tuple[Any, ...]:
+        return self.__reduce_ex__(pickle.DEFAULT_PROTOCOL)
 
 
 class ClassicAdapter(wrapt.AdapterFactory):
@@ -204,6 +278,10 @@ class ClassicAdapter(wrapt.AdapterFactory):
 
         .. versionchanged:: 1.2.8
            The warning filter is not set if the *action* parameter is ``None`` or empty.
+
+        .. versionchanged:: 3.0.0
+           A deprecated function or method can be pickled (by reference, like a regular
+           function), so it can be used with :mod:`multiprocessing`.
         """
         if inspect.isclass(wrapped):
             old_new1 = wrapped.__new__
@@ -220,7 +298,7 @@ class ClassicAdapter(wrapt.AdapterFactory):
 
         elif inspect.isroutine(wrapped):
 
-            @wrapt.decorator
+            @wrapt.decorator(proxy=_DeprecatedFunctionWrapper)
             def wrapper_function(
                 wrapped_: Callable[..., Any],
                 instance_: object | None,

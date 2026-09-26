@@ -78,5 +78,5 @@ bump-patch: ## Bump the patch version
 
 .PHONY: clean
 clean: ## Remove the build artifacts and the caches
-	rm -rf dist/ build/ htmlcov/ .coverage .coverage.* .pytest_cache/ .mypy_cache/ .ruff_cache/
+	rm -rf dist/ build/ htmlcov/ .coverage .coverage.* coverage.lcov .pytest_cache/ .mypy_cache/ .ruff_cache/
 	find . -type d -name __pycache__ -not -path "./.venv/*" -prune -exec rm -rf {} +

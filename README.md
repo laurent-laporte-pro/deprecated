@@ -1,5 +1,7 @@
 # Deprecated Decorator
 
+![Deprecated: a price tag reading "@deprecated, best before: next major"](https://raw.githubusercontent.com/laurent-laporte-pro/deprecated/master/docs/source/_static/logo.svg)
+
 Python `@deprecated` decorator to deprecate old python classes, functions or methods.
 
 [![license](https://img.shields.io/badge/license-MIT-blue?logo=opensourceinitiative&logoColor=white)](https://raw.githubusercontent.com/laurent-laporte-pro/deprecated/master/LICENSE.md)

@@ -63,8 +63,8 @@ Update the files which quote the version and cannot read it from the package met
 
 - {file}`python-deprecated.spec`: the `Version:` field (Packit updates the Fedora packages
   from the release, but the spec file of this repository must stay consistent);
-- {file}`docs/source/_static/rusty-tools-background.svg`: the `vX.Y.Z` text
-  (element `id="deprecated-version"`) of the documentation title page.
+- {file}`docs/source/_static/logo.svg`: the `vX.Y.Z` text (element `id="deprecated-version"`)
+  of the logo, shown in the README and on the home page of the documentation.
 
 Add a new section at the top of {file}`CHANGELOG.md` for the new version, marked as unreleased:
 
@@ -82,7 +82,7 @@ Commit these changes:
 
 ```sh
 git add src/deprecated/__init__.py python-deprecated.spec CHANGELOG.md \
-    docs/source/_static/rusty-tools-background.svg
+    docs/source/_static/logo.svg
 git commit -m "Prepare next version X.Y.Z (unreleased)"
 ```
 

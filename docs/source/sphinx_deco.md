@@ -23,7 +23,7 @@ or the {ref}`numpy_deco` instead: they add native sections to your docstrings
 This tool uses the [reStructuredText] (or [Markdown]) syntax to generate the documentation in different formats,
 the most common being HTML. Developers generally use this syntax to document the source code of their applications.
 
-[Sphinx] offers several directives allowing to introduce a text block with a predefined role.
+[Sphinx] offers several directives to introduce a text block with a predefined role.
 Among all the directives, the ones that interest us are those related to the functions (or classes)
 life cycle, namely: `versionadded`, `versionchanged` and `deprecated`.
 
@@ -38,7 +38,7 @@ or classes documentation. In the case of the `deprecated` directive, it obviousl
 
 ## Using the "Sphinx" decorators
 
-The previous example can be writen using a "Sphinx" decorator:
+The previous example can be written using a "Sphinx" decorator:
 
 ```{literalinclude} sphinx/calc_mean_deco.py
 ```
@@ -53,7 +53,7 @@ The documentation of the *mean()* function looks like this:
 ```rst
 Compute the arithmetic mean (“average”) of values.
 
-:type  values: typing.List[float]
+:type  values: list[float]
 :param values: List of floats
 :return: Mean of values.
 
@@ -76,7 +76,7 @@ The decorators can be combined to reflect the life cycle of a function:
 - When it has an important change, with the `@versionchanged` decorator,
 - When it is deprecated, with the `@deprecated` decorator.
 
-The example bellow illustrate this life cycle:
+The example below illustrates this life cycle:
 
 ```{literalinclude} sphinx/sphinx_demo.py
 ```
@@ -93,16 +93,13 @@ successor(n)
     :param n: a number
     :return: number + 1
 
-
     .. versionadded:: 0.1.0
        Here is my new function.
-
 
     .. versionchanged:: 0.2.0
        Well, I add a new feature in this function. It is very useful as
        you can see in the example below, so try it. This is a very very
        very very very long sentence.
-
 
     .. deprecated:: 0.3.0
        This is deprecated, really. So you need to use another function.
@@ -115,7 +112,7 @@ successor(n)
 ```
 
 :::{note}
-Decorators must be writen in reverse order: recent first, older last.
+Decorators must be written in reverse order: recent first, older last.
 :::
 
 ## Building the documentation
@@ -130,7 +127,7 @@ source code is in relation to the `conf.py` file.
 But here, that will not work! The reason is that your modules must be imported during build:
 the Deprecated decorators must be interpreted.
 
-So, to build the API documentation of your project with [Sphinx] you need to setup a virtualenv,
+So, to build the API documentation of your project with [Sphinx] you need to set up a virtual environment,
 and install Sphinx, external themes and/or plugins and also your project.
 Nowadays, this is the right way to do it.
 

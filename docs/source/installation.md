@@ -130,10 +130,10 @@ pip install Deprecated
 ### Living on the edge
 
 If you want to work with the latest Deprecated code before it's released, install or
-update the code from the master branch:
+update the code from the develop branch:
 
 ```sh
-pip install -U https://github.com/laurent-laporte-pro/deprecated/archive/master.tar.gz
+pip install -U https://github.com/laurent-laporte-pro/deprecated/archive/develop.tar.gz
 ```
 
 [hatch]: https://hatch.pypa.io/latest/

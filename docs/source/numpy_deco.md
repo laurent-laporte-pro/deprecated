@@ -72,7 +72,7 @@ The sections are added at the end of the docstring. If a section already exists
 is already written in the docstring), the new item is appended to this section.
 
 :::{note}
-Decorators must be writen in reverse order: recent first, older last.
+Decorators must be written in reverse order: recent first, older last.
 :::
 
 ## Building the documentation

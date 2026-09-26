@@ -1,15 +1,20 @@
 # Deprecated Decorator
 
-Python ``@deprecated`` decorator to deprecate old python classes, functions or methods.
+![Deprecated: a price tag reading "@deprecated, best before: next major"](https://raw.githubusercontent.com/laurent-laporte-pro/deprecated/master/docs/source/_static/logo.svg)
 
+Python `@deprecated` decorator to deprecate old python classes, functions or methods.
 
 [![license](https://img.shields.io/badge/license-MIT-blue?logo=opensourceinitiative&logoColor=white)](https://raw.githubusercontent.com/laurent-laporte-pro/deprecated/master/LICENSE.md)
 [![GitHub release](https://img.shields.io/github/v/release/laurent-laporte-pro/deprecated?logo=github&logoColor=white)](https://github.com/laurent-laporte-pro/deprecated/releases/latest)
 [![PyPI](https://img.shields.io/pypi/v/deprecated?logo=pypi&logoColor=white)](https://pypi.org/project/Deprecated/)
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/laurent-laporte-pro/deprecated/python-package.yml?logo=github&logoColor=white)](https://github.com/laurent-laporte-pro/deprecated/actions/workflows/python-package.yml)
 [![Coveralls branch](https://img.shields.io/coverallsCoverage/github/laurent-laporte-pro/deprecated?logo=coveralls&logoColor=white)](https://coveralls.io/github/laurent-laporte-pro/deprecated?branch=master)
-[![Read the Docs (version)](https://img.shields.io/readthedocs/deprecated/latest?logo=readthedocs&logoColor=white)
-](http://deprecated.readthedocs.io/en/latest/?badge=latest)
+[![Read the Docs (version)](https://img.shields.io/readthedocs/deprecated/latest?logo=readthedocs&logoColor=white)](https://deprecated.readthedocs.io/en/latest/?badge=latest)
+
+Removing a function from a library breaks the code of its users. Deprecating it first gives
+them time to migrate: the Deprecated library marks classes, functions, methods and parameters
+as deprecated, emits a warning that points at the calling code, and can document the deprecation
+in the docstring.
 
 ## Installation
 
@@ -17,46 +22,46 @@ Python ``@deprecated`` decorator to deprecate old python classes, functions or m
 pip install Deprecated
 ```
 
+Deprecated requires Python 3.12+ and [wrapt](https://pypi.org/project/wrapt/).
+
 ## Usage
 
-To use this, decorate your deprecated function with **@deprecated** decorator:
+Decorate a deprecated function, method or class with `@deprecated`:
 
 ```python
 from deprecated import deprecated
 
 
-@deprecated
+@deprecated(reason="use new_function", version="2.1.0")
 def some_old_function(x, y):
     return x + y
+
+
+some_old_function(1, 2)
 ```
 
-You can also decorate a class or a method:
+Each call emits a warning located at the calling line:
+
+```text
+example.py:9: DeprecationWarning: Call to deprecated function (or staticmethod) some_old_function. (use new_function) -- Deprecated since version 2.1.0.
+```
+
+`@deprecated` can also be used without arguments, and accepts other options:
+`category` (e.g. `FutureWarning` instead of `DeprecationWarning`), `action` (a local warning
+filter, e.g. `"error"`) and `extra_stacklevel` (for wrappers of deprecated functions).
+
+To deprecate a *parameter* rather than the whole function, use `@deprecated_params`:
 
 ```python
-from deprecated import deprecated
+from deprecated import deprecated_params
 
 
-class SomeClass:
-    @deprecated
-    def some_old_method(self, x, y):
-        return x + y
-
-
-@deprecated
-class SomeOldClass:
-    pass
+@deprecated_params("color", reason="'color' is ignored, use 'style'")
+def draw(shape, color=None, style=None):
+    ...
 ```
 
-You can give a "reason" message to help the developer to choose another function/class:
-
-```python
-from deprecated import deprecated
-
-
-@deprecated(reason="use another function")
-def some_old_function(x, y):
-    return x + y
-```
+Calling `draw("circle", color="red")` emits `DeprecationWarning: 'color' is ignored, use 'style'`.
 
 ## Documenting the life cycle
 
@@ -95,15 +100,23 @@ Deprecated:
     1.2.0: use another function
 ```
 
+## Why not `warnings.deprecated`?
+
+Since Python 3.13, [`warnings.deprecated`](https://docs.python.org/3/library/warnings.html#warnings.deprecated)
+([PEP 702](https://peps.python.org/pep-0702/)) emits a runtime warning and lets the type
+checkers report the use of deprecated objects. Deprecated complements it with version numbers,
+docstring updates (Sphinx, Google, NumPy), local warning filters and deprecated parameters.
+Both can be combined, see the [white paper](https://deprecated.readthedocs.io/en/latest/white_paper.html).
+
 See the [documentation](https://deprecated.readthedocs.io/en/latest/) for more details.
 
 ## Authors
 
-The authors of this library are:
-[Marcos CARDOSO](https://github.com/vrcmarcos), and
-[Laurent LAPORTE](https://github.com/laurent-laporte-pro).
-
-The original code was made in [this StackOverflow post](https://stackoverflow.com/questions/2536307) by
-[Leandro REGUEIRO](https://stackoverflow.com/users/1336250/leandro-regueiro),
-[Patrizio BERTONI](https://stackoverflow.com/users/1315480/patrizio-bertoni), and
+Deprecated was started by [Marcos CARDOSO](https://github.com/vrcmarcos), building on the
+recipes shared in [this Stack Overflow discussion](https://stackoverflow.com/questions/2536307)
+by [Leandro REGUEIRO](https://stackoverflow.com/users/1336250/leandro-regueiro),
+[Patrizio BERTONI](https://stackoverflow.com/users/1315480/patrizio-bertoni) and
 [Eric WIESER](https://stackoverflow.com/users/102441/eric).
+
+[Laurent LAPORTE](https://github.com/laurent-laporte-pro) has been the main author and
+maintainer of the library for many years.

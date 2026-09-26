@@ -1,7 +1,7 @@
 # Welcome to Deprecated
 
-```{image} _static/rusty-tools-background.svg
-:alt: 'Deprecated: When once-stable features are removed in upcoming releases'
+```{image} _static/logo.svg
+:alt: 'Deprecated: a price tag reading "@deprecated, best before: next major"'
 ```
 
 Welcome to Deprecated’s Documentation.

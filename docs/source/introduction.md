@@ -64,11 +64,11 @@ hello.py:17: DeprecationWarning: Call to deprecated method some_old_method. (Thi
 The deprecation must also be documented: the Deprecated Library provides decorators which update
 the [docstring] of your classes and functions, according to your docstring format:
 
-| Docstring format   | Module                  | Inserted text                                          | Documentation     |
-| ------------------ | ----------------------- | ------------------------------------------------------ | ----------------- |
-| reStructuredText   | {mod}`deprecated.sphinx` | `.. deprecated::`, `.. versionadded::`, `.. versionchanged::` directives | {ref}`sphinx_deco` |
-| Google             | {mod}`deprecated.google` | `Deprecated:`, `Version added:`, `Version changed:` sections             | {ref}`google_deco` |
-| NumPy              | {mod}`deprecated.numpy`  | `Deprecated`, `Version added`, `Version changed` sections                | {ref}`numpy_deco`  |
+| Docstring format | Module                   | Inserted text                                                            | Documentation      |
+|------------------|--------------------------|--------------------------------------------------------------------------|--------------------|
+| reStructuredText | {mod}`deprecated.sphinx` | `.. deprecated::`, `.. versionadded::`, `.. versionchanged::` directives | {ref}`sphinx_deco` |
+| Google           | {mod}`deprecated.google` | `Deprecated:`, `Version added:`, `Version changed:` sections             | {ref}`google_deco` |
+| NumPy            | {mod}`deprecated.numpy`  | `Deprecated`, `Version added`, `Version changed` sections                | {ref}`numpy_deco`  |
 
 Each module provides the `@deprecated` decorator (which also emits the deprecation warning),
 and the `@versionadded` and `@versionchanged` decorators (which only update the docstring).

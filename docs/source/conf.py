@@ -105,7 +105,21 @@ html_theme = 'furo'
 # further. Furo provides a light, a dark and an automatic (system preference) mode.
 # https://pradyunsg.me/furo/customisation/
 #
-# html_theme_options = {}
+# The brand colors are those of the red "BEST BEFORE" band of the logo; the dark mode
+# uses a lighter red to keep the contrast with the dark background.
+html_theme_options = {
+    'light_css_variables': {
+        'color-brand-primary': '#b3261e',
+        'color-brand-content': '#b3261e',
+    },
+    'dark_css_variables': {
+        'color-brand-primary': '#f47067',
+        'color-brand-content': '#f47067',
+    },
+}
+
+# The title shown at the top of the sidebar (default: "<project> <release> documentation").
+html_title = f'{project} {release}'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

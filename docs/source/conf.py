@@ -23,6 +23,11 @@
 
 
 import importlib.metadata
+import os
+import sys
+
+# Local extensions and Pygments styles of the documentation.
+sys.path.insert(0, os.path.abspath('_ext'))
 
 # -- General configuration ------------------------------------------------
 
@@ -88,8 +93,10 @@ language = 'en'
 # This patterns also effect to html_static_path and html_extra_path
 exclude_patterns = []
 
-# The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+# The Pygments (syntax highlighting) styles of the light and dark modes (the dark one is a
+# Furo option): Lovelace and Gruvbox dark, tuned for contrast (see `_ext/pygments_styles.py`).
+pygments_style = 'pygments_styles.ReadableLovelaceStyle'
+pygments_dark_style = 'pygments_styles.ReadableGruvboxDarkStyle'
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False

@@ -61,6 +61,11 @@ class Foo:
     def old_static_method(x):
         return x + 30
 
+    @deprecated.classic.deprecated
+    @staticmethod
+    def old_static_method_inner(x):
+        return x + 40
+
 
 def _round_trip(obj):
     for protocol in range(pickle.HIGHEST_PROTOCOL + 1):
@@ -98,6 +103,7 @@ def test_pickle_function_with_deprecated_params():
     [
         ("old_class_method", 11),
         ("old_static_method", 31),
+        ("old_static_method_inner", 41),
     ],
 )
 def test_pickle_deprecated_class_level_method(name, expected):

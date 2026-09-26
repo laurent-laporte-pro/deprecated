@@ -136,6 +136,7 @@ Deprecated provides a `Makefile` with various shortcuts, based on uv and Hatch
 - `make check` verifies the lockfile and runs the quality checks with `hatch check`
 - `make fix` fixes the lint errors and reformats the code
 - `make docs` builds the HTML documentation
+- `make docs-live` serves the HTML documentation, rebuilt and reloaded on each change
 - `make build` builds the source distribution and the wheel
 - `make version` shows the current version, and `make bump-major`, `make bump-minor`,
   `make bump-patch` bump it with `hatch version` (see the [release process](docs/source/release.md))
@@ -151,6 +152,10 @@ To generate the HTML documentation, run:
 ```
 uv run --group docs sphinx-build -b html -d dist/docs/doctrees docs/source/ dist/docs/html/
 ```
+
+To preview the documentation while editing it, run `make docs-live` and open
+<http://127.0.0.1:8000>: the pages are rebuilt and the browser is reloaded on each change
+of the documentation or of the docstrings (`src/deprecated/`).
 
 [clone]: https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork
 [committing as you go]: http://dont-be-afraid-to-commit.readthedocs.io/en/latest/git/commandlinegit.html#commit-your-changes

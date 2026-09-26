@@ -52,6 +52,10 @@ docs: ## Build the HTML documentation
 docs-check: ## Build the HTML documentation, warnings are errors (used by the CI)
 	$(SPHINX_BUILD) -W --keep-going -E -b html -d $(DOCS_BUILD_DIR)/doctrees docs/source/ $(DOCS_BUILD_DIR)/html
 
+.PHONY: docs-live
+docs-live: ## Serve the HTML documentation, rebuilt and reloaded on each change
+	$(UV) run --group docs-live sphinx-autobuild --watch src/deprecated -d $(DOCS_BUILD_DIR)/doctrees docs/source/ $(DOCS_BUILD_DIR)/html
+
 .PHONY: docs-linkcheck
 docs-linkcheck: ## Check the external links of the documentation
 	$(SPHINX_BUILD) -b linkcheck -d $(DOCS_BUILD_DIR)/doctrees docs/source/ $(DOCS_BUILD_DIR)/linkcheck

@@ -1,4 +1,3 @@
-# coding: utf-8
 import textwrap
 
 import pytest
@@ -10,7 +9,7 @@ from deprecated.sphinx import versionchanged
 
 
 @pytest.mark.parametrize(
-    "line_length, expected",
+    ("line_length", "expected"),
     [
         (
             50,
@@ -100,7 +99,7 @@ def test_sphinx_adapter__empty_docstring(directive):
 
 
 @pytest.mark.parametrize(
-    "decorator_factory, directive",
+    ("decorator_factory", "directive"),
     [
         (versionadded, "versionadded"),
         (versionchanged, "versionchanged"),
@@ -126,3 +125,11 @@ def test_decorator_accept_line_length(decorator_factory, directive):
     )
     expected = expected.format(directive=directive)
     assert foo.__doc__ == expected
+
+
+@pytest.mark.parametrize("version", ["", None])
+@pytest.mark.parametrize("directive", ["versionchanged", "versionadded", "deprecated"])
+def test_sphinx_adapter__version_is_required(directive, version):
+    # https://github.com/laurent-laporte-pro/deprecated/issues/40
+    with pytest.raises(ValueError, match="'version' argument is required"):
+        SphinxAdapter(directive, reason="some reason", version=version)

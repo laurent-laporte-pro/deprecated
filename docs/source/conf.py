@@ -22,6 +22,13 @@
 # sys.path.insert(0, os.path.abspath('.'))
 
 
+import importlib.metadata
+import os
+import sys
+
+# Local extensions and Pygments styles of the documentation.
+sys.path.insert(0, os.path.abspath('_ext'))
+
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -37,7 +44,16 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.coverage',
     'sphinx.ext.githubpages',
+    'myst_parser',
 ]
+
+# -- MyST (Markdown) configuration -----------------------------------------
+# The pages are written in Markdown (MyST); the docstrings remain in reStructuredText.
+# https://myst-parser.readthedocs.io/en/latest/configuration.html
+# `alert`: GitHub alerts (`> [!NOTE]`) used in the root files (CHANGELOG, CONTRIBUTING...).
+# `smartquotes`: typographic quotes and dashes, like docutils does for reStructuredText.
+myst_enable_extensions = ['alert', 'colon_fence', 'deflist', 'fieldlist', 'smartquotes']
+myst_heading_anchors = 3
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -45,23 +61,23 @@ templates_path = ['_templates']
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
-# source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+# The pages are written in Markdown, except `api.rst` (autodoc, see the comment in this file).
+source_suffix = {'.md': 'markdown', '.rst': 'restructuredtext'}
 
 # The master toctree document.
 master_doc = 'index'
 
 # General information about the project.
 project = 'Deprecated'
-copyright = '2017, Marcos CARDOSO & Laurent LAPORTE'
-author = 'Marcos CARDOSO & Laurent LAPORTE'
+copyright = '2017, Laurent LAPORTE'
+author = 'Laurent LAPORTE'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The full version, including alpha/beta/rc tags.
-release = "1.3.1"
+release = importlib.metadata.version("Deprecated")
 # The short X.Y version.
 version = release.rpartition('.')[0]
 
@@ -77,8 +93,10 @@ language = 'en'
 # This patterns also effect to html_static_path and html_extra_path
 exclude_patterns = []
 
-# The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+# The Pygments (syntax highlighting) styles of the light and dark modes (the dark one is a
+# Furo option): Lovelace and Gruvbox dark, tuned for contrast (see `_ext/pygments_styles.py`).
+pygments_style = 'pygments_styles.ReadableLovelaceStyle'
+pygments_dark_style = 'pygments_styles.ReadableGruvboxDarkStyle'
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
@@ -88,115 +106,35 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'furo'
 
 # Theme options are theme-specific and customize the look and feel of a theme
-# further.  For a list of options available for each theme, see the
-# documentation.
+# further. Furo provides a light, a dark and an automatic (system preference) mode.
+# https://pradyunsg.me/furo/customisation/
 #
-# html_theme_options = {}
+# The brand colors are those of the red "BEST BEFORE" band of the logo; the dark mode
+# uses a lighter red to keep the contrast with the dark background.
+html_theme_options = {
+    'light_css_variables': {
+        'color-brand-primary': '#b3261e',
+        'color-brand-content': '#b3261e',
+    },
+    'dark_css_variables': {
+        'color-brand-primary': '#f47067',
+        'color-brand-content': '#f47067',
+    },
+}
+
+# The title shown at the top of the sidebar (default: "<project> <release> documentation").
+html_title = f'{project} {release}'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-# Custom sidebar templates, must be a dictionary that maps document names
-# to template names.
-#
-# This is required for the alabaster theme
-# refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
-html_sidebars = {
-    '**': [
-        'about.html',
-        'navigation.html',
-        'relations.html',  # needs 'show_related': True theme option to display
-        'searchbox.html',
-        'donate.html',
-    ]
-}
-
-# -- Options for HTMLHelp output ------------------------------------------
-
-# Output file base name for HTML help builder.
-htmlhelp_basename = 'Deprecated-Doc'
-
-# -- Options for LaTeX output ---------------------------------------------
-
-latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    #
-    # 'papersize': 'letterpaper',
-
-    # The font size ('10pt', '11pt' or '12pt').
-    #
-    # 'pointsize': '10pt',
-
-    # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
-
-    # Latex figure (float) alignment
-    #
-    # 'figure_align': 'htbp',
-}
-
-# Grouping the document tree into LaTeX files. List of tuples
-# (source start file, target name, title,
-#  author, documentclass [howto, manual, or own class]).
-latex_documents = [
-    (master_doc, 'Deprecated.tex', 'Deprecated Documentation', 'Marcos CARDOSO and Laurent LAPORTE', 'manual')
-]
-
-# -- Options for manual page output ---------------------------------------
-
-# One entry per manual page. List of tuples
-# (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, 'deprecated', 'Deprecated Documentation', [author], 1)]
-
-# -- Options for Texinfo output -------------------------------------------
-
-# Grouping the document tree into Texinfo files. List of tuples
-# (source start file, target name, title, author,
-#  dir menu entry, description, category)
-texinfo_documents = [
-    (
-        master_doc,
-        'Deprecated',
-        'Deprecated Documentation',
-        author,
-        'Deprecated',
-        'Python @deprecated decorator to deprecate old python classes, functions or methods.',
-        'Miscellaneous',
-    )
-]
-
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
     'wrapt': ('https://wrapt.readthedocs.io/en/latest/', None),
-    'flask': ('http://flask.pocoo.org/docs/1.0/', None),
-    'django': ('https://docs.djangoproject.com/en/2.1/', 'https://docs.djangoproject.com/en/2.1/_objects/'),
 }
-
-# -- Options for EPub output -------------------------------------------
-
-epub_basename = project
-epub_theme = 'epub'
-epub_theme_options = {
-    # relbar1: If this is true, the relbar1 block is inserted in the epub output, otherwise it is omitted.
-    'relbar1': False,
-    # footer: If this is true, the footer block is inserted in the epub output, otherwise it is omitted.
-    'footer': False,
-}
-epub_title = "Python Deprecated Library v1.2 Documentation"
-epub_description = "Python @deprecated decorator to deprecate old python classes, functions or methods."
-epub_author = author
-epub_contributor = "Original idea from Leandro REGUEIRO, Patrizio BERTONI, Eric WIESER"
-epub_language = language or 'en'
-epub_publisher = "www.lulu.com"
-epub_copyright = copyright
-epub_identifier = "9780244627768"
-epub_scheme = 'ISBN'
-epub_uid = "BookId"  # dacd6b24-3909-4358-8527-359be2e25777
-epub_cover = ('_static/title-page.jpg', '')

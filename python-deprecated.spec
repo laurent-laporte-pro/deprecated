@@ -2,12 +2,12 @@
 %global pkgname deprecated
 
 Name:           python-%{pkgname}
-Version:        1.3.1
+Version:        3.0.0
 Release:        1%{?dist}
 Summary:        Python decorator to deprecate old python classes, functions or methods
 License:        MIT
 URL:            https://github.com/laurent-laporte-pro/%{pkgname}
-Source0:        %{pypi_source}
+Source0:        %{pypi_source %{pkgname}}
 BuildArch:      noarch
 
 %description
@@ -17,28 +17,30 @@ functions or methods.
 %package -n python3-%{pkgname}
 Summary:        %{summary}
 BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-%{?python_provide:%python_provide python3-%{pkgname}}
 
 %description -n python3-%{pkgname}
 Python @deprecated decorator to deprecate old python classes,
 functions or methods.
 
 %prep
-%autosetup -n %{srcname}-%{version}
-rm -rf %{pkgname}.egg-info
+%autosetup -n %{pkgname}-%{version}
+
+%generate_buildrequires
+%pyproject_buildrequires
 
 %build
-%py3_build
+%pyproject_wheel
 
 %install
-%py3_install
+%pyproject_install
+%pyproject_save_files %{pkgname}
 
-%files -n python3-%{pkgname}
-%license LICENSE.rst
+%check
+%pyproject_check_import
+
+%files -n python3-%{pkgname} -f %{pyproject_files}
+%license LICENSE.md
 %doc README.md
-%{python3_sitelib}/%{pkgname}/
-%{python3_sitelib}/%{srcname}-*.egg-info/
 
 
 %changelog

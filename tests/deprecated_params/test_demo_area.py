@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 """
 This example shows how to implement a function that accepts two positional
 arguments or two keyword arguments. A warning message should be emitted
 if `x` and `y` are used instead of `width` and `height`.
 """
+
 import warnings
 
 import pytest
@@ -35,14 +35,14 @@ def area(*args, **kwargs):
 
 
 @pytest.mark.parametrize(
-    "args, kwargs, expected",
+    ("args", "kwargs", "expected"),
     [
         pytest.param((4, 6), {}, [], id="positional arguments: no warning"),
         pytest.param((), {"width": 3, "height": 6}, [], id="correct keyword arguments"),
         pytest.param(
             (),
             {"x": 2, "y": 7},
-            ['use `width` instead or `x`', 'use `height` instead or `y`'],
+            ["use `width` instead or `x`", "use `height` instead or `y`"],
             id="wrong keyword arguments",
         ),
         pytest.param(

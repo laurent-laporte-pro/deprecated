@@ -2,7 +2,7 @@ def mean(values):
     """
     Compute the arithmetic mean (“average”) of values.
 
-    :type  values: typing.List[float]
+    :type  values: list[float]
     :param values: List of floats
     :return: Mean of values.
 

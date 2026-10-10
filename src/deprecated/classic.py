@@ -287,16 +287,34 @@ class ClassicAdapter(wrapt.AdapterFactory):
         .. versionchanged:: 3.0.0
            A deprecated function or method can be pickled (by reference, like a regular
            function), so it can be used with :mod:`multiprocessing`.
+
+        .. versionchanged:: 3.0.1
+           Preserve the constructor signature when decorating a class.
         """
         if inspect.isclass(wrapped):
             old_new1 = wrapped.__new__
 
+            @functools.wraps(old_new1)
             def wrapped_cls(cls: type, *args: Any, **kwargs: Any) -> object:
                 self.warn(self.get_deprecated_msg(wrapped, None))
                 if old_new1 is object.__new__:
                     return old_new1(cls)
                 # actually, we don't know the real signature of *old_new1*
                 return old_new1(cls, *args, **kwargs)
+
+            try:
+                signature = inspect.signature(wrapped)
+            except (TypeError, ValueError):
+                pass  # Some built-in constructors do not expose a signature.
+            else:
+                # Python 3.12 prioritizes the patched __new__ over __init__.
+                # inspect.signature removes this receiver when inspecting the class.
+                receiver_name = "cls"
+                while receiver_name in signature.parameters:
+                    receiver_name = "_" + receiver_name
+                receiver = inspect.Parameter(receiver_name, inspect.Parameter.POSITIONAL_ONLY)
+                signature = signature.replace(parameters=[receiver, *signature.parameters.values()])
+                setattr(wrapped_cls, "__signature__", signature)  # noqa: B010
 
             # `__new__` is patched on purpose: `setattr` avoids a type checker error.
             setattr(wrapped, "__new__", staticmethod(wrapped_cls))  # noqa: B010

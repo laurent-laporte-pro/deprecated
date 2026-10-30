@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v3.0.1 (unreleased)
 
+Patch release: preserve the constructor signatures of deprecated classes
+
 ### Fixed
 
 - Preserve constructor signatures on deprecated classes, including in Sphinx autodoc,

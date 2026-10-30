@@ -5,6 +5,105 @@ import warnings
 import pytest
 
 import deprecated.classic
+import deprecated.google
+import deprecated.numpy
+import deprecated.sphinx
+
+
+@pytest.mark.parametrize(
+    "decorator",
+    [
+        deprecated.classic.deprecated,
+        deprecated.sphinx.deprecated,
+        deprecated.google.deprecated,
+        deprecated.numpy.deprecated,
+    ],
+)
+@pytest.mark.parametrize("custom_new", [False, True])
+def test_deprecated_class_preserves_signature(decorator, custom_new):
+    class WithInit:
+        def __init__(self, value: int = 1, *, label: str = "default"):
+            self.value = value
+            self.label = label
+
+    class WithNew:
+        value: int
+        label: str
+
+        def __new__(cls, value: int = 1, *, label: str = "default"):
+            obj = super().__new__(cls)
+            obj.value = value
+            obj.label = label
+            return obj
+
+    original = WithNew if custom_new else WithInit
+    signature = inspect.signature(original)
+    decorated = decorator(reason="Use a replacement", version="1.0")(original)
+
+    assert decorated is original
+    assert inspect.signature(decorated) == signature
+    with pytest.warns(DeprecationWarning, match="Use a replacement"):
+        instance = decorated(2, label="custom")
+    assert (instance.value, instance.label) == (2, "custom")
+
+
+@pytest.mark.parametrize("builtin", [False, True])
+def test_deprecated_class_preserves_empty_and_builtin_signatures(builtin):
+    class Empty:
+        pass
+
+    class List(list[int]):
+        pass
+
+    original = List if builtin else Empty
+    signature = inspect.signature(original)
+    decorated = deprecated.classic.deprecated(original)
+
+    assert inspect.signature(decorated) == signature
+    with pytest.warns(DeprecationWarning, match="Call to deprecated class"):
+        assert isinstance(decorated(), original)
+
+
+def test_deprecated_class_preserves_constructor_parameter_named_cls():
+    class Target:
+        def __init__(self, cls: int = 1):
+            self.value = cls
+
+    signature = inspect.signature(Target)
+    decorated = deprecated.classic.deprecated(Target)
+
+    assert inspect.signature(decorated) == signature
+    with pytest.warns(DeprecationWarning, match="Call to deprecated class Target"):
+        assert decorated(2).value == 2
+
+
+def test_deprecated_class_with_unavailable_signature():
+    class Target(dict[str, int]):
+        pass
+
+    with pytest.raises(ValueError, match="signature"):
+        inspect.signature(Target)
+    decorated = deprecated.classic.deprecated(Target)
+
+    with pytest.warns(DeprecationWarning, match="Call to deprecated class Target"):
+        assert decorated(value=2) == {"value": 2}
+
+
+def test_deprecated_class_preserves_subclass_signature():
+    @deprecated.classic.deprecated
+    class Base:
+        def __init__(self, base_value: int = 1):
+            self.base_value = base_value
+
+    class Subclass(Base):
+        def __init__(self, text: str, *, flag: bool = False):
+            self.text = text
+            self.flag = flag
+
+    assert str(inspect.signature(Subclass)) == "(text: str, *, flag: bool = False)"
+    with pytest.warns(DeprecationWarning, match="Call to deprecated class Base"):
+        instance = Subclass("value", flag=True)
+    assert (instance.text, instance.flag) == ("value", True)
 
 
 def test_simple_class_deprecation():

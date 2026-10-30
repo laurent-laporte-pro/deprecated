@@ -107,7 +107,8 @@ Enforced by `pyproject.toml` (Ruff + mypy strict); CI fails on any violation.
   wrapt matrix, docs) must be green before merging.
 - Never force-push `develop` or `master`; never rewrite someone else's branch.
 - Releases: bump with `hatch version <major|minor|patch>` (never edit the version elsewhere
-  except `python-deprecated.spec` and the logo (`docs/source/_static/logo.svg`), as listed in the release guide).
+  except `python-deprecated.spec`, the logo (`docs/source/_static/logo.svg`) and the social
+  preview image (`docs/source/_static/social-preview.svg`), as listed in the release guide).
   Tags use the **`vX.Y.Z`** form and are created by GitHub when the release is published,
   not locally.
 

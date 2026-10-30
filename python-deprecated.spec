@@ -2,7 +2,7 @@
 %global pkgname deprecated
 
 Name:           python-%{pkgname}
-Version:        3.0.0
+Version:        3.0.1
 Release:        1%{?dist}
 Summary:        Python decorator to deprecate old python classes, functions or methods
 License:        MIT

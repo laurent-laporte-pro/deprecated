@@ -68,7 +68,9 @@ Update the files which quote the version and cannot read it from the package met
   from the release, but the spec file of this repository must stay consistent);
 - {file}`docs/source/_static/logo.svg`: the `vX.Y.Z` text (element `id="deprecated-version"`)
   of the logo, shown in the README and on the home page of the documentation. The text is
-  right-aligned and fits up to 10 characters (e.g. `v10.10.100`).
+  right-aligned and fits up to 10 characters (e.g. `v10.10.100`);
+- {file}`docs/source/_static/social-preview.svg`: the same `vX.Y.Z` text in the social preview
+  image of the GitHub repository (a 2:1 variant of the logo, see {ref}`release-after`).
 
 Add a new section at the top of {file}`CHANGELOG.md` for the new version, marked as unreleased:
 
@@ -86,7 +88,7 @@ Commit these changes:
 
 ```sh
 git add src/deprecated/__init__.py python-deprecated.spec CHANGELOG.md \
-    docs/source/_static/logo.svg
+    docs/source/_static/logo.svg docs/source/_static/social-preview.svg
 git commit -m "chore: prepare release X.Y.Z"
 ```
 
@@ -191,8 +193,21 @@ git merge --no-ff master
 git push
 ```
 
+(release-after)=
+
 ## After the release
 
 - Check the [PyPI page](https://pypi.org/project/Deprecated/) and the
   [documentation](https://deprecated.readthedocs.io/en/latest/) of the new version.
+- Update the social preview image of the GitHub repository, which shows the version:
+  export {file}`docs/source/_static/social-preview.svg` to a 1280×640 PNG with transparent
+  corners, for instance with `rsvg-convert` (package `librsvg2-bin` on Debian/Ubuntu,
+  `librsvg` on Homebrew):
+
+  ```sh
+  rsvg-convert -w 1280 -h 640 docs/source/_static/social-preview.svg -o dist/social-preview.png
+  ```
+
+  then upload it in the repository *Settings* > *General* > *Social preview* > *Edit* >
+  *Upload an image…* (GitHub accepts up to 1 MB).
 - Close the GitHub milestone of the release, if any.

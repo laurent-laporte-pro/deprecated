@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v3.0.1 (2026-10-30)
+
+Patch release: preserve the constructor signatures of deprecated classes
+
+### Fixed
+
+- Preserve constructor signatures on deprecated classes, including in Sphinx autodoc,
+  instead of displaying the warning wrapper's generic arguments ([#86](https://github.com/laurent-laporte-pro/deprecated/issues/86)).
+  See PR #115 (Mirochill).
+
+### Other
+
+- Bump the dev-dependencies group (Dependabot). See PR #114.
+- Add the social preview image of the repository and document its release steps. See PR #113.
+
 ## v3.0.0 (2026-09-26)
 
 Major release: Python 3.12+ modernization

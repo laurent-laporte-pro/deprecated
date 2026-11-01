@@ -41,12 +41,12 @@ Changelog = "https://github.com/laurent-laporte-pro/deprecated/blob/master/CHANG
 
 [dependency-groups]
 dev = [
-    "coverage[toml]==7.16.2",
-    "mypy == 2.3.1",
+    "coverage[toml]==7.17.0",
+    "mypy==2.4.1",
     "packaging == 26.3",
-    "pytest == 9.1.1",
+    "pytest==9.2.0",
     "pytest-cov == 7.1.0",
-    "ruff == 0.16.9",
+    "ruff==0.17.3",
 ]
 # Documentation (Sphinx + MyST): `uv sync --group docs`, also used by ReadTheDocs.
 docs = [
